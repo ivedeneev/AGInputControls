@@ -7,9 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D60413B026CA4BA0002031AC /* FloatingLabelTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60413AF26CA4BA0002031AC /* FloatingLabelTextField.swift */; };
+		D60413B226CA4BB4002031AC /* FormattingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60413B126CA4BB4002031AC /* FormattingTextField.swift */; };
 		D6A6F5C32684BC9700157970 /* AGInputControls.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A6F5B92684BC9700157970 /* AGInputControls.framework */; };
 		D6A6F5C82684BC9700157970 /* AGInputControlsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A6F5C72684BC9700157970 /* AGInputControlsTests.swift */; };
 		D6A6F5CA2684BC9700157970 /* AGInputControls.h in Headers */ = {isa = PBXBuildFile; fileRef = D6A6F5BC2684BC9700157970 /* AGInputControls.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D6A6F5D62684BD5100157970 /* OTPCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A6F5D52684BD5100157970 /* OTPCodeTextField.swift */; };
+		D6A6F5E22684BD9900157970 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A6F5E12684BD9900157970 /* AppDelegate.swift */; };
+		D6A6F5E42684BD9900157970 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A6F5E32684BD9900157970 /* SceneDelegate.swift */; };
+		D6A6F5E62684BD9A00157970 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A6F5E52684BD9A00157970 /* ViewController.swift */; };
+		D6A6F5E92684BD9A00157970 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6A6F5E72684BD9A00157970 /* Main.storyboard */; };
+		D6A6F5EB2684BD9B00157970 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D6A6F5EA2684BD9B00157970 /* Assets.xcassets */; };
+		D6A6F5EE2684BD9B00157970 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6A6F5EC2684BD9B00157970 /* LaunchScreen.storyboard */; };
+		D6C9B7D22684DE9A00F08CAA /* AGInputControls.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A6F5B92684BC9700157970 /* AGInputControls.framework */; };
+		D6C9B7D32684DE9A00F08CAA /* AGInputControls.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D6A6F5B92684BC9700157970 /* AGInputControls.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D6C9B7DC2685F65600F08CAA /* PhoneTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C9B7DB2685F65600F08CAA /* PhoneTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -20,15 +32,48 @@
 			remoteGlobalIDString = D6A6F5B82684BC9700157970;
 			remoteInfo = AGInputControls;
 		};
+		D6C9B7D42684DE9A00F08CAA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D6A6F5B02684BC9700157970 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D6A6F5B82684BC9700157970;
+			remoteInfo = AGInputControls;
+		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		D6C9B7D62684DE9A00F08CAA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D6C9B7D32684DE9A00F08CAA /* AGInputControls.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		D60413AF26CA4BA0002031AC /* FloatingLabelTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingLabelTextField.swift; sourceTree = "<group>"; };
+		D60413B126CA4BB4002031AC /* FormattingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattingTextField.swift; sourceTree = "<group>"; };
 		D6A6F5B92684BC9700157970 /* AGInputControls.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AGInputControls.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6A6F5BC2684BC9700157970 /* AGInputControls.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGInputControls.h; sourceTree = "<group>"; };
 		D6A6F5BD2684BC9700157970 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D6A6F5C22684BC9700157970 /* AGInputControlsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AGInputControlsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6A6F5C72684BC9700157970 /* AGInputControlsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGInputControlsTests.swift; sourceTree = "<group>"; };
 		D6A6F5C92684BC9700157970 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D6A6F5D52684BD5100157970 /* OTPCodeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPCodeTextField.swift; sourceTree = "<group>"; };
+		D6A6F5DF2684BD9900157970 /* Examples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Examples.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6A6F5E12684BD9900157970 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D6A6F5E32684BD9900157970 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		D6A6F5E52684BD9A00157970 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D6A6F5E82684BD9A00157970 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D6A6F5EA2684BD9B00157970 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D6A6F5ED2684BD9B00157970 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D6A6F5EF2684BD9B00157970 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D6C9B7DB2685F65600F08CAA /* PhoneTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +92,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D6A6F5DC2684BD9900157970 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6C9B7D22684DE9A00F08CAA /* AGInputControls.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -55,7 +108,9 @@
 			children = (
 				D6A6F5BB2684BC9700157970 /* AGInputControls */,
 				D6A6F5C62684BC9700157970 /* AGInputControlsTests */,
+				D6A6F5E02684BD9900157970 /* Examples */,
 				D6A6F5BA2684BC9700157970 /* Products */,
+				D6C9B7D12684DE9A00F08CAA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,6 +119,7 @@
 			children = (
 				D6A6F5B92684BC9700157970 /* AGInputControls.framework */,
 				D6A6F5C22684BC9700157970 /* AGInputControlsTests.xctest */,
+				D6A6F5DF2684BD9900157970 /* Examples.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -73,6 +129,10 @@
 			children = (
 				D6A6F5BC2684BC9700157970 /* AGInputControls.h */,
 				D6A6F5BD2684BC9700157970 /* Info.plist */,
+				D6A6F5D52684BD5100157970 /* OTPCodeTextField.swift */,
+				D60413AF26CA4BA0002031AC /* FloatingLabelTextField.swift */,
+				D6C9B7DB2685F65600F08CAA /* PhoneTextField.swift */,
+				D60413B126CA4BB4002031AC /* FormattingTextField.swift */,
 			);
 			path = AGInputControls;
 			sourceTree = "<group>";
@@ -84,6 +144,27 @@
 				D6A6F5C92684BC9700157970 /* Info.plist */,
 			);
 			path = AGInputControlsTests;
+			sourceTree = "<group>";
+		};
+		D6A6F5E02684BD9900157970 /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				D6A6F5E12684BD9900157970 /* AppDelegate.swift */,
+				D6A6F5E32684BD9900157970 /* SceneDelegate.swift */,
+				D6A6F5E52684BD9A00157970 /* ViewController.swift */,
+				D6A6F5E72684BD9A00157970 /* Main.storyboard */,
+				D6A6F5EA2684BD9B00157970 /* Assets.xcassets */,
+				D6A6F5EC2684BD9B00157970 /* LaunchScreen.storyboard */,
+				D6A6F5EF2684BD9B00157970 /* Info.plist */,
+			);
+			path = Examples;
+			sourceTree = "<group>";
+		};
+		D6C9B7D12684DE9A00F08CAA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -136,6 +217,25 @@
 			productReference = D6A6F5C22684BC9700157970 /* AGInputControlsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D6A6F5DE2684BD9900157970 /* Examples */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D6A6F5F02684BD9B00157970 /* Build configuration list for PBXNativeTarget "Examples" */;
+			buildPhases = (
+				D6A6F5DB2684BD9900157970 /* Sources */,
+				D6A6F5DC2684BD9900157970 /* Frameworks */,
+				D6A6F5DD2684BD9900157970 /* Resources */,
+				D6C9B7D62684DE9A00F08CAA /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D6C9B7D52684DE9A00F08CAA /* PBXTargetDependency */,
+			);
+			name = Examples;
+			productName = Examples;
+			productReference = D6A6F5DF2684BD9900157970 /* Examples.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -147,8 +247,12 @@
 				TargetAttributes = {
 					D6A6F5B82684BC9700157970 = {
 						CreatedOnToolsVersion = 12.4;
+						LastSwiftMigration = 1240;
 					};
 					D6A6F5C12684BC9700157970 = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					D6A6F5DE2684BD9900157970 = {
 						CreatedOnToolsVersion = 12.4;
 					};
 				};
@@ -168,6 +272,7 @@
 			targets = (
 				D6A6F5B82684BC9700157970 /* AGInputControls */,
 				D6A6F5C12684BC9700157970 /* AGInputControlsTests */,
+				D6A6F5DE2684BD9900157970 /* Examples */,
 			);
 		};
 /* End PBXProject section */
@@ -187,6 +292,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D6A6F5DD2684BD9900157970 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6A6F5EE2684BD9B00157970 /* LaunchScreen.storyboard in Resources */,
+				D6A6F5EB2684BD9B00157970 /* Assets.xcassets in Resources */,
+				D6A6F5E92684BD9A00157970 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -194,6 +309,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D60413B226CA4BB4002031AC /* FormattingTextField.swift in Sources */,
+				D6C9B7DC2685F65600F08CAA /* PhoneTextField.swift in Sources */,
+				D60413B026CA4BA0002031AC /* FloatingLabelTextField.swift in Sources */,
+				D6A6F5D62684BD5100157970 /* OTPCodeTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,6 +324,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D6A6F5DB2684BD9900157970 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6A6F5E62684BD9A00157970 /* ViewController.swift in Sources */,
+				D6A6F5E22684BD9900157970 /* AppDelegate.swift in Sources */,
+				D6A6F5E42684BD9900157970 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -213,7 +342,31 @@
 			target = D6A6F5B82684BC9700157970 /* AGInputControls */;
 			targetProxy = D6A6F5C42684BC9700157970 /* PBXContainerItemProxy */;
 		};
+		D6C9B7D52684DE9A00F08CAA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D6A6F5B82684BC9700157970 /* AGInputControls */;
+			targetProxy = D6C9B7D42684DE9A00F08CAA /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D6A6F5E72684BD9A00157970 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D6A6F5E82684BD9A00157970 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D6A6F5EC2684BD9B00157970 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D6A6F5ED2684BD9B00157970 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		D6A6F5CB2684BC9700157970 /* Debug */ = {
@@ -341,13 +494,17 @@
 		D6A6F5CE2684BC9700157970 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = AGInputControls/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -355,7 +512,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ru.agima.AGInputControls;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -364,13 +524,17 @@
 		D6A6F5CF2684BC9700157970 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = AGInputControls/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -378,6 +542,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ru.agima.AGInputControls;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -387,6 +553,7 @@
 		D6A6F5D12684BC9700157970 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = AGInputControlsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -404,6 +571,7 @@
 		D6A6F5D22684BC9700157970 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = AGInputControlsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -413,6 +581,48 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ru.agima.AGInputControlsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D6A6F5F12684BD9B00157970 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = Examples/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ru.agima.Examples;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D6A6F5F22684BD9B00157970 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = Examples/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ru.agima.Examples;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -444,6 +654,15 @@
 			buildConfigurations = (
 				D6A6F5D12684BC9700157970 /* Debug */,
 				D6A6F5D22684BC9700157970 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D6A6F5F02684BD9B00157970 /* Build configuration list for PBXNativeTarget "Examples" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D6A6F5F12684BD9B00157970 /* Debug */,
+				D6A6F5F22684BD9B00157970 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

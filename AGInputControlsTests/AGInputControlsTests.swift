@@ -9,6 +9,12 @@ import XCTest
 @testable import AGInputControls
 
 class AGInputControlsTests: XCTestCase {
+    
+    var textField: OTPCodeTextField!
+    
+    override class func setUp() {
+        super.setUp()
+    }
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -19,8 +25,8 @@ class AGInputControlsTests: XCTestCase {
     }
 
     func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        XCTAssertEqual("+31 970 102 81 448".formattedNumber(mask: "+XX XXX XXX-XX-XX"), "+31 970 102 81 448", "fdfdf")
+//    +442037691880
     }
 
     func testPerformanceExample() throws {
