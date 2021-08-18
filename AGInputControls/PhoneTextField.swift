@@ -87,10 +87,6 @@ open class PhoneTextField: FormattingTextField {
     open override func editingRect(forBounds bounds: CGRect) -> CGRect {
         bounds
     }
-    
-//    open override func caretRect(for position: UITextPosition) -> CGRect {
-//        return super.caretRect(for: position)
-//    }
 }
 
 extension String {

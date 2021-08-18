@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D60413B026CA4BA0002031AC /* FloatingLabelTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60413AF26CA4BA0002031AC /* FloatingLabelTextField.swift */; };
 		D60413B226CA4BB4002031AC /* FormattingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60413B126CA4BB4002031AC /* FormattingTextField.swift */; };
+		D656DDBE26CD6E6A00BAAA29 /* UIFont+Monospaced.swift in Sources */ = {isa = PBXBuildFile; fileRef = D656DDBD26CD6E6A00BAAA29 /* UIFont+Monospaced.swift */; };
 		D6A6F5C32684BC9700157970 /* AGInputControls.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A6F5B92684BC9700157970 /* AGInputControls.framework */; };
 		D6A6F5C82684BC9700157970 /* AGInputControlsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A6F5C72684BC9700157970 /* AGInputControlsTests.swift */; };
 		D6A6F5CA2684BC9700157970 /* AGInputControls.h in Headers */ = {isa = PBXBuildFile; fileRef = D6A6F5BC2684BC9700157970 /* AGInputControls.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -58,6 +59,7 @@
 /* Begin PBXFileReference section */
 		D60413AF26CA4BA0002031AC /* FloatingLabelTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingLabelTextField.swift; sourceTree = "<group>"; };
 		D60413B126CA4BB4002031AC /* FormattingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattingTextField.swift; sourceTree = "<group>"; };
+		D656DDBD26CD6E6A00BAAA29 /* UIFont+Monospaced.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Monospaced.swift"; sourceTree = "<group>"; };
 		D6A6F5B92684BC9700157970 /* AGInputControls.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AGInputControls.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6A6F5BC2684BC9700157970 /* AGInputControls.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGInputControls.h; sourceTree = "<group>"; };
 		D6A6F5BD2684BC9700157970 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				D60413AF26CA4BA0002031AC /* FloatingLabelTextField.swift */,
 				D6C9B7DB2685F65600F08CAA /* PhoneTextField.swift */,
 				D60413B126CA4BB4002031AC /* FormattingTextField.swift */,
+				D656DDBD26CD6E6A00BAAA29 /* UIFont+Monospaced.swift */,
 			);
 			path = AGInputControls;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				D6C9B7DC2685F65600F08CAA /* PhoneTextField.swift in Sources */,
 				D60413B026CA4BA0002031AC /* FloatingLabelTextField.swift in Sources */,
 				D6A6F5D62684BD5100157970 /* OTPCodeTextField.swift in Sources */,
+				D656DDBE26CD6E6A00BAAA29 /* UIFont+Monospaced.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

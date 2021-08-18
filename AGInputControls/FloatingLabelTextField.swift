@@ -10,23 +10,29 @@ import UIKit
 
 open class FloatingLabelTextField : FormattingTextField {
     
-    private var placeholderFont: UIFont! {
+    private let underlineView = UIView()
+    private let placeholderLabel = UILabel()
+    
+    /// Text paddings. Default is zero
+    open var padding: UIEdgeInsets = .zero
+    
+    /// Color of placeholder label and underline view. Default is `UIColor.lightGray`
+    open var placeholderColor = UIColor.lightGray {
         didSet {
-            placeholderLabel.font = placeholderFont
-            invalidateIntrinsicContentSize()
+            placeholderLabel.textColor = placeholderColor
+            underlineView.backgroundColor = placeholderColor
         }
     }
     
-    private let underlineLayer = CALayer()
-    private var placeholderLabel = UILabel()
-    var flotatingLabelTopPosition: CGFloat = 0
-    var showUnderlineView = true
-    open lazy var padding: UIEdgeInsets = UIEdgeInsets(
-        top: font!.lineHeight / 2,
-        left: 0,
-        bottom: font!.lineHeight / 2,
-        right: 0
-    )
+    /// Show or hide underline view. Default is `true`
+    open var showUnderlineView = true {
+        didSet {
+            underlineView.isHidden = !showUnderlineView
+        }
+    }
+    
+    /// Colors placeholder label and underline view in tint color. Default is `false`
+    open var highlightsWhenActive = false
     
     open override var placeholder: String? {
         didSet {
@@ -38,17 +44,18 @@ open class FloatingLabelTextField : FormattingTextField {
     
     open override var font: UIFont? {
         didSet {
-            placeholderFont = font!
+            placeholderLabel.font = font
+            minimumFontSize = font?.pointSize ?? 17
             placeholderLabel.sizeToFit()
         }
     }
     
     open override var intrinsicContentSize: CGSize {
-        //TODO: do smth with height calculatuion and deal with minimum font scale
+        //TODO: do smth with height calculatuion
         let height: CGFloat
-        let lineHeight = font!.leading + abs(font!.descender) + font!.ascender + font!.capHeight
-        let paddings: CGFloat = 0//padding.top + padding.bottom
-        height = lineHeight + paddings + lineHeight * 0.75
+        let lineHeight = font!.lineHeight * 2.25
+        let paddings: CGFloat = padding.top + padding.bottom
+        height = lineHeight + paddings
         
         return CGSize(width: UIScreen.main.bounds.width * 0.6, height: height)
     }
@@ -64,14 +71,16 @@ open class FloatingLabelTextField : FormattingTextField {
     }
     
     private func initialSetup() {
-        layer.addSublayer(underlineLayer)
-        underlineLayer.backgroundColor = UIColor.lightGray.cgColor
+        addSubview(underlineView)
+        underlineView.backgroundColor = UIColor.lightGray
         borderStyle = .none
         backgroundColor = UIColor.systemRed.withAlphaComponent(0.2)
         
         placeholderLabel.textColor = UIColor.lightGray
         addSubview(placeholderLabel)
         clearButtonMode = .always
+        
+        setPlaceholderBottomAttributes()
     }
     
     private func setupPlaceholderLabel() {
@@ -92,33 +101,37 @@ open class FloatingLabelTextField : FormattingTextField {
     
     private func setPlaceholderTopAttributes() {
         placeholderLabel.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
-        placeholderLabel.frame.origin.x = 0
-        let top: CGFloat = 0
-        placeholderLabel.frame.origin.y = top
+        placeholderLabel.frame.origin.x = padding.left
+        placeholderLabel.frame.origin.y = padding.top
+        placeholderLabel.frame.size.height = editingRect(forBounds: bounds).height * 0.5
+        
+        guard isFirstResponder, highlightsWhenActive else { return }
+        placeholderLabel.textColor = tintColor
     }
     
     private func setPlaceholderBottomAttributes() {
         placeholderLabel.transform = .identity
-        placeholderLabel.frame = textRect(forBounds: bounds)
+        placeholderLabel.frame = editingRect(forBounds: bounds)
+        placeholderLabel.textColor = UIColor.lightGray
     }
     
     open override func formattedText(text: String?) -> String? {
+        let text = super.formattedText(text: text)
         if let txt = text, !txt.isEmpty {
-            if self.placeholderLabel.frame.origin.y != flotatingLabelTopPosition {
+            if placeholderLabel.transform == .identity {
                 animatePlaceholderLabelOnTop()
             }
         } else {
             animatePlaceholderLabelOnBottom()
         }
         
-        return super.formattedText(text: text)
+        return text
     }
 
     open override func textRect(forBounds bounds: CGRect) -> CGRect {
         var p = padding
-        p.top += font!.lineHeight * 0.4
-        p.bottom += font!.lineHeight * 0.1
-        p.right += bounds.width - super.textRect(forBounds: bounds).width
+        p.top += font!.lineHeight * 0.45
+        p.right = bounds.width - super.editingRect(forBounds: bounds).width
         return bounds.inset(by: p)
     }
 
@@ -128,8 +141,7 @@ open class FloatingLabelTextField : FormattingTextField {
 
     open override func editingRect(forBounds bounds: CGRect) -> CGRect {
         var p = padding
-        p.top += font!.lineHeight * 0.4
-        p.bottom = font!.lineHeight * 0.1
+        p.top += font!.lineHeight * 0.45
         p.right = bounds.width - super.editingRect(forBounds: bounds).width
         return bounds.inset(by: p)
     }
@@ -142,5 +154,25 @@ open class FloatingLabelTextField : FormattingTextField {
         } else {
             setPlaceholderTopAttributes()
         }
+        
+        underlineView.frame = CGRect(
+            x: padding.left,
+            y: bounds.height - 1,
+            width: bounds.width - padding.left - padding.right,
+            height: 1
+        )
+    }
+    
+    open override func becomeFirstResponder() -> Bool {
+        if highlightsWhenActive {
+            underlineView.backgroundColor = tintColor
+        }
+        return super.becomeFirstResponder()
+    }
+
+    open override func resignFirstResponder() -> Bool {
+        placeholderLabel.textColor = placeholderColor
+        underlineView.backgroundColor = placeholderColor
+        return super.resignFirstResponder()
     }
 }

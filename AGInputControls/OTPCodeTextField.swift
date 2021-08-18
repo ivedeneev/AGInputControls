@@ -25,12 +25,8 @@ import UIKit
         }
     }
     
-    private var digitPadding: CGFloat {
-        letterSpacing * 0.3
-    }
-    
     /// Height of underline dash
-    open var dashHeight: CGFloat = 3
+    @IBInspectable open var dashHeight: CGFloat = 3
     
     /// Used for placeholder and bottom dashes. Default is `UIColor.gray`
     @IBInspectable open var placeholderColor: UIColor = UIColor.lightGray
@@ -53,12 +49,8 @@ import UIKit
         String(repeating: "0", count: length)
     }
     
-    open override var placeholder: String? {
-        didSet {
-//            guard let p = placeholder else { return }
-//            placeholder = nil
-//            attributedPlaceholder = NSAttributedString(string: p, attributes: [.font : font, .foregroundColor : UIColor.systemBlue, .kern : letterSpacing])
-        }
+    private var digitPadding: CGFloat {
+        letterSpacing * 0.3
     }
     
     private var symbolWidth: CGFloat!
@@ -136,11 +128,9 @@ import UIKit
         )
     }
     
+    // TODO: Placeholders ignored at this point. In future maybe we will add custom placeholders like zeros, dots or asterisks if needed.
     open override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        CGRect(
-            origin: textOrigin(),
-            size: CGSize(width: contentWidth() + letterSpacing, height: bounds.height)
-        )
+        .zero
     }
     
     open override func caretRect(for position: UITextPosition) -> CGRect {
