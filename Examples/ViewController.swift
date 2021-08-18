@@ -52,3 +52,10 @@ class ViewController: UIViewController {
 //        print(type(of: textField), textField.text)
     }
 }
+
+
+class MyTextField: FormattingTextField {
+    override func formattedText(text: String?) -> String? {
+        return text?.uppercased()
+    }
+}

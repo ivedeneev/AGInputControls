@@ -5,7 +5,7 @@ This library contains 3 UITextField subclasses:
 * `PhoneTextField` - textfield for phone input (currentrly only one phone mask is supported)
 * `FloatingLabelTextField` - analog for Android textfield with floating placeholder
 
-![How it looks](https://raw.githubusercontent.com/ivedeneev/AGInputControls/main/Screenshots/visual.png?token=AE5JUSRGSR5LPNRU552SNIDBDVFX2 "How it looks")
+![How it looks](https://raw.githubusercontent.com/ivedeneev/AGInputControls/main/Screenshots/visual.png "How it looks")
 
 
 Library also provides basic class `FormattingTextField` which can format input text respecting given mask. **Important note:** FormattingTextField supports only digits. You may use special characters like spaces or dashes in mask. Example of mask: `"+X (XXX) XXX-XX-XX"`. Example of mask which can cause undefined behaviour: `"+7 (9XX) XXX-XX-XX"`
@@ -55,7 +55,7 @@ You can use this textfield for mobile phone number input
 * Support auto-sizing respecting given font.
 
 ### Current limitations:
-* Only one phone mask supported at this moment
+* Only one phone mask supported at this moment (You can override this behaviour. See below)
 * Phone mask 
 
 ## FloatingLabelTextField
@@ -83,3 +83,14 @@ You can use this textfield for formatting input text with digits like phione num
     let floatTextField = FormattingTextField()
     floatTextField.formattingMask = "XX/XX"
 ```
+
+If you need your own formatting behaviour you can subclass `FormattingTextField` and create your own textfield. In that case you should override formatting function.
+
+```swift
+class MyTextField: FormattingTextField {
+    override func formattedText(text: String?) -> String? {
+        return text?.uppercased()
+    }
+}
+```
+This also applies to `PhoneTextField` and `FloatingLabelTextField`
