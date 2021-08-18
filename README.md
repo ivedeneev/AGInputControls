@@ -7,6 +7,13 @@ This library contains 3 UITextField subclasses:
 
 Library also provides basic class `FormattingTextField` which can format input text respecting given mask. **Important note:** FormattingTextField supports only digits. You may use special characters like spaces or dashes in mask. Example of mask: `"+X (XXX) XXX-XX-XX"`. Example of mask which can cause undefined behaviour: `"+7 (9XX) XXX-XX-XX"`
 
+**Bonus:** UIFont extension which provides monospaced version of each font. Could be usefull for sms code input.
+```swift
+import AGInputControls
+
+let codeFont = UIFont(name: "Avenir", size: 30)?.monospaced
+```
+
 ## OTPCodeTextField
 You can use this textfield for sms codes.
 
