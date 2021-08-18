@@ -5,6 +5,9 @@ This library contains 3 UITextField subclasses:
 * `PhoneTextField` - textfield for phone input (currentrly only one phone mask is supported)
 * `FloatingLabelTextField` - analog for Android textfield with floating placeholder
 
+![How it looks](https://raw.githubusercontent.com/ivedeneev/AGInputControls/main/Screenshots/visual.png?token=AE5JUSRGSR5LPNRU552SNIDBDVFX2 "How it looks")
+
+
 Library also provides basic class `FormattingTextField` which can format input text respecting given mask. **Important note:** FormattingTextField supports only digits. You may use special characters like spaces or dashes in mask. Example of mask: `"+X (XXX) XXX-XX-XX"`. Example of mask which can cause undefined behaviour: `"+7 (9XX) XXX-XX-XX"`
 
 **Bonus:** UIFont extension which provides monospaced version of each font. Could be usefull for sms code input.
