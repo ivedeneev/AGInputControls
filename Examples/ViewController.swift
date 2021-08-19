@@ -23,6 +23,7 @@ class ViewController: UIViewController {
         field_2.borderStyle = .none
         field_2.backgroundColor = .white
         field_2.font = .monospacedDigitSystemFont(ofSize: 30, weight: .light)
+        field_2.decorationColor = UIColor.systemBlue.withAlphaComponent(0.1)
         field_2.decoration = .rect
         field_2.letterSpacing = 24
         field_2.length = 4

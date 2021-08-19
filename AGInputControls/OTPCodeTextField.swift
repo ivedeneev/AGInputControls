@@ -32,7 +32,7 @@ import UIKit
     @IBInspectable open var placeholderColor: UIColor = UIColor.lightGray
     
     /// Used for background rects under digits`
-    @IBInspectable open var digitsBackgroundColor: UIColor = UIColor(white: 0.9, alpha: 1)
+    @IBInspectable open var decorationColor: UIColor = UIColor(white: 0.9, alpha: 1)
     
     /// Decorate every symbol: underline dash, rounded rect or none. If dash or rect selected using monospaced font is highly recommended
     open var decoration: Decoration = .none
@@ -88,7 +88,7 @@ import UIKit
         guard let context = UIGraphicsGetCurrentContext() else { return }
         
         context.setStrokeColor(placeholderColor.cgColor)
-        context.setFillColor(digitsBackgroundColor.withAlphaComponent(0.5).cgColor)
+        context.setFillColor(decorationColor.cgColor)
         
         switch decoration {
         case .dash:

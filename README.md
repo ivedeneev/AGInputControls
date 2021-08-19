@@ -4,6 +4,7 @@ This library contains 3 UITextField subclasses:
 * `OTPCodeTextField` - textfield for sms codes
 * `PhoneTextField` - textfield for phone input (currentrly only one phone mask is supported)
 * `FloatingLabelTextField` - analog for Android textfield with floating placeholder
+* **Bonus:** UIFont extension which provides monospaced version of given font. Could be usefull for sms code input.
 
 ![How it looks](https://github.com/ivedeneev/AGInputControls/blob/main/Previews/visual.png "How it looks")
 
@@ -12,7 +13,8 @@ This library contains 3 UITextField subclasses:
 
 Library also provides basic class `FormattingTextField` which can format input text respecting given mask. **Important note:** FormattingTextField supports only digits. You may use special characters like spaces or dashes in mask. Example of mask: `"+X (XXX) XXX-XX-XX"`. Example of mask which can cause undefined behaviour: `"+7 (9XX) XXX-XX-XX"`
 
-**Bonus:** UIFont extension which provides monospaced version of each font. Could be usefull for sms code input.
+## UIFont monospaced
+
 ```swift
 import AGInputControls
 
@@ -29,16 +31,11 @@ You can use this textfield for sms codes.
 ### Usage
 ```swift
     let codeField = OTPCodeField()
-    codeField.decoration = .rect
-    codeField.letterSpacing = 20
-    codeField.length = 6
+    codeField.decoration = .rect // Decoration: rounded rects, dashes or none. See OTPCodeField.Decoration
+    codeField.decorationColor = UIColor.systemGreen // Color of decoration elements
+    codeField.letterSpacing = 20 // Spacing between digits
+    codeField.length = 6 // Number of digits in code
 ```
-
-### You can customize:
-* Code length
-* Letter spacing
-* Digit decoration and its color
-* All default `UITextField` properties
 
 ### Current limitations:
 * Placeholders are not supported
