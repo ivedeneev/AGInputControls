@@ -58,7 +58,7 @@ You can use this textfield for mobile phone number input
 * Only one phone mask supported at this moment. Phone mask
 * Only Russian/Kazakhstan phone numbers works out of the box
 
-You can override
+You can override this behaviour by subclassing `PhoneTextField` and override `formattedText(text:)` method or use `formattingDelegate` property and customize formatting behavoiur without creating subclasses
 
 ## FloatingLabelTextField
 
