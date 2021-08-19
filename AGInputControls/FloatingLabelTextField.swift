@@ -19,8 +19,7 @@ open class FloatingLabelTextField : FormattingTextField {
     /// Color of placeholder label and underline view. Default is `UIColor.lightGray`
     open var placeholderColor = UIColor.lightGray {
         didSet {
-            placeholderLabel.textColor = placeholderColor
-            underlineView.backgroundColor = placeholderColor
+            configurePlaceholderColor()
         }
     }
     
@@ -36,17 +35,13 @@ open class FloatingLabelTextField : FormattingTextField {
     
     open override var placeholder: String? {
         didSet {
-            guard placeholder != nil else { return }
-            placeholderLabel.text = placeholder
-            placeholderLabel.sizeToFit()
+            configurePlaceholder()
         }
     }
     
     open override var font: UIFont? {
         didSet {
-            placeholderLabel.font = font
-            minimumFontSize = font?.pointSize ?? 17
-            placeholderLabel.sizeToFit()
+            configurePlaceholder()
         }
     }
     
@@ -72,15 +67,18 @@ open class FloatingLabelTextField : FormattingTextField {
     
     private func initialSetup() {
         addSubview(underlineView)
-        underlineView.backgroundColor = UIColor.lightGray
         borderStyle = .none
-        backgroundColor = UIColor.systemRed.withAlphaComponent(0.2)
-        
-        placeholderLabel.textColor = UIColor.lightGray
-        addSubview(placeholderLabel)
         clearButtonMode = .always
+        addSubview(placeholderLabel)
         
         setPlaceholderBottomAttributes()
+    }
+    
+    open override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        configureFont()
+        configurePlaceholder()
+        configurePlaceholderColor()
     }
     
     private func setupPlaceholderLabel() {
@@ -113,6 +111,23 @@ open class FloatingLabelTextField : FormattingTextField {
         placeholderLabel.transform = .identity
         placeholderLabel.frame = editingRect(forBounds: bounds)
         placeholderLabel.textColor = UIColor.lightGray
+    }
+    
+    private func configureFont() {
+        placeholderLabel.font = font
+        minimumFontSize = font?.pointSize ?? 17
+        placeholderLabel.sizeToFit()
+    }
+    
+    private func configurePlaceholder() {
+        guard placeholder != nil else { return }
+        placeholderLabel.text = placeholder
+        placeholderLabel.sizeToFit()
+    }
+    
+    private func configurePlaceholderColor() {
+        placeholderLabel.textColor = placeholderColor
+        underlineView.backgroundColor = placeholderColor
     }
     
     open override func formattedText(text: String?) -> String? {

@@ -20,8 +20,7 @@ import UIKit
     @IBInspectable open var letterSpacing: CGFloat = 24 {
         didSet {
             guard letterSpacing != oldValue else { return }
-            defaultTextAttributes.updateValue(letterSpacing, forKey: .kern)
-            invalidateIntrinsicContentSize()
+            configureLetterSpacing()
         }
     }
     
@@ -39,9 +38,7 @@ import UIKit
     
     open override var font: UIFont? {
         didSet {
-            symbolWidth = _oneSymbolWidth()
-            minimumFontSize = font!.pointSize
-            invalidateIntrinsicContentSize()
+            configureFont()
         }
     }
     
@@ -64,6 +61,12 @@ import UIKit
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
+    }
+    
+    open override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        configureLetterSpacing()
+        configureFont()
     }
     
     open override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
@@ -200,6 +203,17 @@ import UIKit
     @objc private func didChangeEditing() {
         guard let text = text, text.count > length else { oldText = self.text!; return }
         self.text = text.replacingOccurrences(of: oldText, with: "")
+    }
+    
+    private func configureLetterSpacing() {
+        defaultTextAttributes.updateValue(letterSpacing, forKey: .kern)
+        invalidateIntrinsicContentSize()
+    }
+    
+    private func configureFont() {
+        symbolWidth = _oneSymbolWidth()
+        minimumFontSize = font!.pointSize
+        invalidateIntrinsicContentSize()
     }
 }
 

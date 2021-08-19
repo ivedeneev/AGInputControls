@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var phoneField: PhoneTextField!
     @IBOutlet weak var floatTextField: FloatingLabelTextField!
     
+    @IBOutlet weak var floatingFieldNoFormatting: FloatingLabelTextField!
     override func viewDidLoad() {
         super.viewDidLoad()
         

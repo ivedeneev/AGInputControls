@@ -83,16 +83,43 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FloatingLabelTextField" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UMk-pq-H9F">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FloatingLabelTextField with formatting" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UMk-pq-H9F">
                                 <rect key="frame" x="20" y="355" width="374" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" systemColor="systemGrayColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Zs-ZU-peS" userLabel="float_bg">
+                                <rect key="frame" x="20" y="464" width="374" height="90"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FloatingLabelTextField without formatting" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TuV-4p-e7m">
+                                        <rect key="frame" x="0.0" y="8" width="374" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" systemColor="systemGrayColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Residence" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EBj-8I-nur" customClass="FloatingLabelTextField" customModule="AGInputControls">
+                                        <rect key="frame" x="16" y="37" width="342" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                                <viewLayoutGuide key="safeArea" id="ltC-4P-nOX"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="EBj-8I-nur" firstAttribute="leading" secondItem="ltC-4P-nOX" secondAttribute="leading" constant="16" id="2cr-ZV-VOS"/>
+                                    <constraint firstItem="TuV-4p-e7m" firstAttribute="leading" secondItem="ltC-4P-nOX" secondAttribute="leading" id="AUf-CD-NAr"/>
+                                    <constraint firstItem="ltC-4P-nOX" firstAttribute="trailing" secondItem="TuV-4p-e7m" secondAttribute="trailing" id="Luu-io-ugc"/>
+                                    <constraint firstItem="TuV-4p-e7m" firstAttribute="top" secondItem="ltC-4P-nOX" secondAttribute="top" constant="8" id="T8z-2n-h4q"/>
+                                    <constraint firstItem="ltC-4P-nOX" firstAttribute="bottom" secondItem="EBj-8I-nur" secondAttribute="bottom" constant="19" id="dk7-aa-OGe"/>
+                                    <constraint firstItem="ltC-4P-nOX" firstAttribute="trailing" secondItem="EBj-8I-nur" secondAttribute="trailing" constant="16" id="ygN-Dc-Gbu"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="7Zs-ZU-peS" firstAttribute="width" secondItem="1tu-ce-tEo" secondAttribute="width" id="1JA-oB-A5K"/>
                             <constraint firstItem="U12-cx-uta" firstAttribute="top" secondItem="Y8i-YP-3kF" secondAttribute="bottom" constant="8" symbolic="YES" id="6w2-ya-UHO"/>
                             <constraint firstItem="gwB-ev-g31" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="7Ke-9U-Srp"/>
                             <constraint firstItem="UMk-pq-H9F" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="9eC-g0-bkJ"/>
@@ -116,10 +143,13 @@
                             <constraint firstItem="Gfc-WF-3FH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="i1J-qX-rhu"/>
                             <constraint firstItem="U12-cx-uta" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="lpg-gD-5wE"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Gfc-WF-3FH" secondAttribute="trailing" constant="20" id="m2p-Sx-h32"/>
+                            <constraint firstItem="7Zs-ZU-peS" firstAttribute="height" secondItem="1tu-ce-tEo" secondAttribute="height" id="pn1-81-44D"/>
                             <constraint firstItem="R5f-hd-cj8" firstAttribute="top" secondItem="97h-aD-3Z7" secondAttribute="bottom" constant="60" id="qyM-y9-DFP"/>
                             <constraint firstItem="8XK-Ga-C4T" firstAttribute="trailing" secondItem="Gfc-WF-3FH" secondAttribute="trailing" id="rn2-Ae-8mS"/>
                             <constraint firstItem="SAD-K4-JCd" firstAttribute="top" secondItem="UMk-pq-H9F" secondAttribute="bottom" constant="8" symbolic="YES" id="svn-Zn-vir"/>
                             <constraint firstItem="R5f-hd-cj8" firstAttribute="top" secondItem="Gfc-WF-3FH" secondAttribute="bottom" constant="8" id="tLK-OF-1yo"/>
+                            <constraint firstItem="7Zs-ZU-peS" firstAttribute="centerX" secondItem="1tu-ce-tEo" secondAttribute="centerX" id="w7S-tl-WzM"/>
+                            <constraint firstItem="7Zs-ZU-peS" firstAttribute="top" secondItem="1tu-ce-tEo" secondAttribute="bottom" constant="19" id="wd1-ox-Qm6"/>
                             <constraint firstItem="cUF-wv-BcO" firstAttribute="top" secondItem="gwB-ev-g31" secondAttribute="top" id="xmW-IE-1x3"/>
                         </constraints>
                     </view>
@@ -127,6 +157,7 @@
                         <outlet property="field_1" destination="U12-cx-uta" id="I4c-E3-RXw"/>
                         <outlet property="field_2" destination="97h-aD-3Z7" id="agT-bi-Bee"/>
                         <outlet property="floatTextField" destination="SAD-K4-JCd" id="FZg-Bc-19M"/>
+                        <outlet property="floatingFieldNoFormatting" destination="EBj-8I-nur" id="RrO-QC-9Hf"/>
                         <outlet property="phoneField" destination="R5f-hd-cj8" id="oOV-4Y-gh6"/>
                     </connections>
                 </viewController>

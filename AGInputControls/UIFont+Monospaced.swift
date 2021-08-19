@@ -8,6 +8,8 @@
 import UIKit
 
 public extension UIFont {
+    
+    /// Provides monospaced version of given font
     var monospaced: UIFont {
             let bodyMonospacedNumbersFontDescriptor = fontDescriptor
                 .addingAttributes([
@@ -19,6 +21,6 @@ public extension UIFont {
               ]
             ])
             
-            return UIFont(descriptor: bodyMonospacedNumbersFontDescriptor, size: 32)
+            return UIFont(descriptor: bodyMonospacedNumbersFontDescriptor, size: pointSize)
     }
 }

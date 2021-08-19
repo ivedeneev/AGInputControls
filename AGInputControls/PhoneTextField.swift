@@ -27,7 +27,7 @@ open class PhoneTextField: FormattingTextField {
             attributes: [.font : font_],
             context: nil).width
         
-        let caretWidth: CGFloat = 4 // assuming we dont have HUGE font. This should be fixed
+        let caretWidth: CGFloat = 4 // assuming we dont have HUGE font. This should be fixed (e.g call caretRect method...)
         
         return CGSize(width: width + caretWidth, height: height)
     }
@@ -109,15 +109,4 @@ extension String {
     func digitsOnly() -> String {
         return components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "")
     }
-    
-    // +3197010281448
-//    +38-068-906-15-16 UA
-    // +375 25 762-59-14 BEL
-//    func test(prefix: String, mask: String) -> String {
-//
-//    }
-
-//    var isValidPhone: Bool {
-//        return digitsOnly().count == 11
-//    }
 }
