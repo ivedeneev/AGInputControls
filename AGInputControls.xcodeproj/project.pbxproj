@@ -105,6 +105,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D656DDBF26CFDE5600BAAA29 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				D6A6F5D52684BD5100157970 /* OTPCodeTextField.swift */,
+				D60413AF26CA4BA0002031AC /* FloatingLabelTextField.swift */,
+				D6C9B7DB2685F65600F08CAA /* PhoneTextField.swift */,
+				D60413B126CA4BB4002031AC /* FormattingTextField.swift */,
+				D656DDBD26CD6E6A00BAAA29 /* UIFont+Monospaced.swift */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
 		D6A6F5AF2684BC9700157970 = {
 			isa = PBXGroup;
 			children = (
@@ -129,13 +141,9 @@
 		D6A6F5BB2684BC9700157970 /* AGInputControls */ = {
 			isa = PBXGroup;
 			children = (
+				D656DDBF26CFDE5600BAAA29 /* Source */,
 				D6A6F5BC2684BC9700157970 /* AGInputControls.h */,
 				D6A6F5BD2684BC9700157970 /* Info.plist */,
-				D6A6F5D52684BD5100157970 /* OTPCodeTextField.swift */,
-				D60413AF26CA4BA0002031AC /* FloatingLabelTextField.swift */,
-				D6C9B7DB2685F65600F08CAA /* PhoneTextField.swift */,
-				D60413B126CA4BB4002031AC /* FormattingTextField.swift */,
-				D656DDBD26CD6E6A00BAAA29 /* UIFont+Monospaced.swift */,
 			);
 			path = AGInputControls;
 			sourceTree = "<group>";
@@ -519,6 +527,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -549,6 +558,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

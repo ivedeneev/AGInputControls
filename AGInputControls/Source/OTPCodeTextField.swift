@@ -33,6 +33,9 @@ import UIKit
     /// Used for background rects under digits`
     @IBInspectable open var decorationColor: UIColor = UIColor(white: 0.9, alpha: 1)
     
+    /// Show or hide caret
+    @IBInspectable open var showsCaret: Bool = false
+    
     /// Decorate every symbol: underline dash, rounded rect or none. If dash or rect selected using monospaced font is highly recommended
     open var decoration: Decoration = .none
     
@@ -52,6 +55,7 @@ import UIKit
     
     private var symbolWidth: CGFloat!
     private var oldText = ""
+    private var caretWidth: CGFloat = 0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -67,54 +71,68 @@ import UIKit
         super.didMoveToSuperview()
         configureLetterSpacing()
         configureFont()
+        oldText = text ??  ""
     }
     
     open override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        if action == #selector(UIResponderStandardEditActions.paste(_:)) {
+        print(action)
+        let disabledSelectors: Set<Selector> = [
+            #selector(UIResponderStandardEditActions.paste(_:)),
+            #selector(UIResponderStandardEditActions.copy(_:)),
+            #selector(UIResponderStandardEditActions.cut(_:)),
+            #selector(UIResponderStandardEditActions.select(_:)),
+            #selector(UIResponderStandardEditActions.selectAll(_:)),
+        ]
+        
+        if disabledSelectors.contains(action) {
             return false
         }
+        
         return super.canPerformAction(action, withSender: sender)
     }
     
     private func setup() {
         addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
         defaultTextAttributes.updateValue(letterSpacing, forKey: .kern)
-        tintColor = .clear
         keyboardType = .numberPad
         if #available(iOS 12.0, *) {
             textContentType = .oneTimeCode
+        }
+        
+        gestureRecognizers?.forEach { gr in
+            guard gr is UILongPressGestureRecognizer else { return }
+            gr.isEnabled = false
         }
     }
     
     open override func draw(_ rect: CGRect) {
         super.draw(rect)
-        guard let context = UIGraphicsGetCurrentContext() else { return }
+        guard let context = UIGraphicsGetCurrentContext(), decoration != .none else { return }
         
         context.setStrokeColor(placeholderColor.cgColor)
         context.setFillColor(decorationColor.cgColor)
+        context.setLineWidth(dashHeight)
+        let originX = textOrigin().x
         
-        switch decoration {
-        case .dash:
-            context.setLineWidth(dashHeight)
-            context.move(to: CGPoint(x: 0, y: bounds.height))
-            context.addLine(to: CGPoint(x: bounds.width, y: bounds.height))
-            context.setLineDash(phase: 0, lengths: [symbolWidth - letterSpacing, letterSpacing])
-            context.strokePath()
-        case .rect:
-            let width: CGFloat = symbolWidth - letterSpacing + digitPadding * 2
-            let originX = textOrigin().x
-            let xWithPadding = decoration == .rect ? originX - digitPadding : originX
-            for i in 0..<length {
-                let x = max(CGFloat(i) * (symbolWidth), 0)
+        let width: CGFloat = symbolWidth - letterSpacing + digitPadding * 2
+        let xWithPadding = decoration == .rect ? originX - digitPadding : originX - digitPadding + width * 0.1
+        for i in 0..<length {
+            let x = max(CGFloat(i) * (symbolWidth), 0)
+            switch decoration {
+            case .dash:
+                let rect = CGRect(x: x + xWithPadding, y: rect.height - dashHeight, width: width * 0.8, height: dashHeight)
+                let path = UIBezierPath(roundedRect: rect, cornerRadius: dashHeight / 2).cgPath
+                context.addPath(path)
+            case .rect:
                 let rect = CGRect(x: x + xWithPadding, y: 0, width: width, height: rect.height)
                 let path = UIBezierPath(roundedRect: rect, cornerRadius: 4).cgPath
                 context.addPath(path)
+            default:
+                break
             }
-            
-            context.fillPath()
-        default:
-            break
         }
+
+        context.fillPath()
     }
     
     open override func textRect(forBounds bounds: CGRect) -> CGRect {
@@ -137,7 +155,9 @@ import UIKit
     }
     
     open override func caretRect(for position: UITextPosition) -> CGRect {
-        .zero
+        let caretRect = super.caretRect(for: position)
+        caretWidth = caretRect.width
+        return showsCaret ? caretRect : .zero
     }
     
     open override var intrinsicContentSize: CGSize {
@@ -201,8 +221,12 @@ import UIKit
     }
     
     @objc private func didChangeEditing() {
-        guard let text = text, text.count > length else { oldText = self.text!; return }
-        self.text = text.replacingOccurrences(of: oldText, with: "")
+//        print("[\(text ?? "empty")]", "[\(oldText)]")
+        guard let txt = text, txt.count > length else {
+            oldText = text!; return
+        }
+        
+        self.text = txt.replacingOccurrences(of: oldText, with: "")
     }
     
     private func configureLetterSpacing() {

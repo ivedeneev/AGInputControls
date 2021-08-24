@@ -19,7 +19,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         field_1.font = .monospacedDigitSystemFont(ofSize: 30, weight: .light)
-        field_1.decoration = .rect
+        field_1.decoration = .dash
+        field_1.showsCaret = true
         
         field_2.borderStyle = .none
         field_2.backgroundColor = .white
