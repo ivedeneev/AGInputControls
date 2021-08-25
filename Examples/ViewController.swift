@@ -13,8 +13,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var field_2: OTPCodeTextField!
     @IBOutlet weak var phoneField: PhoneTextField!
     @IBOutlet weak var floatTextField: FloatingLabelTextField!
-    
     @IBOutlet weak var floatingFieldNoFormatting: FloatingLabelTextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,15 +44,21 @@ class ViewController: UIViewController {
         floatTextField.minimumFontSize = 36
         floatTextField.padding = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         floatTextField.highlightsWhenActive = true
+        floatTextField.bottomText = "Incorrect card format"
+        floatTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.15)
         
-        field_1.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
-        field_2.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
-        phoneField.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
+//        field_1.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
+//        field_2.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
+//        phoneField.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
         floatTextField.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
+        
+        floatingFieldNoFormatting.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.15)
     }
     
     @objc private func didChangeEditing(textField: UITextField) {
 //        print(type(of: textField), textField.text)
+        guard let tf = textField as? FloatingLabelTextField else { return }
+        tf.bottomText = tf.text!.count % 2 == 0 ? "Incorrect card format" : nil
     }
 }
 

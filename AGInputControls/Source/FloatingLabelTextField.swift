@@ -10,11 +10,30 @@ import UIKit
 
 open class FloatingLabelTextField : FormattingTextField {
     
+    enum HighlightStyle {
+        case none
+        case color(UIColor?, Bool)
+    }
+    
     private let underlineView = UIView()
     private let placeholderLabel = UILabel()
     
     /// Text paddings. Default is zero
     open var padding: UIEdgeInsets = .zero
+    
+    /// Bottom label. Typically used for errors
+    public let bottomLabel = UILabel()
+    
+    ///
+    open var validator: ((String?) -> Bool)?
+    
+    ///
+    open var bottomText: String? {
+        didSet {
+            bottomLabel.text = bottomText
+            bottomLabel.sizeToFit()
+        }
+    }
     
     /// Color of placeholder label and underline view. Default is `UIColor.lightGray`
     open var placeholderColor = UIColor.lightGray {
@@ -51,8 +70,18 @@ open class FloatingLabelTextField : FormattingTextField {
         let lineHeight = font!.lineHeight * 2.25
         let paddings: CGFloat = padding.top + padding.bottom
         height = lineHeight + paddings
+        let bottomHeight: CGFloat = hasBottomText ? bottomLabelHeight : 0
         
-        return CGSize(width: UIScreen.main.bounds.width * 0.6, height: height)
+        return CGSize(width: UIScreen.main.bounds.width * 0.6, height: height + bottomHeight)
+    }
+    
+    
+    private var hasBottomText: Bool {
+        !(bottomText?.isEmpty ?? true)
+    }
+    
+    private var bottomLabelHeight: CGFloat {
+        bottomLabel.font.lineHeight
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -70,6 +99,10 @@ open class FloatingLabelTextField : FormattingTextField {
         borderStyle = .none
         clearButtonMode = .always
         addSubview(placeholderLabel)
+        
+        addSubview(bottomLabel)
+        bottomLabel.font = font?.withSize(font!.pointSize * 0.75)
+        bottomLabel.textColor = placeholderColor
         
         setPlaceholderBottomAttributes()
     }
@@ -147,6 +180,7 @@ open class FloatingLabelTextField : FormattingTextField {
         var p = padding
         p.top += font!.lineHeight * 0.45
         p.right = bounds.width - super.editingRect(forBounds: bounds).width
+        p.bottom += hasBottomText ? bottomLabelHeight : 0
         return bounds.inset(by: p)
     }
 
@@ -158,7 +192,20 @@ open class FloatingLabelTextField : FormattingTextField {
         var p = padding
         p.top += font!.lineHeight * 0.45
         p.right = bounds.width - super.editingRect(forBounds: bounds).width
+        p.bottom += hasBottomText ? bottomLabelHeight : 0
         return bounds.inset(by: p)
+    }
+    
+//    open override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
+//        var rect = super.rightViewRect(forBounds: bounds)
+//        let insets = UIEdgeInsets(top: 0, left: 0, bottom: hasBottomText ? bottomLabelHeight : 0, right: 0)
+//        return rect.inset(by: insets)
+//    }
+    
+    open override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
+        var rect = super.clearButtonRect(forBounds: bounds)
+        rect.origin.y -= hasBottomText ? bottomLabelHeight / 2 - 4 : -4
+        return rect
     }
 
     open override func layoutSubviews() {
@@ -170,11 +217,20 @@ open class FloatingLabelTextField : FormattingTextField {
             setPlaceholderTopAttributes()
         }
         
+        let bottomLabelSize = bottomLabel.frame.size
+
         underlineView.frame = CGRect(
             x: padding.left,
-            y: bounds.height - 1,
+            y: hasBottomText ? bounds.height - bottomLabelSize.height - 1 : bounds.height - 1,
             width: bounds.width - padding.left - padding.right,
             height: 1
+        )
+        
+        bottomLabel.frame = CGRect(
+            x: padding.left,
+            y: underlineView.frame.maxY,
+            width: min(bottomLabelSize.width, bounds.width - (padding.left + padding.right)),
+            height: bottomLabelSize.height
         )
     }
     
