@@ -218,10 +218,12 @@ open class FloatingLabelTextField : FormattingTextField {
         }
         
         let bottomLabelSize = bottomLabel.frame.size
+        let underlineHeight: CGFloat = 1
 
+        let underlineBottomPadding: CGFloat = hasBottomText ? bottomLabelSize.height - underlineHeight : underlineHeight
         underlineView.frame = CGRect(
             x: padding.left,
-            y: hasBottomText ? bounds.height - bottomLabelSize.height - 1 : bounds.height - 1,
+            y: bounds.height - underlineBottomPadding - padding.bottom,
             width: bounds.width - padding.left - padding.right,
             height: 1
         )
