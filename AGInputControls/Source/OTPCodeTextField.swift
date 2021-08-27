@@ -75,7 +75,6 @@ import UIKit
     }
     
     open override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        print(action)
         let disabledSelectors: Set<Selector> = [
             #selector(UIResponderStandardEditActions.paste(_:)),
             #selector(UIResponderStandardEditActions.copy(_:)),
@@ -221,7 +220,6 @@ import UIKit
     }
     
     @objc private func didChangeEditing() {
-//        print("[\(text ?? "empty")]", "[\(oldText)]")
         guard let txt = text, txt.count > length else {
             oldText = text!; return
         }

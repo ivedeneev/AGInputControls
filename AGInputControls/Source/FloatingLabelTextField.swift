@@ -81,7 +81,7 @@ open class FloatingLabelTextField : FormattingTextField {
     }
     
     private var bottomLabelHeight: CGFloat {
-        bottomLabel.font.lineHeight
+        bottomLabel.font.lineHeight.rounded(.up)
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -178,7 +178,7 @@ open class FloatingLabelTextField : FormattingTextField {
 
     open override func textRect(forBounds bounds: CGRect) -> CGRect {
         var p = padding
-        p.top += font!.lineHeight * 0.45
+        p.top += font!.lineHeight * 0.45 // FIXME: magic numbers
         p.right = bounds.width - super.editingRect(forBounds: bounds).width
         p.bottom += hasBottomText ? bottomLabelHeight : 0
         return bounds.inset(by: p)
@@ -190,20 +190,19 @@ open class FloatingLabelTextField : FormattingTextField {
 
     open override func editingRect(forBounds bounds: CGRect) -> CGRect {
         var p = padding
-        p.top += font!.lineHeight * 0.45
+        p.top += font!.lineHeight * 0.45 // FIXME: magic numbers
         p.right = bounds.width - super.editingRect(forBounds: bounds).width
         p.bottom += hasBottomText ? bottomLabelHeight : 0
         return bounds.inset(by: p)
     }
     
+    //TODO:
 //    open override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
-//        var rect = super.rightViewRect(forBounds: bounds)
-//        let insets = UIEdgeInsets(top: 0, left: 0, bottom: hasBottomText ? bottomLabelHeight : 0, right: 0)
-//        return rect.inset(by: insets)
 //    }
     
     open override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
         var rect = super.clearButtonRect(forBounds: bounds)
+        //FIXME: get rid of '-4' magic number
         rect.origin.y -= hasBottomText ? bottomLabelHeight / 2 - 4 : -4
         return rect
     }
@@ -220,12 +219,13 @@ open class FloatingLabelTextField : FormattingTextField {
         let bottomLabelSize = bottomLabel.frame.size
         let underlineHeight: CGFloat = 1
 
-        let underlineBottomPadding: CGFloat = hasBottomText ? bottomLabelSize.height - underlineHeight : underlineHeight
+        let underlineBottomPadding: CGFloat = hasBottomText ? bottomLabelHeight + underlineHeight : underlineHeight
+
         underlineView.frame = CGRect(
             x: padding.left,
             y: bounds.height - underlineBottomPadding - padding.bottom,
             width: bounds.width - padding.left - padding.right,
-            height: 1
+            height: underlineHeight
         )
         
         bottomLabel.frame = CGRect(

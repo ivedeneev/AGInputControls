@@ -42,10 +42,12 @@ class ViewController: UIViewController {
         floatTextField.formattingMask = "XXXX XXXX XXXX XXXX"
         floatTextField.font = .monospacedDigitSystemFont(ofSize: 18, weight: .regular)
         floatTextField.minimumFontSize = 36
-        floatTextField.padding = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        floatTextField.padding = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
         floatTextField.highlightsWhenActive = true
         floatTextField.bottomText = "Incorrect card format"
         floatTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.15)
+        floatTextField.clipsToBounds = true
+        floatTextField.layer.cornerRadius = 8
         
 //        field_1.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
 //        field_2.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
