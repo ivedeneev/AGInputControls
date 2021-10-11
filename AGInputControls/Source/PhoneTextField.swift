@@ -26,6 +26,9 @@ open class PhoneTextField: FormattingTextField {
     /// Shows example phone number with random digits applying selected phone mask
     open var showsMask = false
     
+    /// Color of placeholder. Default is `UIColor.lightGray`
+    open var placeholderColor: UIColor = .lightGray
+    
     private var prefix: String {
         phoneMask.components(separatedBy: " ").first ?? ""
     }
@@ -72,22 +75,28 @@ open class PhoneTextField: FormattingTextField {
         
         guard var t = text?.trimmingCharacters(in: .whitespacesAndNewlines), t != "+" else { return "" }
         
-        let prefix = showsMask ? prefix : "+7"
-        switch t.first {
-        case "8":
-            t = showsMask ? prefix + t : prefix + t.dropFirst()
-        case "9":
-            t = prefix + t
-        case "7":
-            t = showsMask ? prefix + t : "+" + t
-        case "+":
-            break
-        default:
-            t = prefix + t
-        }
+        if prefix == "+7" {
+            let prefix = showsMask ? prefix : "+7"
+            switch t.first {
+            case "8":
+                if !showsMask {
+                    t = prefix + t.dropFirst()
+                } else {
+                    t = t.count == phoneMask.filter { "0123456789X".contains($0) }.count ? prefix + t.dropFirst() : prefix + t
+                }
+            case "9":
+                t = prefix + t
+            case "7":
+                t = showsMask ? prefix + t : "+" + t
+            case "+":
+                break
+            default:
+                t = prefix + t
+            }
 
-        if t.count > 1, t.first != "+" || String(Array(t)[1]) != "7" && t.first == "+" {
-            t.insert(contentsOf: prefix, at: .init(utf16Offset: 0, in: t))
+            if t.count > 1, t.first != "+" || String(Array(t)[1]) != "7" && t.first == "+" {
+                t.insert(contentsOf: prefix, at: .init(utf16Offset: 0, in: t))
+            }
         }
         
         if showsMask {
@@ -110,11 +119,6 @@ open class PhoneTextField: FormattingTextField {
         return rect
     }
     
-    private lazy var attributedMask = NSMutableAttributedString(string: phoneMask, attributes: [
-        .font : font,
-        .foregroundColor : UIColor.lightGray
-    ])
-    
     open override func draw(_ rect: CGRect) {
         super.draw(rect)
         
@@ -128,7 +132,7 @@ open class PhoneTextField: FormattingTextField {
         let phone = text + phoneMask.suffix(phoneMask.count - text.count)
         let textToDraw = NSMutableAttributedString(string: phone, attributes: [
             .font : font,
-            .foregroundColor : UIColor.lightGray
+            .foregroundColor : placeholderColor
         ])
         
         // highlight prefix
@@ -140,17 +144,24 @@ open class PhoneTextField: FormattingTextField {
         textToDraw.draw(at: CGPoint(x: 0, y: ((bounds.height - font!.lineHeight) / 2).rounded()))
     }
     
+    open func setFormattedText(_ text: String) {
+        self.text = formattedText(text: text)
+    }
+    
+    open override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        guard !showsMask else { return .zero }
+        return super.placeholderRect(forBounds: bounds)
+    }
+}
+
+extension PhoneTextField {
+    
     private func sizeOfText(_ text: String) -> CGSize {
         return (text as NSString).boundingRect(
             with: UIScreen.main.bounds.size,
             options: [.usesFontLeading, .usesLineFragmentOrigin],
             attributes: [.font : font],
             context: nil).size
-    }
-    
-    open override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        guard !showsMask else { return .zero }
-        return super.placeholderRect(forBounds: bounds)
     }
 }
 

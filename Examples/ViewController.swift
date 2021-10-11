@@ -70,6 +70,11 @@ class ViewController: UIViewController {
         guard let tf = textField as? FloatingLabelTextField else { return }
         tf.bottomText = tf.text!.count % 2 == 0 ? "Incorrect card format" : nil
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        fixedWidthPhoneField.setFormattedText("89153051653")
+    }
 }
 
 
