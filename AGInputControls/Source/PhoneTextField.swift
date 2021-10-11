@@ -75,7 +75,7 @@ open class PhoneTextField: FormattingTextField {
         let prefix = showsMask ? prefix : "+7"
         switch t.first {
         case "8":
-            t = prefix + t.dropFirst()
+            t = showsMask ? prefix + t : prefix + t.dropFirst()
         case "9":
             t = prefix + t
         case "7":
@@ -131,9 +131,13 @@ open class PhoneTextField: FormattingTextField {
             .foregroundColor : UIColor.lightGray
         ])
         
-        textToDraw.addAttributes([.foregroundColor : textColor], range: .init(location: 0, length: 2))
+        // highlight prefix
+        textToDraw.addAttributes(
+            [.foregroundColor : textColor],
+            range: .init(location: 0, length: 2)
+        )
         
-        textToDraw.draw(in: textRect(forBounds: bounds))
+        textToDraw.draw(at: CGPoint(x: 0, y: ((bounds.height - font!.lineHeight) / 2).rounded()))
     }
     
     private func sizeOfText(_ text: String) -> CGSize {
@@ -142,6 +146,11 @@ open class PhoneTextField: FormattingTextField {
             options: [.usesFontLeading, .usesLineFragmentOrigin],
             attributes: [.font : font],
             context: nil).size
+    }
+    
+    open override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        guard !showsMask else { return .zero }
+        return super.placeholderRect(forBounds: bounds)
     }
 }
 
