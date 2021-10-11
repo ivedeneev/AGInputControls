@@ -22,6 +22,7 @@ class ViewController: UIViewController {
         field_1.font = .monospacedDigitSystemFont(ofSize: 30, weight: .light)
         field_1.decoration = .dash
         field_1.showsCaret = true
+        field_1.decorationColor = .systemRed
         
         field_2.borderStyle = .none
         field_2.backgroundColor = .white
@@ -50,9 +51,9 @@ class ViewController: UIViewController {
         floatTextField.clipsToBounds = true
         floatTextField.layer.cornerRadius = 8
         
-        fixedWidthPhoneField.font = UIFont(name: "Avenir", size: 30)//?.monospaced
+        fixedWidthPhoneField.font = UIFont(name: "Avenir", size: 30)?.monospaced
         fixedWidthPhoneField.showsMask = true
-        fixedWidthPhoneField.phoneMask =  "+7 (XXX) XXX-XX-XX"
+        fixedWidthPhoneField.phoneMask =  "+7 XXX XXX XX XX"
         
         field_1.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
         field_2.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)

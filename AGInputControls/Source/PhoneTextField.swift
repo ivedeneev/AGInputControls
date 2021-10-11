@@ -17,7 +17,11 @@ open class PhoneTextField: FormattingTextField {
     weak var formattingDelegate: PhoneTextFieldFormattingDelegate?
     
     /// Phone format string were X is digit placeholder. Default is `+X (XXX) XXX-XX-XX`
-    open var phoneMask: String = "+X (XXX) XXX-XX-XX"
+    open var phoneMask: String = "+X (XXX) XXX-XX-XX" {
+        didSet {
+            invalidateIntrinsicContentSize()
+        }
+    }
     
     /// Shows example phone number with random digits applying selected phone mask
     open var showsMask = false
@@ -29,9 +33,9 @@ open class PhoneTextField: FormattingTextField {
     open override var intrinsicContentSize: CGSize {
         let font_ = font ?? UIFont.systemFont(ofSize: 17)
         let height = font_.lineHeight
-        let width = sizeOfText(phoneMask).width
+        let width = sizeOfText(phoneMask.replacingOccurrences(of: "X", with: "0")).width
         
-        let caretWidth: CGFloat = 4 // assuming we dont have HUGE font. This should be fixed (e.g call caretRect method...)
+        let caretWidth: CGFloat = caretRect(for: endOfDocument).width
         
         return CGSize(width: width + caretWidth, height: height)
     }
@@ -117,7 +121,10 @@ open class PhoneTextField: FormattingTextField {
         guard showsMask else { return }
         let text = self.text ?? ""
         
-        let phoneMask = "+7 (912) 876-45-67"
+        let phoneMask = phoneMask
+            .replacingOccurrences(of: "XXX", with: "454")
+            .replacingOccurrences(of: "XX", with: "45")
+        
         let phone = text + phoneMask.suffix(phoneMask.count - text.count)
         let textToDraw = NSMutableAttributedString(string: phone, attributes: [
             .font : font,
