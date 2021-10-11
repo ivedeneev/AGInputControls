@@ -10,6 +10,17 @@ This library contains 3 UITextField subclasses:
 
 ![How it looks](https://github.com/ivedeneev/AGInputControls/blo/main/Previews/float_anim.gif "How it looks")
 
+## Installation
+
+### CocoaPods
+`pod AGInputControls`
+
+### Carthage
+`github "ivedeneev/AGInputControls"`
+
+### Swift Package Manager
+//TODO
+
 
 Library also provides basic class `FormattingTextField` which can format input text respecting given mask. 
 **Important note:** FormattingTextField  supports only digits. You may use special characters like spaces or dashes in mask. Example of mask: `"+X (XXX) XXX-XX-XX"`. Example of mask which can cause undefined behaviour: `"+7 (9XX) XXX-XX-XX"` `PhoneTextField` and `FloatingLabelTextField` are inherited from `FormattingTextField`

@@ -13,9 +13,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var field_2: OTPCodeTextField!
     @IBOutlet weak var phoneField: PhoneTextField!
     @IBOutlet weak var floatTextField: FloatingLabelTextField!
-    
     @IBOutlet weak var fixedWidthPhoneField: PhoneTextField!
     @IBOutlet weak var floatingFieldNoFormatting: FloatingLabelTextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,10 +43,13 @@ class ViewController: UIViewController {
         floatTextField.formattingMask = "XXXX XXXX XXXX XXXX"
         floatTextField.font = .monospacedDigitSystemFont(ofSize: 18, weight: .regular)
         floatTextField.minimumFontSize = 36
-        floatTextField.padding = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+        floatTextField.padding = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
         floatTextField.highlightsWhenActive = true
+        floatTextField.bottomText = "Incorrect card format"
+        floatTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.15)
+        floatTextField.clipsToBounds = true
+        floatTextField.layer.cornerRadius = 8
         
-//        fixedWidthPhoneField.font = .monospacedDigitSystemFont(ofSize: 26, weight: .regular)
         fixedWidthPhoneField.font = UIFont(name: "Avenir", size: 30)//?.monospaced
         fixedWidthPhoneField.showsMask = true
         fixedWidthPhoneField.phoneMask =  "+7 (XXX) XXX-XX-XX"
@@ -54,11 +57,17 @@ class ViewController: UIViewController {
         field_1.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
         field_2.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
         phoneField.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
+
         floatTextField.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
+        
+        floatingFieldNoFormatting.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.15)
+        floatingFieldNoFormatting.padding = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     }
     
     @objc private func didChangeEditing(textField: UITextField) {
 //        print(type(of: textField), textField.text)
+        guard let tf = textField as? FloatingLabelTextField else { return }
+        tf.bottomText = tf.text!.count % 2 == 0 ? "Incorrect card format" : nil
     }
 }
 

@@ -34,11 +34,11 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1tu-ce-tEo" userLabel="float_bg">
-                                <rect key="frame" x="20" y="355" width="374" height="90"/>
+                                <rect key="frame" x="20" y="355" width="374" height="120"/>
                                 <viewLayoutGuide key="safeArea" id="lV9-kH-fom"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="90" id="Cbl-dn-NNn"/>
+                                    <constraint firstAttribute="height" constant="120" id="Cbl-dn-NNn"/>
                                 </constraints>
                             </view>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="7915" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="U12-cx-uta" customClass="OTPCodeTextField" customModule="AGInputControls">
@@ -91,7 +91,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Zs-ZU-peS" userLabel="float_bg">
-                                <rect key="frame" x="20" y="464" width="374" height="90"/>
+                                <rect key="frame" x="20" y="494" width="374" height="120"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FloatingLabelTextField without formatting" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TuV-4p-e7m">
                                         <rect key="frame" x="0.0" y="8" width="374" height="21"/>
@@ -100,7 +100,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Residence" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EBj-8I-nur" customClass="FloatingLabelTextField" customModule="AGInputControls">
-                                        <rect key="frame" x="16" y="37" width="342" height="34"/>
+                                        <rect key="frame" x="16" y="67" width="342" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
