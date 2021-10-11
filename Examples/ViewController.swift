@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var phoneField: PhoneTextField!
     @IBOutlet weak var floatTextField: FloatingLabelTextField!
     
+    @IBOutlet weak var fixedWidthPhoneField: PhoneTextField!
     @IBOutlet weak var floatingFieldNoFormatting: FloatingLabelTextField!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +45,11 @@ class ViewController: UIViewController {
         floatTextField.minimumFontSize = 36
         floatTextField.padding = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         floatTextField.highlightsWhenActive = true
+        
+//        fixedWidthPhoneField.font = .monospacedDigitSystemFont(ofSize: 26, weight: .regular)
+        fixedWidthPhoneField.font = UIFont(name: "Avenir", size: 30)//?.monospaced
+        fixedWidthPhoneField.showsMask = true
+        fixedWidthPhoneField.phoneMask =  "+7 (XXX) XXX-XX-XX"
         
         field_1.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
         field_2.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)

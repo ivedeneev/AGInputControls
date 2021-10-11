@@ -11,6 +11,7 @@ public protocol PhoneTextFieldFormattingDelegate: AnyObject {
     func formatPhoneNumber(for tf: PhoneTextField) -> String
 }
 
+/// Textfield for phone wormatting. `showsMask` works correctly only with Russian phones
 open class PhoneTextField: FormattingTextField {
     
     weak var formattingDelegate: PhoneTextFieldFormattingDelegate?
@@ -18,14 +19,17 @@ open class PhoneTextField: FormattingTextField {
     /// Phone format string were X is digit placeholder. Default is `+X (XXX) XXX-XX-XX`
     open var phoneMask: String = "+X (XXX) XXX-XX-XX"
     
+    /// Shows example phone number with random digits applying selected phone mask
+    open var showsMask = false
+    
+    private var prefix: String {
+        phoneMask.components(separatedBy: " ").first ?? ""
+    }
+    
     open override var intrinsicContentSize: CGSize {
         let font_ = font ?? UIFont.systemFont(ofSize: 17)
         let height = font_.lineHeight
-        let width = (phoneMask as NSString).boundingRect(
-            with: UIScreen.main.bounds.size,
-            options: [.usesFontLeading, .usesLineFragmentOrigin],
-            attributes: [.font : font_],
-            context: nil).width
+        let width = sizeOfText(phoneMask).width
         
         let caretWidth: CGFloat = 4 // assuming we dont have HUGE font. This should be fixed (e.g call caretRect method...)
         
@@ -64,28 +68,73 @@ open class PhoneTextField: FormattingTextField {
         
         guard var t = text?.trimmingCharacters(in: .whitespacesAndNewlines), t != "+" else { return "" }
         
+        let prefix = showsMask ? prefix : "+7"
         switch t.first {
         case "8":
-            t = "+7" + t.dropFirst()
+            t = prefix + t.dropFirst()
         case "9":
-            t = "+7" + t
-        default:
+            t = prefix + t
+        case "7":
+            t = showsMask ? prefix + t : "+" + t
+        case "+":
             break
+        default:
+            t = prefix + t
+        }
+
+        if t.count > 1, t.first != "+" || String(Array(t)[1]) != "7" && t.first == "+" {
+            t.insert(contentsOf: prefix, at: .init(utf16Offset: 0, in: t))
         }
         
-        if t.count > 1, t.first != "+" || String(Array(t)[1]) != "7" && t.first == "+" {
-            t.insert(contentsOf: "+7", at: .init(utf16Offset: 0, in: t))
+        if showsMask {
+            setNeedsDisplay()
         }
         
         return t.formattedNumber(mask: phoneMask)
     }
     
-    open override func textRect(forBounds bounds: CGRect) -> CGRect {
-        bounds
+    open override func caretRect(for position: UITextPosition) -> CGRect {
+        guard showsMask else {
+            return super.caretRect(for: position)
+        }
+        
+        var rect = super.caretRect(for: position)
+        if text?.isEmpty ?? true {
+            rect.origin.x += sizeOfText(prefix).width
+            return rect
+        }
+        return rect
     }
     
-    open override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        bounds
+    private lazy var attributedMask = NSMutableAttributedString(string: phoneMask, attributes: [
+        .font : font,
+        .foregroundColor : UIColor.lightGray
+    ])
+    
+    open override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        
+        guard showsMask else { return }
+        let text = self.text ?? ""
+        
+        let phoneMask = "+7 (912) 876-45-67"
+        let phone = text + phoneMask.suffix(phoneMask.count - text.count)
+        let textToDraw = NSMutableAttributedString(string: phone, attributes: [
+            .font : font,
+            .foregroundColor : UIColor.lightGray
+        ])
+        
+        textToDraw.addAttributes([.foregroundColor : textColor], range: .init(location: 0, length: 2))
+        
+        textToDraw.draw(in: textRect(forBounds: bounds))
+    }
+    
+    private func sizeOfText(_ text: String) -> CGSize {
+        return (text as NSString).boundingRect(
+            with: UIScreen.main.bounds.size,
+            options: [.usesFontLeading, .usesLineFragmentOrigin],
+            attributes: [.font : font],
+            context: nil).size
     }
 }
 
@@ -96,7 +145,7 @@ extension String {
         var result = ""
         var index = rawPhone.startIndex
         for ch in mask where index < rawPhone.endIndex {
-            if ch == "X" {
+            if ch == "X" || "0123456789".contains(ch) {
                 result.append(rawPhone[index])
                 index = rawPhone.index(after: index)
             } else {

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19115.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19107.4"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -115,6 +116,34 @@
                                     <constraint firstItem="ltC-4P-nOX" firstAttribute="trailing" secondItem="EBj-8I-nur" secondAttribute="trailing" constant="16" id="ygN-Dc-Gbu"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tKg-xS-JTl" userLabel="phone_fixed_width_bg">
+                                <rect key="frame" x="20" y="573" width="374" height="90"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OZL-W4-6fL" customClass="PhoneTextField" customModule="AGInputControls">
+                                        <rect key="frame" x="8" y="37" width="358" height="34"/>
+                                        <color key="backgroundColor" name="BG"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PhoneTextField" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wSv-Xi-TGw">
+                                        <rect key="frame" x="0.0" y="8" width="374" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" systemColor="systemGrayColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <viewLayoutGuide key="safeArea" id="CYQ-hS-bM8"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="wSv-Xi-TGw" firstAttribute="top" secondItem="CYQ-hS-bM8" secondAttribute="top" constant="8" id="DiK-CZ-SU4"/>
+                                    <constraint firstAttribute="height" constant="90" id="FNl-ok-Hzf"/>
+                                    <constraint firstItem="CYQ-hS-bM8" firstAttribute="trailing" secondItem="OZL-W4-6fL" secondAttribute="trailing" constant="8" id="Gar-Hg-PXZ"/>
+                                    <constraint firstItem="OZL-W4-6fL" firstAttribute="top" secondItem="wSv-Xi-TGw" secondAttribute="bottom" constant="8" id="MYF-pu-sEE"/>
+                                    <constraint firstItem="OZL-W4-6fL" firstAttribute="leading" secondItem="CYQ-hS-bM8" secondAttribute="leading" constant="8" id="ccd-4r-gXn"/>
+                                    <constraint firstItem="wSv-Xi-TGw" firstAttribute="leading" secondItem="CYQ-hS-bM8" secondAttribute="leading" id="mb1-G9-4S8"/>
+                                    <constraint firstItem="wSv-Xi-TGw" firstAttribute="trailing" secondItem="CYQ-hS-bM8" secondAttribute="trailing" id="uYX-HO-uDH"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
@@ -137,13 +166,16 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="UMk-pq-H9F" secondAttribute="trailing" constant="20" id="SxN-Ed-spZ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gwB-ev-g31" secondAttribute="trailing" constant="20" id="TAo-6Q-g9h"/>
                             <constraint firstItem="SAD-K4-JCd" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Tfk-gQ-kTq"/>
+                            <constraint firstItem="tKg-xS-JTl" firstAttribute="leading" secondItem="7Zs-ZU-peS" secondAttribute="leading" id="cU4-tb-e9P"/>
                             <constraint firstItem="U12-cx-uta" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ddG-Fb-rdA"/>
                             <constraint firstItem="SAD-K4-JCd" firstAttribute="top" secondItem="R5f-hd-cj8" secondAttribute="bottom" constant="72" id="eXh-zl-HiZ"/>
                             <constraint firstItem="97h-aD-3Z7" firstAttribute="centerX" secondItem="U12-cx-uta" secondAttribute="centerX" id="h8L-M1-Z2F"/>
                             <constraint firstItem="Gfc-WF-3FH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="i1J-qX-rhu"/>
+                            <constraint firstItem="tKg-xS-JTl" firstAttribute="trailing" secondItem="7Zs-ZU-peS" secondAttribute="trailing" id="jzS-R7-fLd"/>
                             <constraint firstItem="U12-cx-uta" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="lpg-gD-5wE"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Gfc-WF-3FH" secondAttribute="trailing" constant="20" id="m2p-Sx-h32"/>
                             <constraint firstItem="7Zs-ZU-peS" firstAttribute="height" secondItem="1tu-ce-tEo" secondAttribute="height" id="pn1-81-44D"/>
+                            <constraint firstItem="tKg-xS-JTl" firstAttribute="top" secondItem="7Zs-ZU-peS" secondAttribute="bottom" constant="19" id="qaA-Ko-Swd"/>
                             <constraint firstItem="R5f-hd-cj8" firstAttribute="top" secondItem="97h-aD-3Z7" secondAttribute="bottom" constant="60" id="qyM-y9-DFP"/>
                             <constraint firstItem="8XK-Ga-C4T" firstAttribute="trailing" secondItem="Gfc-WF-3FH" secondAttribute="trailing" id="rn2-Ae-8mS"/>
                             <constraint firstItem="SAD-K4-JCd" firstAttribute="top" secondItem="UMk-pq-H9F" secondAttribute="bottom" constant="8" symbolic="YES" id="svn-Zn-vir"/>
@@ -156,6 +188,7 @@
                     <connections>
                         <outlet property="field_1" destination="U12-cx-uta" id="I4c-E3-RXw"/>
                         <outlet property="field_2" destination="97h-aD-3Z7" id="agT-bi-Bee"/>
+                        <outlet property="fixedWidthPhoneField" destination="OZL-W4-6fL" id="tjU-81-2Ex"/>
                         <outlet property="floatTextField" destination="SAD-K4-JCd" id="FZg-Bc-19M"/>
                         <outlet property="floatingFieldNoFormatting" destination="EBj-8I-nur" id="RrO-QC-9Hf"/>
                         <outlet property="phoneField" destination="R5f-hd-cj8" id="oOV-4Y-gh6"/>
@@ -175,6 +208,9 @@
         </designable>
     </designables>
     <resources>
+        <namedColor name="BG">
+            <color red="0.7839999794960022" green="0.81199997663497925" blue="0.91299998760223389" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
