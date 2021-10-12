@@ -123,6 +123,54 @@ open class PhoneTextField: FormattingTextField {
         super.draw(rect)
         
         guard showsMask else { return }
+        drawMask()
+    }
+    
+    open override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        guard !showsMask else { return .zero }
+        return super.placeholderRect(forBounds: bounds)
+    }
+    
+    open override func deleteBackward() {
+        guard let range = selectedTextRange, var txt = self.text, txt.count >= prefix.count, selectedTextRange?.start != endOfDocument else {
+            super.deleteBackward()
+            return
+        }
+        
+        let cursorPosition = offset(from: beginningOfDocument, to: range.start)
+        if !"0123456789".contains(txt.prefix(cursorPosition).last!) {
+            txt.remove(at: .init(utf16Offset: cursorPosition - 1, in: txt))
+            txt.remove(at: .init(utf16Offset: cursorPosition - 2, in: txt))
+            setFormattedText(txt)
+            setCursorPosition(offset: cursorPosition - 2)
+            return
+        }
+        
+        super.deleteBackward()
+        setCursorPosition(offset: cursorPosition - 1)
+    }
+    
+    open func setFormattedText(_ text: String) {
+        self.text = formattedText(text: text)
+    }
+}
+
+extension PhoneTextField {
+    
+    private func setCursorPosition(offset: Int) {
+        guard let newPosition = position(from: beginningOfDocument, in: .right, offset: offset) else {return }
+        selectedTextRange = textRange(from: newPosition, to: newPosition)
+    }
+    
+    private func sizeOfText(_ text: String) -> CGSize {
+        return (text as NSString).boundingRect(
+            with: UIScreen.main.bounds.size,
+            options: [.usesFontLeading, .usesLineFragmentOrigin],
+            attributes: [.font : font],
+            context: nil).size
+    }
+    
+    private func drawMask() {
         let text = self.text ?? ""
         
         let phoneMask = phoneMask
@@ -142,26 +190,6 @@ open class PhoneTextField: FormattingTextField {
         )
         
         textToDraw.draw(at: CGPoint(x: 0, y: ((bounds.height - font!.lineHeight) / 2).rounded()))
-    }
-    
-    open func setFormattedText(_ text: String) {
-        self.text = formattedText(text: text)
-    }
-    
-    open override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        guard !showsMask else { return .zero }
-        return super.placeholderRect(forBounds: bounds)
-    }
-}
-
-extension PhoneTextField {
-    
-    private func sizeOfText(_ text: String) -> CGSize {
-        return (text as NSString).boundingRect(
-            with: UIScreen.main.bounds.size,
-            options: [.usesFontLeading, .usesLineFragmentOrigin],
-            attributes: [.font : font],
-            context: nil).size
     }
 }
 
