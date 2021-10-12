@@ -25,9 +25,6 @@ open class FloatingLabelTextField : FormattingTextField {
     public let bottomLabel = UILabel()
     
     ///
-    open var validator: ((String?) -> Bool)?
-    
-    ///
     open var bottomText: String? {
         didSet {
             bottomLabel.text = bottomText
@@ -36,7 +33,7 @@ open class FloatingLabelTextField : FormattingTextField {
     }
     
     /// Color of placeholder label and underline view. Default is `UIColor.lightGray`
-    open var placeholderColor = UIColor.lightGray {
+    open override var placeholderColor: UIColor {
         didSet {
             configurePlaceholderColor()
         }
@@ -186,6 +183,10 @@ open class FloatingLabelTextField : FormattingTextField {
 
     open override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
         .zero
+    }
+    
+    open override func drawExampleMask(rect: CGRect) {
+        // currently its unsupported. Not sure if its really needed. 
     }
 
     open override func editingRect(forBounds bounds: CGRect) -> CGRect {

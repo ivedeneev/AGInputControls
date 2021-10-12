@@ -23,12 +23,6 @@ open class PhoneTextField: FormattingTextField {
         }
     }
     
-    /// Shows example phone number with random digits applying selected phone mask
-    open var showsMask = false
-    
-    /// Color of placeholder. Default is `UIColor.lightGray`
-    open var placeholderColor: UIColor = .lightGray
-    
     private var prefix: String {
         phoneMask.components(separatedBy: " ").first ?? ""
     }
@@ -67,8 +61,22 @@ open class PhoneTextField: FormattingTextField {
         keyboardType = .phonePad
         borderStyle = .none
     }
+    
+    override func didChangeEditing() {
+        var pos = currentPosition()
+        let textCount = text!.count
+        super.didChangeEditing()
+        guard let last = text!.prefix(pos).last else { return }
+        if !"0123456789".contains(last) {
+            pos = pos + 1 // не 1, а количество элементов до первой цифры с конца
+        }
+        if pos < textCount, text!.count > prefix.count {
+            setCursorPosition(offset: pos)
+        }
+    }
 
     open override func formattedText(text: String?) -> String? {
+        
         if let delegate = formattingDelegate {
             return delegate.formatPhoneNumber(for: self)
         }
@@ -103,7 +111,9 @@ open class PhoneTextField: FormattingTextField {
             setNeedsDisplay()
         }
         
-        return t.formattedNumber(mask: phoneMask)
+        let formatted = t.formattedNumber(mask: phoneMask)
+        
+        return formatted
     }
     
     open override func caretRect(for position: UITextPosition) -> CGRect {
@@ -119,63 +129,14 @@ open class PhoneTextField: FormattingTextField {
         return rect
     }
     
-    open override func draw(_ rect: CGRect) {
-        super.draw(rect)
-        
-        guard showsMask else { return }
-        drawMask()
-    }
-    
     open override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
         guard !showsMask else { return .zero }
         return super.placeholderRect(forBounds: bounds)
     }
     
-    open override func deleteBackward() {
-        guard let range = selectedTextRange, var txt = self.text, txt.count >= prefix.count, selectedTextRange?.start != endOfDocument else {
-            super.deleteBackward()
-            return
-        }
-        
-        let cursorPosition = offset(from: beginningOfDocument, to: range.start)
-        if !"0123456789".contains(txt.prefix(cursorPosition).last!) {
-            txt.remove(at: .init(utf16Offset: cursorPosition - 1, in: txt))
-            txt.remove(at: .init(utf16Offset: cursorPosition - 2, in: txt))
-            setFormattedText(txt)
-            setCursorPosition(offset: cursorPosition - 2)
-            return
-        }
-        
-        super.deleteBackward()
-        setCursorPosition(offset: cursorPosition - 1)
-    }
-    
-    open func setFormattedText(_ text: String) {
-        self.text = formattedText(text: text)
-    }
-}
-
-extension PhoneTextField {
-    
-    private func setCursorPosition(offset: Int) {
-        guard let newPosition = position(from: beginningOfDocument, in: .right, offset: offset) else {return }
-        selectedTextRange = textRange(from: newPosition, to: newPosition)
-    }
-    
-    private func sizeOfText(_ text: String) -> CGSize {
-        return (text as NSString).boundingRect(
-            with: UIScreen.main.bounds.size,
-            options: [.usesFontLeading, .usesLineFragmentOrigin],
-            attributes: [.font : font],
-            context: nil).size
-    }
-    
-    private func drawMask() {
+    open override func drawExampleMask(rect: CGRect) {
+        guard let phoneMask = exampleMask else { return }
         let text = self.text ?? ""
-        
-        let phoneMask = phoneMask
-            .replacingOccurrences(of: "XXX", with: "454")
-            .replacingOccurrences(of: "XX", with: "45")
         
         let phone = text + phoneMask.suffix(phoneMask.count - text.count)
         let textToDraw = NSMutableAttributedString(string: phone, attributes: [

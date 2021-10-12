@@ -52,7 +52,7 @@ class ViewController: UIViewController {
         floatTextField.layer.cornerRadius = 8
         
         fixedWidthPhoneField.font = UIFont(name: "Avenir", size: 30)?.monospaced
-        fixedWidthPhoneField.showsMask = true
+        fixedWidthPhoneField.exampleMask = "+7 900 432 89 67"
         fixedWidthPhoneField.phoneMask =  "+7 XXX XXX XX XX"
         
         field_1.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
@@ -60,20 +60,21 @@ class ViewController: UIViewController {
         phoneField.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
 
         floatTextField.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
+        fixedWidthPhoneField.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
         
         floatingFieldNoFormatting.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.15)
         floatingFieldNoFormatting.padding = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     }
     
     @objc private func didChangeEditing(textField: UITextField) {
-//        print(type(of: textField), textField.text)
+        print(type(of: textField), textField.text ?? "NO_TEXT")
         guard let tf = textField as? FloatingLabelTextField else { return }
         tf.bottomText = tf.text!.count % 2 == 0 ? "Incorrect card format" : nil
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        fixedWidthPhoneField.setFormattedText("89153051653")
+//        fixedWidthPhoneField.setFormattedText("89153051653")
     }
 }
 
