@@ -23,6 +23,7 @@ open class PhoneTextField: FormattingTextField {
         }
     }
     
+    /// Current limitation: prefix either contains only digits or only X and +. Otherways behaviour is unspecified
     private var prefix: String {
         phoneMask.components(separatedBy: " ").first ?? ""
     }
@@ -151,6 +152,22 @@ open class PhoneTextField: FormattingTextField {
         )
         
         textToDraw.draw(at: CGPoint(x: 0, y: ((bounds.height - font!.lineHeight) / 2).rounded()))
+    }
+    
+    open override func deleteBackward() {
+        guard let range = selectedTextRange else {
+            super.deleteBackward()
+            return
+        }
+        
+        let cursorPosition = offset(from: beginningOfDocument, to: range.start)
+        
+        if cursorPosition <= prefix.count && !prefix.contains("X") {
+            setCursorPosition(offset: prefix.count)
+            return
+        }
+        
+        super.deleteBackward()
     }
 }
 
