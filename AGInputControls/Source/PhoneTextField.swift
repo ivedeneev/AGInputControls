@@ -189,6 +189,14 @@ extension String {
     }
     
     func digitsOnly() -> String {
-        return components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "")
+        components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "")
+    }
+    
+    func alphanumericsOnly() -> String {
+        components(separatedBy: CharacterSet.alphanumerics.inverted).joined(separator: "")
+    }
+    
+    func alphanumeric() -> String {
+        components(separatedBy: CharacterSet.letters.inverted).joined()
     }
 }

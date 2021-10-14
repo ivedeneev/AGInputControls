@@ -30,6 +30,7 @@ open class FormattingTextField: UITextField {
     }
     
     private func registerTextListener() {
+        borderStyle = .none
         addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
     }
     
@@ -74,13 +75,13 @@ open class FormattingTextField: UITextField {
     open func drawExampleMask(rect: CGRect) {
         guard let mask = exampleMask else { return }
         let text = self.text ?? ""
-        
-        let phone = text + mask.suffix(mask.count - text.count)
-        let textToDraw = NSMutableAttributedString(string: phone, attributes: [
+
+        let _text = text + mask.suffix(mask.count - text.count)
+        let textToDraw = NSMutableAttributedString(string: _text, attributes: [
             .font : font,
             .foregroundColor : placeholderColor
         ])
-        
+
         textToDraw.draw(at: CGPoint(x: 0, y: ((bounds.height - font!.lineHeight) / 2).rounded()))
     }
     
@@ -95,16 +96,21 @@ open class FormattingTextField: UITextField {
     }
     
     open override func deleteBackward() {
-        guard let range = selectedTextRange, var txt = self.text, !txt.isEmpty, selectedTextRange?.start != endOfDocument else {
+        guard
+            let range = selectedTextRange,
+            var txt = self.text,
+            !txt.isEmpty
+                /*, range.start != endOfDocument*/
+        else {
             super.deleteBackward()
             return
         }
         
         let cursorPosition = offset(from: beginningOfDocument, to: range.start)
         
-        if !isDigit(txt.prefix(cursorPosition).last) {
+        if !isValid(txt.prefix(cursorPosition).last) {
             var charsToRemove = 0
-            while !isDigit(txt.prefix(cursorPosition - charsToRemove).last) {
+            while !isValid(txt.prefix(cursorPosition - charsToRemove).last) {
                 charsToRemove += 1
                 txt.remove(at: .init(utf16Offset: cursorPosition - charsToRemove, in: txt))
             }
@@ -117,11 +123,18 @@ open class FormattingTextField: UITextField {
             return
         }
         
+        if !isValid(txt.dropLast().last) {
+            txt.removeLast(2)
+            setFormattedText(txt)
+            setCursorPosition(offset: cursorPosition - 2)
+            return
+        }
+        
         super.deleteBackward()
         setCursorPosition(offset: cursorPosition - 1)
     }
     
-    internal func isDigit(_ ch: Character?) -> Bool {
+    internal func isValid(_ ch: Character?) -> Bool {
         guard let char = ch else { return false }
         return "0123456789".contains(char)
     }

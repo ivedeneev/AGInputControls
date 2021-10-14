@@ -16,6 +16,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var fixedWidthPhoneField: PhoneTextField!
     @IBOutlet weak var floatingFieldNoFormatting: FloatingLabelTextField!
     
+    @IBOutlet weak var lettersField: MaskedTextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -64,6 +66,10 @@ class ViewController: UIViewController {
         
         floatingFieldNoFormatting.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.15)
         floatingFieldNoFormatting.padding = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        
+        lettersField.formattingMask = "L DDD LL DDD"
+        lettersField.exampleMask = "A 123 BB 456"
+        lettersField.font = UIFont(name: "Courier", size: 30)
     }
     
     @objc private func didChangeEditing(textField: UITextField) {
