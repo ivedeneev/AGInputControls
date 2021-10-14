@@ -19,6 +19,27 @@ open class FormattingTextField: UITextField {
     
     internal var showsMask: Bool { exampleMask != nil }
     
+    open override var intrinsicContentSize: CGSize {
+        guard let exampleMask = exampleMask else {
+            return super.intrinsicContentSize
+        }
+        
+        let font_ = font ?? UIFont.systemFont(ofSize: 17)
+        let height = font_.lineHeight
+        let width = sizeOfText(exampleMask).width
+        
+        let caretWidth: CGFloat = caretRect(for: endOfDocument).width
+        
+        return CGSize(width: width + caretWidth, height: height)
+    }
+    
+    open override var font: UIFont? {
+        didSet {
+            minimumFontSize = font?.pointSize ?? 17
+            invalidateIntrinsicContentSize()
+        }
+    }
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         registerTextListener()

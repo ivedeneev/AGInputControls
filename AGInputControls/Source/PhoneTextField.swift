@@ -37,13 +37,6 @@ open class PhoneTextField: FormattingTextField {
         
         return CGSize(width: width + caretWidth, height: height)
     }
-    
-    open override var font: UIFont? {
-        didSet {
-            minimumFontSize = font?.pointSize ?? 20
-            invalidateIntrinsicContentSize()
-        }
-    }
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
