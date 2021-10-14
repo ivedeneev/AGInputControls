@@ -7,9 +7,9 @@
 
 import UIKit
 
-// L - letter
-// D - digit
-// A- any (letter or digit)
+/// L - letter
+/// D - digit
+/// A- any (letter or digit)
 open class MaskedTextField: FormattingTextField {
     
     open override func formattedText(text: String?) -> String? {

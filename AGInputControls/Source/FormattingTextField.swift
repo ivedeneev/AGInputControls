@@ -12,7 +12,9 @@ open class FormattingTextField: UITextField {
     open var formattingMask: String?
     
     ///  Mask to be draw as example. Default is nit and no example mask is drawn. Placeholder is ignored if exaplmeMask is non null
-    open var exampleMask: String?
+    open var exampleMask: String? {
+        didSet { invalidateIntrinsicContentSize() }
+    }
     
     /// Color of placeholder. Default is `UIColor.lightGray`
     open var placeholderColor: UIColor = .lightGray
