@@ -122,7 +122,8 @@ open class FormattingTextField: UITextField {
         guard
             let range = selectedTextRange,
             var txt = self.text,
-            !txt.isEmpty
+            !txt.isEmpty,
+            formattingMask != nil
                 /*, range.start != endOfDocument*/
         else {
             super.deleteBackward()
@@ -133,7 +134,7 @@ open class FormattingTextField: UITextField {
         
         if !isValid(txt.prefix(cursorPosition).last) {
             var charsToRemove = 0
-            while !isValid(txt.prefix(cursorPosition - charsToRemove).last) {
+            while !isValid(txt.prefix(cursorPosition - charsToRemove).last), !txt.isEmpty {
                 charsToRemove += 1
                 txt.remove(at: .init(utf16Offset: cursorPosition - charsToRemove, in: txt))
             }
@@ -146,10 +147,11 @@ open class FormattingTextField: UITextField {
             return
         }
         
-        if !isValid(txt.dropLast().last) {
-            txt.removeLast(2)
+        if !isValid(txt.dropLast().last) { // what if last 2-3 symbols are invalid? is it possible?
+            let numberToDrop = min(txt.count, 2)
+            txt.removeLast(numberToDrop)
             setFormattedText(txt)
-            setCursorPosition(offset: cursorPosition - 2)
+            setCursorPosition(offset: cursorPosition - numberToDrop)
             return
         }
         
@@ -159,7 +161,7 @@ open class FormattingTextField: UITextField {
     
     internal func isValid(_ ch: Character?) -> Bool {
         guard let char = ch else { return false }
-        return "0123456789".contains(char)
+        return char.isNumber
     }
 }
 
