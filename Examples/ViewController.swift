@@ -70,6 +70,18 @@ class ViewController: UIViewController {
         lettersField.formattingMask = "L DDD LL DDD"
         lettersField.exampleMask = "A 123 BB 456"
         lettersField.font = UIFont(name: "Courier", size: 30)
+        
+        let testField = MaskedTextField()
+        testField.formattingMask = "L DDD LL DDD"
+        testField.exampleMask = "A 123 BB 456"
+        testField.font = UIFont(name: "Courier", size: 30)
+        testField.translatesAutoresizingMaskIntoConstraints = false
+        testField.backgroundColor = .darkGray
+        lettersField.superview?.addSubview(testField)
+        NSLayoutConstraint.activate([
+            testField.topAnchor.constraint(equalTo: lettersField.bottomAnchor, constant: 8),
+            testField.centerXAnchor.constraint(equalTo: lettersField.centerXAnchor)
+        ])
     }
     
     @objc private func didChangeEditing(textField: UITextField) {
