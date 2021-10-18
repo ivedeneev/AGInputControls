@@ -18,15 +18,16 @@ open class PhoneTextField: FormattingTextField {
     
     /// Phone format string were X is digit placeholder. Default is `+X (XXX) XXX-XX-XX`
     open var phoneMask: String = "+X (XXX) XXX-XX-XX" {
-        didSet {
-            invalidateIntrinsicContentSize()
-        }
+        didSet { invalidateIntrinsicContentSize() }
     }
     
     /// Current limitation: prefix either contains only digits or only X and +. Otherways behaviour is unspecified
     private var prefix: String {
         phoneMask.components(separatedBy: " ").first ?? ""
     }
+    
+    /// If prefix is fixed user doesnt need to type it.
+    private var highlightPrefix: Bool { !prefix.contains("X") }
     
     open override var intrinsicContentSize: CGSize {
         let font_ = font ?? UIFont.systemFont(ofSize: 17)
@@ -61,7 +62,7 @@ open class PhoneTextField: FormattingTextField {
         let textCount = text!.count
         super.didChangeEditing()
         guard let last = text!.prefix(pos).last else { return }
-        if !"0123456789".contains(last) {
+        if !last.isNumber {
             pos = pos + 1 // не 1, а количество элементов до первой цифры с конца
         }
         if pos < textCount, text!.count > prefix.count {
@@ -103,6 +104,11 @@ open class PhoneTextField: FormattingTextField {
         
         if showsMask {
             setNeedsDisplay()
+            
+            // +7 case is handled above
+            if highlightPrefix && !t.hasPrefix(prefix) && prefix != "+7" {
+                t = prefix + t
+            }
         }
         
         let formatted = t.formattedNumber(mask: phoneMask)
@@ -111,7 +117,7 @@ open class PhoneTextField: FormattingTextField {
     }
     
     open override func caretRect(for position: UITextPosition) -> CGRect {
-        guard showsMask else {
+        guard showsMask, highlightPrefix else {
             return super.caretRect(for: position)
         }
         
@@ -138,11 +144,12 @@ open class PhoneTextField: FormattingTextField {
             .foregroundColor : placeholderColor
         ])
         
-        // highlight prefix
-        textToDraw.addAttributes(
-            [.foregroundColor : textColor],
-            range: .init(location: 0, length: 2)
-        )
+        if highlightPrefix {
+            textToDraw.addAttributes(
+                [.foregroundColor : textColor],
+                range: .init(location: 0, length: prefix.count)
+            )
+        }
         
         textToDraw.draw(at: CGPoint(x: 0, y: ((bounds.height - font!.lineHeight) / 2).rounded()))
     }
@@ -171,7 +178,7 @@ extension String {
         var result = ""
         var index = rawPhone.startIndex
         for ch in mask where index < rawPhone.endIndex {
-            if ch == "X" || "0123456789".contains(ch) {
+            if ch == "X" || ch.isNumber {
                 result.append(rawPhone[index])
                 index = rawPhone.index(after: index)
             } else {

@@ -38,6 +38,7 @@ class ViewController: UIViewController {
         phoneField.backgroundColor = .systemBackground
         phoneField.font = .monospacedDigitSystemFont(ofSize: 30, weight: .light)
         phoneField.phoneMask = "+X (XXX) XXX-XX-XX"
+        phoneField.exampleMask = "+7 (888) 777-66-55"
         phoneField.backgroundColor = UIColor.systemPink.withAlphaComponent(0.1)
         
         floatTextField.placeholder = "Card number"
@@ -57,6 +58,9 @@ class ViewController: UIViewController {
         fixedWidthPhoneField.exampleMask = "+7 900 432 89 67"
         fixedWidthPhoneField.phoneMask =  "+7 XXX XXX XX XX"
         
+        fixedWidthPhoneField.exampleMask = "+31 (0) 20 76 06697"
+        fixedWidthPhoneField.phoneMask =  "+31 (X) XX XX XXXXX"
+        
         field_1.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
         field_2.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
         phoneField.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
@@ -72,8 +76,8 @@ class ViewController: UIViewController {
         lettersField.font = UIFont(name: "Courier", size: 30)
         
         let testField = MaskedTextField()
-        testField.formattingMask = "L DDD LL DDD"
-        testField.exampleMask = "A 123 BB 456"
+        testField.formattingMask = "+D AAA DDD-DD-DD"
+        testField.exampleMask = "+7 L2K 432-89-67"
         testField.font = UIFont(name: "Courier", size: 30)
         testField.translatesAutoresizingMaskIntoConstraints = false
         testField.backgroundColor = .darkGray

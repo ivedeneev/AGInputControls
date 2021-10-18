@@ -13,63 +13,45 @@ import UIKit
 open class MaskedTextField: FormattingTextField {
     
     open override func formattedText(text: String?) -> String? {
-        guard let mask = formattingMask, let t = text, !t.isEmpty else { return text }
+        guard let mask = formattingMask, let t = text else { return text }
+
+        var textRemovingSpecialSymbols = String(t.filter { isValidCharachter($0) })
 
         var result = ""
-        
-        var isSymbolInserted = false
-        var symbol: Character?
-        
-        for (idx, maskSymbol) in mask.enumerated() {
-            
-            let index = t.index(t.startIndex, offsetBy: idx)
-            
-            if idx == t.count {
-                if !(maskSymbol.isLetter || maskSymbol.isNumber), !result.isEmpty, isSymbolInserted {
-                    symbol = maskSymbol
+        var index = textRemovingSpecialSymbols.startIndex
+
+        for ch in mask where index < textRemovingSpecialSymbols.endIndex {
+            let symbolToValidate = textRemovingSpecialSymbols[index]
+            switch ch {
+            case "L", "D", "A":
+                if symbolToValidate.isNumber && ch == "L" || symbolToValidate.isLetter && ch == "D" {
+                    textRemovingSpecialSymbols.remove(at: index)
                 }
-                break
-            }
-            
-            let ch = t[index]
-            
-            switch maskSymbol {
-            case "L":
-                isSymbolInserted = ch.isLetter
-                if ch.isLetter {
-                    result.append(ch)
+                //double check if we are not out of bounds, because we manupulate with string length inside
+                if index >= textRemovingSpecialSymbols.endIndex {
+                    break
                 }
-            case "D":
-                isSymbolInserted = ch.isNumber
-                if ch.isNumber {
-                    result.append(ch)
-                }
-            case "A":
-                isSymbolInserted = ch.isNumber || ch.isLetter
-                if ch.isNumber || ch.isLetter  {
-                    result.append(ch)
-                }
+                
+                result.append(textRemovingSpecialSymbols[index])
+                index = textRemovingSpecialSymbols.index(after: index)
             default:
-                result.append(maskSymbol)
-                isSymbolInserted = true
+                result.append(ch)
             }
-        }
-        
-        if let s = symbol,
-           isSymbolInserted,
-           mask[mask.index(mask.startIndex, offsetBy: result.count)] == s
-        {
-            result.append(s)
         }
         
         if exampleMask != nil {
             setNeedsDisplay()
         }
         
-        return result.uppercased()
+        // consider string which contains only special symbols and spases invalid
+        if result.filter({ $0.isLetter || $0.isNumber }).isEmpty {
+            return nil
+        }
+        
+        return result.uppercased().trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
-    override func isValid(_ ch: Character?) -> Bool {
+    open override func isValidCharachter(_ ch: Character?) -> Bool {
         guard let char = ch else { return false }
         return char.isNumber || char.isLetter
     }

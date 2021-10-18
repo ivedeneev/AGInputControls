@@ -61,10 +61,12 @@ open class FormattingTextField: UITextField {
         var pos = currentPosition()
         let textCount = text!.count
         
-        self.text = formattedText(text: text)
+        let formatted = formattedText(text: text)
+        self.text = formatted
         
         guard let last = text!.prefix(pos).last else { return }
-        if !"0123456789".contains(last) {
+        
+        if !last.isNumber {
             pos = pos + 1 // не 1, а количество элементов до первой цифры с конца
         }
         if pos < textCount {
@@ -132,9 +134,9 @@ open class FormattingTextField: UITextField {
         
         let cursorPosition = offset(from: beginningOfDocument, to: range.start)
         
-        if !isValid(txt.prefix(cursorPosition).last) {
+        if !isValidCharachter(txt.prefix(cursorPosition).last) {
             var charsToRemove = 0
-            while !isValid(txt.prefix(cursorPosition - charsToRemove).last), !txt.isEmpty {
+            while !isValidCharachter(txt.prefix(cursorPosition - charsToRemove).last), !txt.isEmpty {
                 charsToRemove += 1
                 txt.remove(at: .init(utf16Offset: cursorPosition - charsToRemove, in: txt))
             }
@@ -147,8 +149,8 @@ open class FormattingTextField: UITextField {
             return
         }
         
-        if !isValid(txt.dropLast().last) { // what if last 2-3 symbols are invalid? is it possible?
-            let numberToDrop = min(txt.count, 2)
+        if !isValidCharachter(txt.dropLast().last) {
+            let numberToDrop = min(txt.count, 2)  // what if last 2-3 symbols are invalid? is it possible?
             txt.removeLast(numberToDrop)
             setFormattedText(txt)
             setCursorPosition(offset: cursorPosition - numberToDrop)
@@ -159,7 +161,7 @@ open class FormattingTextField: UITextField {
         setCursorPosition(offset: cursorPosition - 1)
     }
     
-    internal func isValid(_ ch: Character?) -> Bool {
+    open func isValidCharachter(_ ch: Character?) -> Bool {
         guard let char = ch else { return false }
         return char.isNumber
     }
