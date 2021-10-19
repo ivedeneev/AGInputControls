@@ -59,12 +59,12 @@ open class FormattingTextField: UITextField {
     
     @objc internal func didChangeEditing() {
         var pos = currentPosition()
-        let textCount = text!.count
+        let textCount = text?.count ?? 0
         
         let formatted = formattedText(text: text)
         self.text = formatted
         
-        guard let last = text!.prefix(pos).last else { return }
+        guard let last = text?.prefix(pos).last else { return }
         
         if !last.isNumber {
             pos = pos + 1 // не 1, а количество элементов до первой цифры с конца
@@ -125,8 +125,8 @@ open class FormattingTextField: UITextField {
             let range = selectedTextRange,
             var txt = self.text,
             !txt.isEmpty,
-            formattingMask != nil
-                /*, range.start != endOfDocument*/
+            formattingMask != nil,
+            range.isEmpty
         else {
             super.deleteBackward()
             return
