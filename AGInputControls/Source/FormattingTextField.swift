@@ -125,14 +125,18 @@ open class FormattingTextField: UITextField {
             let range = selectedTextRange,
             var txt = self.text,
             !txt.isEmpty,
-            formattingMask != nil,
-            range.isEmpty
+            formattingMask != nil
         else {
             super.deleteBackward()
             return
         }
         
         let cursorPosition = offset(from: beginningOfDocument, to: range.start)
+        
+        if !range.isEmpty {
+            setFormattedText(String(txt.prefix(cursorPosition)))
+            return
+        }
         
         if !isValidCharachter(txt.prefix(cursorPosition).last) {
             var charsToRemove = 0
