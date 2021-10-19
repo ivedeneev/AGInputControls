@@ -9,7 +9,9 @@ import UIKit
 
 open class FormattingTextField: UITextField {
     /// Formatting mask. Example: `+X (XXX) XXX-XX-XX` where X is any digit.If mask is not specified textfield acts like normal UITextField. Default is nil
-    open var formattingMask: String?
+    open var formattingMask: String? {
+        didSet { invalidateIntrinsicContentSize() }
+    }
     
     ///  Mask to be draw as example. Default is nit and no example mask is drawn. Placeholder is ignored if exaplmeMask is non null
     open var exampleMask: String? {
@@ -99,6 +101,7 @@ open class FormattingTextField: UITextField {
     
     open func drawExampleMask(rect: CGRect) {
         guard let mask = exampleMask else { return }
+        assert(mask == formattedText(text: mask), "Formatting mask and example mask should be in same format. This is your responsibility as a developer")
         let text = self.text ?? ""
 
         let _text = text + mask.suffix(mask.count - text.count)
@@ -125,7 +128,7 @@ open class FormattingTextField: UITextField {
             let range = selectedTextRange,
             var txt = self.text,
             !txt.isEmpty,
-            formattingMask != nil
+            let formattingMask = self.formattingMask
         else {
             super.deleteBackward()
             return
@@ -133,7 +136,7 @@ open class FormattingTextField: UITextField {
         
         let cursorPosition = offset(from: beginningOfDocument, to: range.start)
         
-        if !range.isEmpty {
+        if !range.isEmpty && !(formattingMask.contains("L") || formattingMask.contains("A")) {
             setFormattedText(String(txt.prefix(cursorPosition)))
             return
         }
