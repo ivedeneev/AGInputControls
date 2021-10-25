@@ -24,7 +24,7 @@ open class PhoneTextField: FormattingTextField {
     /// Current limitation: prefix either contains only digits or only X and +. Otherways behaviour is unspecified
     internal override var prefix: String {
         guard let separator = phoneMask.first(
-            where: { !($0.isNumber || $0.isLetter || $0 == "+") }
+            where: { !($0.isNumber || $0 == "+" || $0 == "#") }
         ) else {
             return ""
         }

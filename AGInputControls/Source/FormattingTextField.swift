@@ -26,13 +26,13 @@ open class FormattingTextField: UITextField {
     internal var showsMask: Bool { exampleMask != nil }
     
     internal var prefix: String {
-        guard let separator = formattingMask?.first(where: { !($0.isNumber || $0.isLetter) }) else { return "" }
+        guard let separator = formattingMask?.first(where: { !("#?*".contains($0) || $0.isLetter || $0.isNumber) }) else { return "" }
         
         return formattingMask?.components(separatedBy: String(separator)).first ?? ""
     }
     
     internal var hasConstantPrefix: Bool {
-        self.prefix.first(where: { "#?*".contains($0) }) == nil && !self.prefix.isEmpty
+        prefix.first(where: { "#?*".contains($0) }) == nil && !self.prefix.isEmpty
     }
     
     //MARK: Overriden properties
@@ -173,7 +173,8 @@ open class FormattingTextField: UITextField {
     open func drawExampleMask(rect: CGRect) {
         guard let mask = exampleMask else { return }
         
-        assert(mask == formattedText(text: mask), "Formatting mask and example mask should be in same format. This is your responsibility as a developer")
+//        assert(mask == formattedText(text: mask), "Formatting mask and example mask should be in same format. This is your responsibility as a developer")
+//        assert(prefix.first(where: { $0.isLetter || $0.isNumber }) == nil || hasConstantPrefix, "You cannot have 'semi constant' prefixes at this point ")
         
         let text = self.text ?? ""
 

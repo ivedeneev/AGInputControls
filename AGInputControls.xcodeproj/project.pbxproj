@@ -22,6 +22,8 @@
 		D6A6F5EE2684BD9B00157970 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6A6F5EC2684BD9B00157970 /* LaunchScreen.storyboard */; };
 		D6ABBDAF2726B5920064473E /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ABBDAE2726B5920064473E /* String+Extension.swift */; };
 		D6ABBDB22726C8E00064473E /* FormattingTextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ABBDB12726C8E00064473E /* FormattingTextField+Extension.swift */; };
+		D6ABBDB42726E4BE0064473E /* PhoneNumberFieldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ABBDB32726E4BE0064473E /* PhoneNumberFieldTests.swift */; };
+		D6ABBDB62726EA260064473E /* FormattingFieldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ABBDB52726EA260064473E /* FormattingFieldTests.swift */; };
 		D6C9B7D22684DE9A00F08CAA /* AGInputControls.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A6F5B92684BC9700157970 /* AGInputControls.framework */; };
 		D6C9B7D32684DE9A00F08CAA /* AGInputControls.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D6A6F5B92684BC9700157970 /* AGInputControls.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D6C9B7DC2685F65600F08CAA /* PhoneTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C9B7DB2685F65600F08CAA /* PhoneTextField.swift */; };
@@ -79,6 +81,8 @@
 		D6A6F5EF2684BD9B00157970 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D6ABBDAE2726B5920064473E /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		D6ABBDB12726C8E00064473E /* FormattingTextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FormattingTextField+Extension.swift"; sourceTree = "<group>"; };
+		D6ABBDB32726E4BE0064473E /* PhoneNumberFieldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberFieldTests.swift; sourceTree = "<group>"; };
+		D6ABBDB52726EA260064473E /* FormattingFieldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattingFieldTests.swift; sourceTree = "<group>"; };
 		D6C9B7DB2685F65600F08CAA /* PhoneTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -159,6 +163,8 @@
 			children = (
 				D6A6F5C72684BC9700157970 /* AGInputControlsTests.swift */,
 				D6A6F5C92684BC9700157970 /* Info.plist */,
+				D6ABBDB32726E4BE0064473E /* PhoneNumberFieldTests.swift */,
+				D6ABBDB52726EA260064473E /* FormattingFieldTests.swift */,
 			);
 			path = AGInputControlsTests;
 			sourceTree = "<group>";
@@ -340,7 +346,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6ABBDB42726E4BE0064473E /* PhoneNumberFieldTests.swift in Sources */,
 				D6A6F5C82684BC9700157970 /* AGInputControlsTests.swift in Sources */,
+				D6ABBDB62726EA260064473E /* FormattingFieldTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
