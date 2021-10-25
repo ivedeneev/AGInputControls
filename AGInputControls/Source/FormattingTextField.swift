@@ -8,7 +8,6 @@
 import UIKit
 
 open class FormattingTextField: UITextField {
-    /// Formatting mask. Example: `+X (XXX) XXX-XX-XX` where X is any digit.If mask is not specified textfield acts like normal UITextField. Default is nil
     open var formattingMask: String? {
         didSet { invalidateIntrinsicContentSize() }
     }
@@ -22,6 +21,16 @@ open class FormattingTextField: UITextField {
     open var placeholderColor: UIColor = .lightGray
     
     internal var showsMask: Bool { exampleMask != nil }
+    
+    internal var prefix: String {
+        guard let separator = formattingMask?.first(where: { !($0.isNumber || $0.isLetter) }) else { return "" }
+        
+        return formattingMask?.components(separatedBy: String(separator)).first ?? ""
+    }
+    
+    internal var hasConstantPrefix: Bool {
+        !self.prefix.contains("X") && !self.prefix.isEmpty
+    }
     
     open override var intrinsicContentSize: CGSize {
         guard let exampleMask = exampleMask else {
@@ -55,7 +64,7 @@ open class FormattingTextField: UITextField {
     }
     
     private func registerTextListener() {
-        borderStyle = .none
+        borderStyle = .none // This is important. bordered style adds its own la
         addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
     }
     
@@ -99,25 +108,23 @@ open class FormattingTextField: UITextField {
         drawExampleMask(rect: rect)
     }
     
-    open func drawExampleMask(rect: CGRect) {
-        guard let mask = exampleMask else { return }
-        assert(mask == formattedText(text: mask), "Formatting mask and example mask should be in same format. This is your responsibility as a developer")
-        let text = self.text ?? ""
-
-        let _text = text + mask.suffix(mask.count - text.count)
-        let textToDraw = NSMutableAttributedString(string: _text, attributes: [
-            .font : font,
-            .foregroundColor : placeholderColor
-        ])
-
-        textToDraw.draw(at: CGPoint(x: 0, y: ((bounds.height - font!.lineHeight) / 2).rounded()))
-    }
-    
     open override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
         guard !showsMask else { return .zero }
         return super.placeholderRect(forBounds: bounds)
     }
     
+    open override func caretRect(for position: UITextPosition) -> CGRect {
+        guard showsMask, hasConstantPrefix else {
+            return super.caretRect(for: position)
+        }
+        
+        var rect = super.caretRect(for: position)
+        if text?.isEmpty ?? true {
+            rect.origin.x += sizeOfText(prefix).width
+            return rect
+        }
+        return rect
+    }
     
     open func setFormattedText(_ text: String) {
         self.text = formattedText(text: text)
@@ -136,7 +143,7 @@ open class FormattingTextField: UITextField {
         
         let cursorPosition = offset(from: beginningOfDocument, to: range.start)
         
-        if !range.isEmpty && !(formattingMask.contains("L") || formattingMask.contains("A")) {
+        if !range.isEmpty/* && !(formattingMask.contains("L") || formattingMask.contains("A"))*/ {
             setFormattedText(String(txt.prefix(cursorPosition)))
             return
         }
@@ -172,8 +179,30 @@ open class FormattingTextField: UITextField {
         guard let char = ch else { return false }
         return char.isNumber
     }
+    
+    open func drawExampleMask(rect: CGRect) {
+        guard let mask = exampleMask else { return }
+        assert(mask == formattedText(text: mask), "Formatting mask and example mask should be in same format. This is your responsibility as a developer")
+        let text = self.text ?? ""
+
+        let _text = text + mask.suffix(mask.count - text.count)
+        let textToDraw = NSMutableAttributedString(string: _text, attributes: [
+            .font : font,
+            .foregroundColor : placeholderColor
+        ])
+        
+            if hasConstantPrefix {
+                textToDraw.addAttributes(
+                    [.foregroundColor : textColor],
+                    range: .init(location: 0, length: prefix.count)
+                )
+            }
+
+        textToDraw.draw(at: CGPoint(x: 0, y: ((bounds.height - font!.lineHeight) / 2).rounded()))
+    }
 }
 
+//MARK: Helper methods
 extension FormattingTextField {
     
     internal func setCursorPosition(offset: Int) {

@@ -76,11 +76,13 @@ class ViewController: UIViewController {
         lettersField.font = UIFont(name: "Courier", size: 30)
         
         let testField = MaskedTextField()
-        testField.formattingMask = "+D AAA DDD-DD-DD"
-        testField.exampleMask = "+7 L2K 432-89-67"
+//        testField.formattingMask = "123 DDDDDDDDDD"
+//        testField.exampleMask = "123 1234567890"
+        testField.formattingMask = "XYZ DDDDDDDDDD"
+        testField.exampleMask = "XYZ 1234567890"
         testField.font = UIFont(name: "Courier", size: 30)
         testField.translatesAutoresizingMaskIntoConstraints = false
-        testField.backgroundColor = .darkGray
+        testField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
         lettersField.superview?.addSubview(testField)
         NSLayoutConstraint.activate([
             testField.topAnchor.constraint(equalTo: lettersField.bottomAnchor, constant: 8),

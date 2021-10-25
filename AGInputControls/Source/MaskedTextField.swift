@@ -17,9 +17,19 @@ open class MaskedTextField: FormattingTextField {
 
         var textRemovingSpecialSymbols = String(t.filter { isValidCharachter($0) })
 
+        // insert prefix if its constant
+        if hasConstantPrefix,
+           !textRemovingSpecialSymbols.hasPrefix(self.prefix) {
+            textRemovingSpecialSymbols.insert(
+                contentsOf: self.prefix,
+                at: textRemovingSpecialSymbols.startIndex
+            )
+        }
+        
         var result = ""
-        var index = textRemovingSpecialSymbols.startIndex
-
+        var index = hasConstantPrefix ?
+        textRemovingSpecialSymbols.index(textRemovingSpecialSymbols.startIndex, offsetBy: self.prefix.count) :
+        textRemovingSpecialSymbols.startIndex
         for ch in mask where index < textRemovingSpecialSymbols.endIndex {
             let symbolToValidate = textRemovingSpecialSymbols[index]
             switch ch {
@@ -54,5 +64,9 @@ open class MaskedTextField: FormattingTextField {
     open override func isValidCharachter(_ ch: Character?) -> Bool {
         guard let char = ch else { return false }
         return char.isNumber || char.isLetter
+    }
+    
+    internal override var hasConstantPrefix: Bool {
+        self.prefix.first(where: { "ADL".contains($0) }) == nil && !self.prefix.isEmpty
     }
 }

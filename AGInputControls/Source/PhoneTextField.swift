@@ -22,12 +22,18 @@ open class PhoneTextField: FormattingTextField {
     }
     
     /// Current limitation: prefix either contains only digits or only X and +. Otherways behaviour is unspecified
-    private var prefix: String {
-        phoneMask.components(separatedBy: " ").first ?? ""
+    internal override var prefix: String {
+        guard let separator = phoneMask.first(
+            where: { !($0.isNumber || $0.isLetter || $0 == "+") }
+        ) else {
+            return ""
+        }
+        
+        return phoneMask.components(separatedBy: String(separator)).first ?? ""
     }
     
     /// If prefix is fixed user doesnt need to type it.
-    private var highlightPrefix: Bool { !prefix.contains("X") }
+    private var highlightPrefix: Bool { hasConstantPrefix }
     
     open override var intrinsicContentSize: CGSize {
         let font_ = font ?? UIFont.systemFont(ofSize: 17)
@@ -116,44 +122,6 @@ open class PhoneTextField: FormattingTextField {
         return formatted
     }
     
-    open override func caretRect(for position: UITextPosition) -> CGRect {
-        guard showsMask, highlightPrefix else {
-            return super.caretRect(for: position)
-        }
-        
-        var rect = super.caretRect(for: position)
-        if text?.isEmpty ?? true {
-            rect.origin.x += sizeOfText(prefix).width
-            return rect
-        }
-        return rect
-    }
-    
-    open override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        guard !showsMask else { return .zero }
-        return super.placeholderRect(forBounds: bounds)
-    }
-    
-    open override func drawExampleMask(rect: CGRect) {
-        guard let phoneMask = exampleMask else { return }
-        let text = self.text ?? ""
-        
-        let phone = text + phoneMask.suffix(phoneMask.count - text.count)
-        let textToDraw = NSMutableAttributedString(string: phone, attributes: [
-            .font : font,
-            .foregroundColor : placeholderColor
-        ])
-        
-        if highlightPrefix {
-            textToDraw.addAttributes(
-                [.foregroundColor : textColor],
-                range: .init(location: 0, length: prefix.count)
-            )
-        }
-        
-        textToDraw.draw(at: CGPoint(x: 0, y: ((bounds.height - font!.lineHeight) / 2).rounded()))
-    }
-    
     open override func deleteBackward() {
         guard let range = selectedTextRange else {
             super.deleteBackward()
@@ -162,41 +130,11 @@ open class PhoneTextField: FormattingTextField {
         
         let cursorPosition = offset(from: beginningOfDocument, to: range.start)
         
-        if cursorPosition <= prefix.count && !prefix.contains("X") {
+        if cursorPosition <= prefix.count && hasConstantPrefix {
             setCursorPosition(offset: prefix.count)
             return
         }
         
         super.deleteBackward()
-    }
-}
-
-extension String {
-    func formattedNumber(mask: String) -> String {
-        let rawPhone = digitsOnly()
-
-        var result = ""
-        var index = rawPhone.startIndex
-        for ch in mask where index < rawPhone.endIndex {
-            if ch == "X" || ch.isNumber {
-                result.append(rawPhone[index])
-                index = rawPhone.index(after: index)
-            } else {
-                result.append(ch)
-            }
-        }
-        return result
-    }
-    
-    func digitsOnly() -> String {
-        components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "")
-    }
-    
-    func alphanumericsOnly() -> String {
-        components(separatedBy: CharacterSet.alphanumerics.inverted).joined(separator: "")
-    }
-    
-    func alphanumeric() -> String {
-        components(separatedBy: CharacterSet.letters.inverted).joined()
     }
 }
