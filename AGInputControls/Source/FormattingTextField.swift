@@ -216,9 +216,14 @@ open class FormattingTextField: UITextField {
             let symbolToValidate = textRemovingSpecialSymbols[index]
             switch ch {
             case "*", "#", "?":
-                if symbolToValidate.isNumber && ch == "*" || symbolToValidate.isLetter && ch == "#" {
+                while // trim 'bad' charachters
+                    index < textRemovingSpecialSymbols.endIndex &&
+                        (textRemovingSpecialSymbols[index].isNumber && ch == "*" ||
+                         textRemovingSpecialSymbols[index].isLetter && ch == "#")
+                {
                     textRemovingSpecialSymbols.remove(at: index)
                 }
+                
                 //double check if we are not out of bounds, because we manupulate with string length inside
                 if index >= textRemovingSpecialSymbols.endIndex {
                     break

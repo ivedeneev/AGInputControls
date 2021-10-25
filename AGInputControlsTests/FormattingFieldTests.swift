@@ -27,4 +27,12 @@ class FormattingFieldTests: XCTestCase {
         textField.formattingMask = "*/* **########"
         XCTAssertEqual(textField.prefix, "*")
     }
+    
+    func testFormatting() {
+        textField.formattingMask = "XYZ **########"
+        
+        XCTAssertEqual(textField.formattedText(text: "XYZLD443"), "XYZ LD443")
+        XCTAssertEqual(textField.formattedText(text: "XYZ443"), "XYZ")
+        XCTAssertEqual(textField.formattedText(text: "XYZ "), "XYZ")
+    }
 }
