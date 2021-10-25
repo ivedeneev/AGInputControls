@@ -14,7 +14,7 @@ extension String {
         var result = ""
         var index = rawPhone.startIndex
         for ch in mask where index < rawPhone.endIndex {
-            if ch == "X" || ch.isNumber {
+            if ch == "#" || ch.isNumber {
                 result.append(rawPhone[index])
                 index = rawPhone.index(after: index)
             } else {

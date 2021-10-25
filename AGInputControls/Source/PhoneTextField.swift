@@ -17,8 +17,8 @@ open class PhoneTextField: FormattingTextField {
     weak var formattingDelegate: PhoneTextFieldFormattingDelegate?
     
     /// Phone format string were X is digit placeholder. Default is `+X (XXX) XXX-XX-XX`
-    open var phoneMask: String = "+X (XXX) XXX-XX-XX" {
-        didSet { invalidateIntrinsicContentSize() }
+    open var phoneMask: String = "+# (###) ###-##-##" {
+        didSet { formattingMask = phoneMask }
     }
     
     /// Current limitation: prefix either contains only digits or only X and +. Otherways behaviour is unspecified
@@ -32,14 +32,10 @@ open class PhoneTextField: FormattingTextField {
         return phoneMask.components(separatedBy: String(separator)).first ?? ""
     }
     
-    internal override var hasConstantPrefix: Bool {
-        !self.prefix.contains("X") && !self.prefix.isEmpty
-    }
-    
     open override var intrinsicContentSize: CGSize {
         let font_ = font ?? UIFont.systemFont(ofSize: 17)
         let height = font_.lineHeight
-        let width = sizeOfText(phoneMask.replacingOccurrences(of: "X", with: "0")).width
+        let width = sizeOfText(phoneMask.replacingOccurrences(of: "#", with: "0")).width
         
         let caretWidth: CGFloat = caretRect(for: endOfDocument).width
         
@@ -91,7 +87,7 @@ open class PhoneTextField: FormattingTextField {
                 if !showsMask {
                     t = prefix + t.dropFirst()
                 } else {
-                    t = t.count == phoneMask.filter { "0123456789X".contains($0) }.count ? prefix + t.dropFirst() : prefix + t
+                    t = t.count == phoneMask.filter { "0123456789#".contains($0) }.count ? prefix + t.dropFirst() : prefix + t
                 }
             case "9":
                 t = prefix + t

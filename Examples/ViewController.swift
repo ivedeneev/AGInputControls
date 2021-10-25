@@ -37,15 +37,14 @@ class ViewController: UIViewController {
         
         phoneField.backgroundColor = .systemBackground
         phoneField.font = .monospacedDigitSystemFont(ofSize: 30, weight: .light)
-        phoneField.phoneMask = "+X (XXX) XXX-XX-XX"
+        phoneField.phoneMask = "+# (###) ###-##-##"
         phoneField.exampleMask = "+7 (888) 777-66-55"
         phoneField.backgroundColor = UIColor.systemPink.withAlphaComponent(0.1)
         
         floatTextField.placeholder = "Card number"
         floatTextField.tintColor = .systemPink
         floatTextField.backgroundColor = .white
-        floatTextField.formattingMask = "DDDD DDDD DDDD DDDD"
-        //! @ # $ % ^ & * ( ) _ + ? > < ~
+        floatTextField.formattingMask = "#### #### #### ####"
         floatTextField.font = .monospacedDigitSystemFont(ofSize: 18, weight: .regular)
         floatTextField.minimumFontSize = 36
         floatTextField.padding = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
@@ -57,10 +56,10 @@ class ViewController: UIViewController {
         
         fixedWidthPhoneField.font = UIFont(name: "Avenir", size: 30)?.monospaced
         fixedWidthPhoneField.exampleMask = "+7 900 432 89 67"
-        fixedWidthPhoneField.phoneMask =  "+7 XXX XXX XX XX"
+        fixedWidthPhoneField.phoneMask =  "+7 ### ### ## ##"
         
         fixedWidthPhoneField.exampleMask = "+31 (0) 20 76 06697"
-        fixedWidthPhoneField.phoneMask =  "+31 (X) XX XX XXXXX"
+        fixedWidthPhoneField.phoneMask =  "+31 (#) ## ## #####"
         
         field_1.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
         field_2.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
@@ -72,14 +71,15 @@ class ViewController: UIViewController {
         floatingFieldNoFormatting.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.15)
         floatingFieldNoFormatting.padding = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         
-        lettersField.formattingMask = "L DDD LL DDD"
+        lettersField.formattingMask = "* ### ** ###"
         lettersField.exampleMask = "A 123 BB 456"
+        lettersField.backgroundColor = UIColor.systemYellow.withAlphaComponent(0.25)
         lettersField.font = UIFont(name: "Courier", size: 30)
         
         let testField = FormattingTextField()
 //        testField.formattingMask = "123 DDDDDDDDDD"
 //        testField.exampleMask = "123 1234567890"
-        testField.formattingMask = "XYZ LLDDDDDDDD"
+        testField.formattingMask = "XYZ **########"
         testField.exampleMask = "XYZ AB34567890"
         testField.font = UIFont(name: "Courier", size: 30)
         testField.translatesAutoresizingMaskIntoConstraints = false

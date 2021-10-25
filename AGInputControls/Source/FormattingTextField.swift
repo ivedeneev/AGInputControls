@@ -10,10 +10,10 @@ import UIKit
 open class FormattingTextField: UITextField {
     //MARK: Public properties
     /// Formatting mask.
-    /// L - letter
-    /// D - digit
-    /// A- any (letter or digit)
-    /// Example: `LLL DD L D` stands for `ABC 12 D 3`
+    /// * - letter
+    /// # - digit
+    /// ?- any (letter or digit)
+    /// Example: `*** ## * #` stands for `ABC 12 D 3`
     open var formattingMask: String? { didSet { invalidateIntrinsicContentSize() } }
     
     ///  Mask to be draw as example. Default is nil and no example mask is drawn. Placeholder is ignored if exaplmeMask is non nil
@@ -32,7 +32,7 @@ open class FormattingTextField: UITextField {
     }
     
     internal var hasConstantPrefix: Bool {
-        self.prefix.first(where: { "ADL".contains($0) }) == nil && !self.prefix.isEmpty
+        self.prefix.first(where: { "#?*".contains($0) }) == nil && !self.prefix.isEmpty
     }
     
     //MARK: Overriden properties
@@ -128,7 +128,7 @@ open class FormattingTextField: UITextField {
         
         let cursorPosition = offset(from: beginningOfDocument, to: range.start)
         
-        if !range.isEmpty/* && !(formattingMask.contains("L") || formattingMask.contains("A"))*/ {
+        if !range.isEmpty/* && !(formattingMask.contains("*") || formattingMask.contains("?"))*/ {
             setFormattedText(String(txt.prefix(cursorPosition)))
             return
         }
@@ -214,8 +214,8 @@ open class FormattingTextField: UITextField {
         for ch in mask where index < textRemovingSpecialSymbols.endIndex {
             let symbolToValidate = textRemovingSpecialSymbols[index]
             switch ch {
-            case "L", "D", "A":
-                if symbolToValidate.isNumber && ch == "L" || symbolToValidate.isLetter && ch == "D" {
+            case "*", "#", "?":
+                if symbolToValidate.isNumber && ch == "*" || symbolToValidate.isLetter && ch == "#" {
                     textRemovingSpecialSymbols.remove(at: index)
                 }
                 //double check if we are not out of bounds, because we manupulate with string length inside
