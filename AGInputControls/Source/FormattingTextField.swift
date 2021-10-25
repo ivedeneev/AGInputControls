@@ -8,18 +8,21 @@
 import UIKit
 
 open class FormattingTextField: UITextField {
-    open var formattingMask: String? {
-        didSet { invalidateIntrinsicContentSize() }
-    }
+    //MARK: Public properties
+    /// Formatting mask.
+    /// L - letter
+    /// D - digit
+    /// A- any (letter or digit)
+    /// Example: `LLL DD L D` stands for `ABC 12 D 3`
+    open var formattingMask: String? { didSet { invalidateIntrinsicContentSize() } }
     
-    ///  Mask to be draw as example. Default is nit and no example mask is drawn. Placeholder is ignored if exaplmeMask is non null
-    open var exampleMask: String? {
-        didSet { invalidateIntrinsicContentSize() }
-    }
+    ///  Mask to be draw as example. Default is nil and no example mask is drawn. Placeholder is ignored if exaplmeMask is non nil
+    open var exampleMask: String? { didSet { invalidateIntrinsicContentSize() } }
     
     /// Color of placeholder. Default is `UIColor.lightGray`
     open var placeholderColor: UIColor = .lightGray
     
+    //MARK: Internal properties
     internal var showsMask: Bool { exampleMask != nil }
     
     internal var prefix: String {
@@ -29,9 +32,10 @@ open class FormattingTextField: UITextField {
     }
     
     internal var hasConstantPrefix: Bool {
-        !self.prefix.contains("X") && !self.prefix.isEmpty
+        self.prefix.first(where: { "ADL".contains($0) }) == nil && !self.prefix.isEmpty
     }
     
+    //MARK: Overriden properties
     open override var intrinsicContentSize: CGSize {
         guard let exampleMask = exampleMask else {
             return super.intrinsicContentSize
@@ -53,20 +57,22 @@ open class FormattingTextField: UITextField {
         }
     }
     
+    //MARK: Init and setup methods
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        registerTextListener()
+        setup()
     }
     
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
-        registerTextListener()
+        setup()
     }
     
-    private func registerTextListener() {
-        borderStyle = .none // This is important. bordered style adds its own la
+    private func setup() {
+        borderStyle = .none // This is important. bordered style adds its own layer so we cant draw example mask at this point. This behaviour may change in future
         addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
     }
+    
     
     @objc internal func didChangeEditing() {
         var pos = currentPosition()
@@ -85,24 +91,7 @@ open class FormattingTextField: UITextField {
         }
     }
     
-    open func formattedText(text: String?) -> String? {
-        guard let mask = formattingMask, let t = text else { return text }
-
-        let textRemovingAllButDigits = t.digitsOnly()
-
-        var result = ""
-        var index = textRemovingAllButDigits.startIndex
-        for ch in mask where index < textRemovingAllButDigits.endIndex {
-            if ch == "X" {
-                result.append(textRemovingAllButDigits[index])
-                index = textRemovingAllButDigits.index(after: index)
-            } else {
-                result.append(ch)
-            }
-        }
-        return result
-    }
-    
+    //MARK: UITextField methods overrides
     open override func draw(_ rect: CGRect) {
         super.draw(rect)
         drawExampleMask(rect: rect)
@@ -124,10 +113,6 @@ open class FormattingTextField: UITextField {
             return rect
         }
         return rect
-    }
-    
-    open func setFormattedText(_ text: String) {
-        self.text = formattedText(text: text)
     }
     
     open override func deleteBackward() {
@@ -175,14 +160,21 @@ open class FormattingTextField: UITextField {
         setCursorPosition(offset: cursorPosition - 1)
     }
     
+    //MARK: Public methods
+    open func setFormattedText(_ text: String) {
+        self.text = formattedText(text: text)
+    }
+
     open func isValidCharachter(_ ch: Character?) -> Bool {
         guard let char = ch else { return false }
-        return char.isNumber
+        return char.isNumber || char.isLetter
     }
     
     open func drawExampleMask(rect: CGRect) {
         guard let mask = exampleMask else { return }
+        
         assert(mask == formattedText(text: mask), "Formatting mask and example mask should be in same format. This is your responsibility as a developer")
+        
         let text = self.text ?? ""
 
         let _text = text + mask.suffix(mask.count - text.count)
@@ -200,26 +192,53 @@ open class FormattingTextField: UITextField {
 
         textToDraw.draw(at: CGPoint(x: 0, y: ((bounds.height - font!.lineHeight) / 2).rounded()))
     }
-}
+    
+    open func formattedText(text: String?) -> String? {
+        guard let mask = formattingMask, let t = text else { return text }
 
-//MARK: Helper methods
-extension FormattingTextField {
-    
-    internal func setCursorPosition(offset: Int) {
-        guard let newPosition = position(from: beginningOfDocument, in: .right, offset: offset) else {return }
-        selectedTextRange = textRange(from: newPosition, to: newPosition)
-    }
-    
-    internal func currentPosition() -> Int {
-        guard let range = selectedTextRange else { return 0 }
-        return offset(from: beginningOfDocument, to: range.start)
-    }
-    
-    internal func sizeOfText(_ text: String) -> CGSize {
-        return (text as NSString).boundingRect(
-            with: UIScreen.main.bounds.size,
-            options: [.usesFontLeading, .usesLineFragmentOrigin],
-            attributes: [.font : font],
-            context: nil).size
+        var textRemovingSpecialSymbols = String(t.filter { isValidCharachter($0) })
+
+        // insert prefix if its constant
+        if hasConstantPrefix,
+           !textRemovingSpecialSymbols.hasPrefix(self.prefix) {
+            textRemovingSpecialSymbols.insert(
+                contentsOf: self.prefix,
+                at: textRemovingSpecialSymbols.startIndex
+            )
+        }
+        
+        var result = ""
+        var index = hasConstantPrefix ?
+        textRemovingSpecialSymbols.index(textRemovingSpecialSymbols.startIndex, offsetBy: self.prefix.count) :
+        textRemovingSpecialSymbols.startIndex
+        for ch in mask where index < textRemovingSpecialSymbols.endIndex {
+            let symbolToValidate = textRemovingSpecialSymbols[index]
+            switch ch {
+            case "L", "D", "A":
+                if symbolToValidate.isNumber && ch == "L" || symbolToValidate.isLetter && ch == "D" {
+                    textRemovingSpecialSymbols.remove(at: index)
+                }
+                //double check if we are not out of bounds, because we manupulate with string length inside
+                if index >= textRemovingSpecialSymbols.endIndex {
+                    break
+                }
+                
+                result.append(textRemovingSpecialSymbols[index])
+                index = textRemovingSpecialSymbols.index(after: index)
+            default:
+                result.append(ch)
+            }
+        }
+        
+        if exampleMask != nil {
+            setNeedsDisplay()
+        }
+        
+        // consider string which contains only special symbols and spases invalid
+        if result.filter({ $0.isLetter || $0.isNumber }).isEmpty {
+            return nil
+        }
+        
+        return result.uppercased().trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }

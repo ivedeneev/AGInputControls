@@ -27,8 +27,8 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QQG-4o-0Dp" userLabel="letters">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="120"/>
                                                 <subviews>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J9b-2i-JFx" customClass="MaskedTextField" customModule="AGInputControls">
-                                                        <rect key="frame" x="171" y="36.5" width="32" height="34"/>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J9b-2i-JFx" customClass="FormattingTextField" customModule="AGInputControls">
+                                                        <rect key="frame" x="8" y="36.5" width="358" height="34"/>
                                                         <color key="backgroundColor" name="BG"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
@@ -49,6 +49,8 @@
                                                     <constraint firstAttribute="height" constant="120" id="Ohf-Pc-WR0"/>
                                                     <constraint firstItem="8ku-ad-zPn" firstAttribute="leading" secondItem="5bH-sC-4Ki" secondAttribute="leading" id="Wbm-6J-QKG"/>
                                                     <constraint firstItem="8ku-ad-zPn" firstAttribute="top" secondItem="5bH-sC-4Ki" secondAttribute="top" constant="8" id="frd-wB-U4R"/>
+                                                    <constraint firstItem="J9b-2i-JFx" firstAttribute="leading" secondItem="5bH-sC-4Ki" secondAttribute="leading" constant="8" id="iGP-Tz-WAx"/>
+                                                    <constraint firstItem="5bH-sC-4Ki" firstAttribute="trailing" secondItem="J9b-2i-JFx" secondAttribute="trailing" constant="8" id="wxX-51-Ljd"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tKg-xS-JTl" userLabel="phone_fixed_width_bg">

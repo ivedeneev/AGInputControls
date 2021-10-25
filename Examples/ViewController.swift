@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var fixedWidthPhoneField: PhoneTextField!
     @IBOutlet weak var floatingFieldNoFormatting: FloatingLabelTextField!
     
-    @IBOutlet weak var lettersField: MaskedTextField!
+    @IBOutlet weak var lettersField: FormattingTextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +44,8 @@ class ViewController: UIViewController {
         floatTextField.placeholder = "Card number"
         floatTextField.tintColor = .systemPink
         floatTextField.backgroundColor = .white
-        floatTextField.formattingMask = "XXXX XXXX XXXX XXXX"
+        floatTextField.formattingMask = "DDDD DDDD DDDD DDDD"
+        //! @ # $ % ^ & * ( ) _ + ? > < ~
         floatTextField.font = .monospacedDigitSystemFont(ofSize: 18, weight: .regular)
         floatTextField.minimumFontSize = 36
         floatTextField.padding = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
@@ -75,11 +76,11 @@ class ViewController: UIViewController {
         lettersField.exampleMask = "A 123 BB 456"
         lettersField.font = UIFont(name: "Courier", size: 30)
         
-        let testField = MaskedTextField()
+        let testField = FormattingTextField()
 //        testField.formattingMask = "123 DDDDDDDDDD"
 //        testField.exampleMask = "123 1234567890"
-        testField.formattingMask = "XYZ DDDDDDDDDD"
-        testField.exampleMask = "XYZ 1234567890"
+        testField.formattingMask = "XYZ LLDDDDDDDD"
+        testField.exampleMask = "XYZ AB34567890"
         testField.font = UIFont(name: "Courier", size: 30)
         testField.translatesAutoresizingMaskIntoConstraints = false
         testField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)

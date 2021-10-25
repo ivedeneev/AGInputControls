@@ -32,8 +32,9 @@ open class PhoneTextField: FormattingTextField {
         return phoneMask.components(separatedBy: String(separator)).first ?? ""
     }
     
-    /// If prefix is fixed user doesnt need to type it.
-    private var highlightPrefix: Bool { hasConstantPrefix }
+    internal override var hasConstantPrefix: Bool {
+        !self.prefix.contains("X") && !self.prefix.isEmpty
+    }
     
     open override var intrinsicContentSize: CGSize {
         let font_ = font ?? UIFont.systemFont(ofSize: 17)
@@ -60,7 +61,6 @@ open class PhoneTextField: FormattingTextField {
             textContentType = .telephoneNumber
         }
         keyboardType = .phonePad
-        borderStyle = .none
     }
     
     override func didChangeEditing() {
@@ -112,7 +112,7 @@ open class PhoneTextField: FormattingTextField {
             setNeedsDisplay()
             
             // +7 case is handled above
-            if highlightPrefix && !t.hasPrefix(prefix) && prefix != "+7" {
+            if hasConstantPrefix && !t.hasPrefix(prefix) && prefix != "+7" {
                 t = prefix + t
             }
         }
@@ -127,14 +127,14 @@ open class PhoneTextField: FormattingTextField {
             super.deleteBackward()
             return
         }
-        
+
         let cursorPosition = offset(from: beginningOfDocument, to: range.start)
-        
+
         if cursorPosition <= prefix.count && hasConstantPrefix {
             setCursorPosition(offset: prefix.count)
             return
         }
-        
+
         super.deleteBackward()
     }
 }
