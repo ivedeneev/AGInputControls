@@ -133,11 +133,18 @@ open class FormattingTextField: UITextField {
             return
         }
         
+        if hasConstantPrefix {
+            let stringByRemovingPrefix = String(txt.prefix(cursorPosition).dropFirst(prefix.count))
+            if stringByRemovingPrefix.filter({ $0.isLetter || $0.isNumber }).isEmpty {
+                return
+            }
+        }
+        
         if !isValidCharachter(txt.prefix(cursorPosition).last) {
             var charsToRemove = 0
             while !isValidCharachter(txt.prefix(cursorPosition - charsToRemove).last), !txt.isEmpty {
                 charsToRemove += 1
-                txt.remove(at: .init(utf16Offset: cursorPosition - charsToRemove, in: txt))
+                txt.remove(at: .init(utf16Offset: max(0, cursorPosition - charsToRemove), in: txt))
             }
             
             charsToRemove += 1
