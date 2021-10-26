@@ -98,9 +98,9 @@ open class PhoneTextField: FormattingTextField {
             super.deleteBackward()
             return
         }
-
+        
         let cursorPosition = offset(from: beginningOfDocument, to: range.start)
-
+        // dont let set cursor position in prefix. only after
         if cursorPosition <= prefix.count && hasConstantPrefix {
             setCursorPosition(offset: prefix.count)
             return

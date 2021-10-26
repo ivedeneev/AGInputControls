@@ -119,7 +119,8 @@ open class FormattingTextField: UITextField {
         guard
             let range = selectedTextRange,
             var txt = self.text,
-            !txt.isEmpty
+            !txt.isEmpty,
+            let mask = formattingMask
         else {
             super.deleteBackward()
             return
@@ -127,14 +128,17 @@ open class FormattingTextField: UITextField {
         
         let cursorPosition = offset(from: beginningOfDocument, to: range.start)
         
-        if !range.isEmpty/* && !(formattingMask.contains("*") || formattingMask.contains("?"))*/ {
-            setFormattedText(String(txt.prefix(cursorPosition)))
-            return
+        if !range.isEmpty {
+            if mask.contains("*") || mask.contains("?") {
+                setFormattedText(String(txt.prefix(cursorPosition)))
+                return
+            }
         }
         
         if hasConstantPrefix {
             let stringByRemovingPrefix = String(txt.prefix(cursorPosition).dropFirst(prefix.count))
             if stringByRemovingPrefix.filter({ $0.isLetter || $0.isNumber }).isEmpty {
+                setFormattedText(stringByRemovingPrefix)
                 return
             }
         }
@@ -163,7 +167,11 @@ open class FormattingTextField: UITextField {
         }
         
         super.deleteBackward()
-        setCursorPosition(offset: cursorPosition - 1)
+        if range.isEmpty {
+            setCursorPosition(offset: cursorPosition - 1)
+        } else {
+            setCursorPosition(offset: cursorPosition)
+        }
     }
     
     //MARK: Public methods
