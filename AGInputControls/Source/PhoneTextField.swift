@@ -73,48 +73,23 @@ open class PhoneTextField: FormattingTextField {
     }
 
     open override func formattedText(text: String?) -> String? {
+
+        guard var t = text?.trimmingCharacters(in: .whitespacesAndNewlines), t != "+" else { return "" }
+
+        if showsMask {
+            setNeedsDisplay()
+
+            if hasConstantPrefix && !t.hasPrefix(prefix) {
+                t = prefix + t
+            }
+        }
         
         if let delegate = formattingDelegate {
             return delegate.formatPhoneNumber(for: self)
         }
-        
-        guard var t = text?.trimmingCharacters(in: .whitespacesAndNewlines), t != "+" else { return "" }
-        
-        if prefix == "+7" {
-            let prefix = showsMask ? prefix : "+7"
-            switch t.first {
-            case "8":
-                if !showsMask {
-                    t = prefix + t.dropFirst()
-                } else {
-                    t = t.count == phoneMask.filter { "0123456789#".contains($0) }.count ? prefix + t.dropFirst() : prefix + t
-                }
-            case "9":
-                t = prefix + t
-            case "7":
-                t = showsMask ? prefix + t : "+" + t
-            case "+":
-                break
-            default:
-                t = prefix + t
-            }
 
-            if t.count > 1, t.first != "+" || String(Array(t)[1]) != "7" && t.first == "+" {
-                t.insert(contentsOf: prefix, at: .init(utf16Offset: 0, in: t))
-            }
-        }
-        
-        if showsMask {
-            setNeedsDisplay()
-            
-            // +7 case is handled above
-            if hasConstantPrefix && !t.hasPrefix(prefix) && prefix != "+7" {
-                t = prefix + t
-            }
-        }
-        
         let formatted = t.formattedNumber(mask: phoneMask)
-        
+
         return formatted
     }
     

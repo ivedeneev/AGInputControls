@@ -81,7 +81,7 @@ class ViewController: UIViewController {
 //        testField.exampleMask = "123 1234567890"
         testField.formattingMask = "XYZ **########"
         testField.exampleMask = "XYZ AB34567890"
-        testField.font = UIFont(name: "Courier", size: 30)
+        testField.font = .monospacedSystemFont(ofSize: 24, weight: .medium)
         testField.translatesAutoresizingMaskIntoConstraints = false
         testField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
         lettersField.superview?.addSubview(testField)

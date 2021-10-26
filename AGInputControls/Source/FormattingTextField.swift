@@ -32,7 +32,7 @@ open class FormattingTextField: UITextField {
     }
     
     internal var hasConstantPrefix: Bool {
-        prefix.first(where: { "#?*".contains($0) }) == nil && !self.prefix.isEmpty
+        prefix.first(where: { "#?*".contains($0) }) == nil && !prefix.isEmpty
     }
     
     //MARK: Overriden properties
@@ -119,8 +119,7 @@ open class FormattingTextField: UITextField {
         guard
             let range = selectedTextRange,
             var txt = self.text,
-            !txt.isEmpty,
-            let formattingMask = self.formattingMask
+            !txt.isEmpty
         else {
             super.deleteBackward()
             return
@@ -208,19 +207,18 @@ open class FormattingTextField: UITextField {
 
         // insert prefix if its constant
         if hasConstantPrefix,
-           !textRemovingSpecialSymbols.hasPrefix(self.prefix) {
+           !textRemovingSpecialSymbols.hasPrefix(prefix) {
             textRemovingSpecialSymbols.insert(
-                contentsOf: self.prefix,
+                contentsOf: prefix,
                 at: textRemovingSpecialSymbols.startIndex
             )
         }
         
         var result = ""
         var index = hasConstantPrefix ?
-        textRemovingSpecialSymbols.index(textRemovingSpecialSymbols.startIndex, offsetBy: self.prefix.count) :
+        textRemovingSpecialSymbols.index(textRemovingSpecialSymbols.startIndex, offsetBy: prefix.count) :
         textRemovingSpecialSymbols.startIndex
         for ch in mask where index < textRemovingSpecialSymbols.endIndex {
-            let symbolToValidate = textRemovingSpecialSymbols[index]
             switch ch {
             case "*", "#", "?":
                 while // trim 'bad' charachters
