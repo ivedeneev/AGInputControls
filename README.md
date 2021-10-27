@@ -90,9 +90,9 @@ You can override this behaviour by subclassing `PhoneTextField` and override `fo
 ## FormattingTextField
 You can use this textfield for formatting input text with digits like phione numbers, credit card data input (number, expires, cvv) etc. You should specify `formattingMask` property to make it work. Formatting mask has 2 constraints:
 - No digits or letters
-- # is a placeholder for digit
-- * is a placeholder for letter
-- ? is a placeholder for either letter or digit
+- `#` is a placeholder for digit
+- `*` is a placeholder for letter
+- `?` is a placeholder for either letter or digit
 
 ### Usage
 ```swift
