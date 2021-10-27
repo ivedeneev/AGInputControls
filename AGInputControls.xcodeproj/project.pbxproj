@@ -117,7 +117,9 @@
 		D656DDBF26CFDE5600BAAA29 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				D6ABBDC1272930C80064473E /* Extensions */,
+				D656DDBD26CD6E6A00BAAA29 /* UIFont+Monospaced.swift */,
+				D6ABBDAE2726B5920064473E /* String+Extension.swift */,
+				D6ABBDB12726C8E00064473E /* FormattingTextField+Extension.swift */,
 				D6A6F5D52684BD5100157970 /* OTPCodeTextField.swift */,
 				D60413AF26CA4BA0002031AC /* FloatingLabelTextField.swift */,
 				D6C9B7DB2685F65600F08CAA /* PhoneTextField.swift */,
@@ -180,16 +182,6 @@
 				D6A6F5EF2684BD9B00157970 /* Info.plist */,
 			);
 			path = Examples;
-			sourceTree = "<group>";
-		};
-		D6ABBDC1272930C80064473E /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				D656DDBD26CD6E6A00BAAA29 /* UIFont+Monospaced.swift */,
-				D6ABBDAE2726B5920064473E /* String+Extension.swift */,
-				D6ABBDB12726C8E00064473E /* FormattingTextField+Extension.swift */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		D6C9B7D12684DE9A00F08CAA /* Frameworks */ = {
