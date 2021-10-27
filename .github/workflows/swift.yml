@@ -14,6 +14,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build
-      run: xcodebuild build -verbose
+      run: xcodebuild build -scheme AGInputControls -verbose
     - name: Run tests
       run: xcodebuild test -verbose
