@@ -24,6 +24,7 @@
 		D6ABBDB22726C8E00064473E /* FormattingTextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ABBDB12726C8E00064473E /* FormattingTextField+Extension.swift */; };
 		D6ABBDB42726E4BE0064473E /* PhoneNumberFieldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ABBDB32726E4BE0064473E /* PhoneNumberFieldTests.swift */; };
 		D6ABBDB62726EA260064473E /* FormattingFieldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ABBDB52726EA260064473E /* FormattingFieldTests.swift */; };
+		D6ABBDC027292FFC0064473E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6ABBDBF27292FFC0064473E /* UIKit.framework */; };
 		D6C9B7D22684DE9A00F08CAA /* AGInputControls.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A6F5B92684BC9700157970 /* AGInputControls.framework */; };
 		D6C9B7D32684DE9A00F08CAA /* AGInputControls.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D6A6F5B92684BC9700157970 /* AGInputControls.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D6C9B7DC2685F65600F08CAA /* PhoneTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C9B7DB2685F65600F08CAA /* PhoneTextField.swift */; };
@@ -83,6 +84,7 @@
 		D6ABBDB12726C8E00064473E /* FormattingTextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FormattingTextField+Extension.swift"; sourceTree = "<group>"; };
 		D6ABBDB32726E4BE0064473E /* PhoneNumberFieldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberFieldTests.swift; sourceTree = "<group>"; };
 		D6ABBDB52726EA260064473E /* FormattingFieldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattingFieldTests.swift; sourceTree = "<group>"; };
+		D6ABBDBF27292FFC0064473E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D6C9B7DB2685F65600F08CAA /* PhoneTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6ABBDC027292FFC0064473E /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,6 +189,7 @@
 		D6C9B7D12684DE9A00F08CAA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D6ABBDBF27292FFC0064473E /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
