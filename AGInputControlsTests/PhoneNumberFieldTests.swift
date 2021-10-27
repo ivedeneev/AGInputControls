@@ -36,7 +36,14 @@ class PhoneNumberFieldTests: XCTestCase {
         textField.phoneMask = "+## ### ### ## ###"
         textField.setFormattedText("+31 970 102 81 448")
         XCTAssertEqual(textField.text, "+31 970 102 81 448")
+        
 //    +442037691880
+    }
+    
+    func testReplacing8withPlus7ForRussianNumbersIfConstantMaskWasSet() {
+        textField.phoneMask = "+7 ### ###-##-##"
+        textField.setFormattedText("89153051653")
+        XCTAssertEqual(textField.text, "+7 915 305-16-53")
     }
     
     func testFormatting() {
