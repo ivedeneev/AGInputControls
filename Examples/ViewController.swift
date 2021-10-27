@@ -58,8 +58,8 @@ class ViewController: UIViewController {
         fixedWidthPhoneField.exampleMask = "+7 900 432 89 67"
         fixedWidthPhoneField.phoneMask =  "+7 ### ### ## ##"
         
-        fixedWidthPhoneField.exampleMask = "+31 (0) 20 76 06697"
-        fixedWidthPhoneField.phoneMask =  "+31 (#) ## ## #####"
+//        fixedWidthPhoneField.exampleMask = "+31 (0) 20 76 06697"
+//        fixedWidthPhoneField.phoneMask =  "+31 (#) ## ## #####"
         
         field_1.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
         field_2.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)

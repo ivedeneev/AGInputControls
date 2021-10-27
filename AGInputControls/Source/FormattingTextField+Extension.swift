@@ -17,7 +17,7 @@ extension FormattingTextField {
     /// Caret position in int value
     internal func currentPosition() -> Int {
         guard let range = selectedTextRange else { return 0 }
-        return offset(from: beginningOfDocument, to: range.start)
+        return offset(from: beginningOfDocument, to: range.end)
     }
     
     internal func sizeOfText(_ text: String) -> CGSize {

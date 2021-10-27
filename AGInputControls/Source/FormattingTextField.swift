@@ -103,15 +103,14 @@ open class FormattingTextField: UITextField {
     }
     
     open override func caretRect(for position: UITextPosition) -> CGRect {
-        guard showsMask, hasConstantPrefix else {
-            return super.caretRect(for: position)
-        }
-        
         var rect = super.caretRect(for: position)
-        if text?.isEmpty ?? true {
-            rect.origin.x += sizeOfText(prefix).width
+
+        // let place caret ONLY AFTER prefix, if its constant
+        guard showsMask, hasConstantPrefix, text?.isEmpty ?? true else {
             return rect
         }
+
+        rect.origin.x = sizeOfText(prefix).width
         return rect
     }
     
@@ -126,16 +125,23 @@ open class FormattingTextField: UITextField {
             return
         }
         
-        let cursorPosition = offset(from: beginningOfDocument, to: range.start)
+        let cursorPosition = currentPosition()
+        
+        if cursorPosition <= prefix.count && hasConstantPrefix {
+            setCursorPosition(offset: cursorPosition)
+            return
+        }
         
         if !range.isEmpty {
             if mask.contains("*") || mask.contains("?") {
                 setFormattedText(String(txt.prefix(cursorPosition)))
                 return
             }
+        } else if hasConstantPrefix && String(txt.prefix(cursorPosition - 1)) == prefix {
+            return
         }
         
-        if hasConstantPrefix {
+        if hasConstantPrefix && range.end == endOfDocument {
             let stringByRemovingPrefix = String(txt.prefix(cursorPosition).dropFirst(prefix.count))
             if stringByRemovingPrefix.filter({ $0.isLetter || $0.isNumber }).isEmpty {
                 setFormattedText(stringByRemovingPrefix)
@@ -143,7 +149,7 @@ open class FormattingTextField: UITextField {
             }
         }
         
-        if !isValidCharachter(txt.prefix(cursorPosition).last) {
+        if !isValidCharachter(txt.prefix(cursorPosition).last) && range.isEmpty {
             var charsToRemove = 0
             while !isValidCharachter(txt.prefix(cursorPosition - charsToRemove).last), !txt.isEmpty {
                 charsToRemove += 1
