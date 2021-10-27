@@ -10,9 +10,9 @@ import UIKit
 open class FormattingTextField: UITextField {
     //MARK: Public properties
     /// Formatting mask.
-    /// * - letter
-    /// # - digit
-    /// ?- any (letter or digit)
+    /// `*` - letter
+    /// `#` - digit
+    /// `?` - any (letter or digit)
     /// Example: `*** ## * #` stands for `ABC 12 D 3`
     open var formattingMask: String? { didSet { invalidateIntrinsicContentSize() } }
     
@@ -185,12 +185,12 @@ open class FormattingTextField: UITextField {
     }
     
     open func drawExampleMask(rect: CGRect) {
-        guard let mask = exampleMask else { return }
+        assertForExampleMasksAndPrefix()
         
-        assert(mask == formattedText(text: mask), "Formatting mask and example mask should be in same format. This is your responsibility as a developer")
-        assert(prefix.first(where: { $0.isLetter || $0.isNumber }) == nil || hasConstantPrefix, "You cannot have 'semi constant' prefixes at this point ")
-        
-        guard let font = self.font, let textColor = self.textColor else { return }
+        guard let mask = exampleMask,
+              let font = self.font,
+              let textColor = self.textColor
+        else { return }
         
         let text = self.text ?? ""
 
@@ -206,8 +206,7 @@ open class FormattingTextField: UITextField {
                     range: .init(location: 0, length: prefix.count)
                 )
             }
-
-        textToDraw.draw(at: CGPoint(x: 0, y: ((bounds.height - font.lineHeight) / 2).rounded()))
+        textToDraw.draw(at: CGPoint(x: 0, y: ((bounds.height - font.lineHeight) / 2)))
     }
     
     open func formattedText(text: String?) -> String? {

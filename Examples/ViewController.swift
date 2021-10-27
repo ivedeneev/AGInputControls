@@ -80,8 +80,8 @@ class ViewController: UIViewController {
 //        testField.formattingMask = "123 DDDDDDDDDD"
 //        testField.exampleMask = "123 1234567890"
         testField.formattingMask = "XYZ **########"
-        testField.exampleMask = "XYZ AB34567890"
-        testField.font = .monospacedSystemFont(ofSize: 24, weight: .medium)
+        testField.exampleMask = "XYZ AB34"
+        testField.font = .monospacedSystemFont(ofSize: 40, weight: .medium)
         testField.translatesAutoresizingMaskIntoConstraints = false
         testField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
         lettersField.superview?.addSubview(testField)
@@ -95,11 +95,6 @@ class ViewController: UIViewController {
         print(type(of: textField), textField.text ?? "NO_TEXT")
         guard let tf = textField as? FloatingLabelTextField else { return }
         tf.bottomText = tf.text!.count % 2 == 0 ? "Incorrect card format" : nil
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-//        fixedWidthPhoneField.setFormattedText("89153051653")
     }
 }
 

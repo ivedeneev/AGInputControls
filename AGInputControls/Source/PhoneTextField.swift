@@ -16,12 +16,11 @@ open class PhoneTextField: FormattingTextField {
     
     weak var formattingDelegate: PhoneTextFieldFormattingDelegate?
     
-    /// Phone format string were X is digit placeholder. Default is `+X (XXX) XXX-XX-XX`
-    open var phoneMask: String = "+# (###) ###-##-##" {
+    open var phoneMask: String! {
         didSet { formattingMask = phoneMask }
     }
     
-    /// Current limitation: prefix either contains only digits or only X and +. Otherways behaviour is unspecified
+    /// Current limitation: prefix either contains only digits or only # and +. Otherways behaviour is unspecified
     internal override var prefix: String {
         guard let separator = phoneMask.first(
             where: { !($0.isNumber || $0 == "+" || $0 == "#") }
