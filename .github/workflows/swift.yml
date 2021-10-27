@@ -16,4 +16,4 @@ jobs:
     - name: Build
       run: xcodebuild build -scheme AGInputControls -verbose
     - name: Run tests
-      run: xcodebuild test -verbose
+      run: xcodebuild test -scheme AGInputControls -verbose
