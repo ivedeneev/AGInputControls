@@ -190,6 +190,8 @@ open class FormattingTextField: UITextField {
         assert(mask == formattedText(text: mask), "Formatting mask and example mask should be in same format. This is your responsibility as a developer")
         assert(prefix.first(where: { $0.isLetter || $0.isNumber }) == nil || hasConstantPrefix, "You cannot have 'semi constant' prefixes at this point ")
         
+        guard let font = self.font, let textColor = self.textColor else { return }
+        
         let text = self.text ?? ""
 
         let _text = text + mask.suffix(mask.count - text.count)
@@ -205,7 +207,7 @@ open class FormattingTextField: UITextField {
                 )
             }
 
-        textToDraw.draw(at: CGPoint(x: 0, y: ((bounds.height - font!.lineHeight) / 2).rounded()))
+        textToDraw.draw(at: CGPoint(x: 0, y: ((bounds.height - font.lineHeight) / 2).rounded()))
     }
     
     open func formattedText(text: String?) -> String? {
