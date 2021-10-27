@@ -32,6 +32,11 @@ class PhoneNumberFieldTests: XCTestCase {
         
         textField.phoneMask = "+31 (#) ## ## #####"
         XCTAssertEqual(textField.prefix, "+31")
+        
+        textField.phoneMask = "+## ### ### ## ###"
+        textField.setFormattedText("+31 970 102 81 448")
+        XCTAssertEqual(textField.text, "+31 970 102 81 448")
+//    +442037691880
     }
     
     func testFormatting() {

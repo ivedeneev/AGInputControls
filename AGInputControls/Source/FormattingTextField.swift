@@ -253,6 +253,10 @@ open class FormattingTextField: UITextField {
             setNeedsDisplay()
         }
         
+        if textRemovingSpecialSymbols == prefix && hasConstantPrefix {
+            return textRemovingSpecialSymbols.uppercased()
+        }
+        
         // consider string which contains only special symbols and spases invalid
         if result.filter({ $0.isLetter || $0.isNumber }).isEmpty {
             return nil

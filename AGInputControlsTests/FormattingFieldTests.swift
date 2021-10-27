@@ -27,15 +27,15 @@ class FormattingFieldTests: XCTestCase {
         textField.formattingMask = "*/* **########"
         XCTAssertEqual(textField.prefix, "*")
         
-        textField.formattingMask = "+31 (#) ## ## #####"
-        XCTAssertEqual(textField.prefix, "+31")
+//        textField.formattingMask = "+31 (#) ## ## #####"
+//        XCTAssertEqual(textField.prefix, "+31")
     }
     
     func testFormatting() {
         textField.formattingMask = "XYZ **########"
         
+        XCTAssertEqual(textField.formattedText(text: "XYZ "), "XYZ")
         XCTAssertEqual(textField.formattedText(text: "XYZLD443"), "XYZ LD443")
         XCTAssertEqual(textField.formattedText(text: "XYZ443"), "XYZ")
-        XCTAssertEqual(textField.formattedText(text: "XYZ "), "XYZ")
     }
 }

@@ -17,8 +17,7 @@ class AGInputControlsTests: XCTestCase {
     }
 
     func testExample() throws {
-        XCTAssertEqual("+31 970 102 81 448".formattedNumber(mask: "+## ### ###-##-##"), "+31 970 102 81 448", "fdfdf")
-//    +442037691880
+
     }
 
     func testPerformanceExample() throws {
