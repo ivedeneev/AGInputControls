@@ -37,5 +37,8 @@ class FormattingFieldTests: XCTestCase {
         XCTAssertEqual(textField.formattedText(text: "XYZ "), "XYZ")
         XCTAssertEqual(textField.formattedText(text: "XYZLD443"), "XYZ LD443")
         XCTAssertEqual(textField.formattedText(text: "XYZ443"), "XYZ")
+        
+        textField.formattingMask = "##/##"
+        XCTAssertEqual(textField.formattedText(text: "1234"), "12/34")
     }
 }
