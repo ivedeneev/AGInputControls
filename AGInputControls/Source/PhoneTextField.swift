@@ -74,6 +74,15 @@ open class PhoneTextField: FormattingTextField {
     open override func formattedText(text: String?) -> String? {
 
         guard var t = text?.trimmingCharacters(in: .whitespacesAndNewlines), t != "+" else { return "" }
+        
+        if t == prefix && hasConstantPrefix {
+            return nil
+        }
+        
+        // pecial case for Russian numbers. if we paste number in old format (e.g 89997776655) we conver it in international format (replace 8 with +7)
+        if prefix == "+7" && t.first == "8" && t.count >= 11 {
+            t = prefix + t.dropFirst()
+        }
 
         if showsMask {
             setNeedsDisplay()
@@ -85,11 +94,6 @@ open class PhoneTextField: FormattingTextField {
         
         if let delegate = formattingDelegate {
             return delegate.formatPhoneNumber(for: self)
-        }
-        
-        // Special case for Russian numbers. if we paste number in old format (e.g 89997776655) we conver it in international format (replace 8 with +7)
-        if prefix == "+7" && t.first == "8" && t.count >= 11 {
-            t = prefix + t.dropFirst()
         }
 
         let formatted = t.formattedNumber(mask: phoneMask)
