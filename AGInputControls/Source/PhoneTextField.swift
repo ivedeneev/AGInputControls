@@ -73,7 +73,7 @@ open class PhoneTextField: FormattingTextField {
 
     open override func formattedText(text: String?) -> String? {
 
-        guard var t = text?.trimmingCharacters(in: .whitespacesAndNewlines), t != "+" else { return "" }
+        guard var t = text?.trimmingCharacters(in: .whitespacesAndNewlines), t != "+", !t.isEmpty else { return "" }
         
         if t == prefix && hasConstantPrefix {
             setNeedsDisplay()
@@ -101,20 +101,4 @@ open class PhoneTextField: FormattingTextField {
 
         return formatted
     }
-    
-//    open override func deleteBackward() {
-//        guard let range = selectedTextRange else {
-//            super.deleteBackward()
-//            return
-//        }
-//
-//        let cursorPosition = offset(from: beginningOfDocument, to: range.end)
-//        // dont let set cursor position in prefix. only after
-////        if cursorPosition <= prefix.count && hasConstantPrefix, range.isEmpty {
-////            setCursorPosition(offset: prefix.count)
-////            return
-////        }
-//
-//        super.deleteBackward()
-//    }
 }
