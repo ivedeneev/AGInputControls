@@ -21,6 +21,10 @@ public struct PhoneNumberFormatter: Formatter {
         return mask.components(separatedBy: String(separator)).first ?? ""
     }
     
+    public init(mask: String) {
+        self.mask = mask
+    }
+    
     public func formattedText(text: String?) -> String? {
         guard var t = text?.trimmingCharacters(in: .whitespacesAndNewlines),
               t != "+",

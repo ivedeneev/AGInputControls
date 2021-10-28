@@ -8,12 +8,18 @@
 import Foundation
 
 public struct DefaultFormatter: Formatter {
+    
     public var mask: String
     
     public var prefix: String {
         guard let separator = mask.first(where: { !("#?*".contains($0) || $0.isLetter || $0.isNumber) }) else { return "" }
         
         return mask.components(separatedBy: String(separator)).first ?? ""
+    }
+    
+    
+    public init(mask: String) {
+        self.mask = mask
     }
     
     public func formattedText(text: String?) -> String? {

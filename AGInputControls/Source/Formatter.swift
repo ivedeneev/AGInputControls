@@ -32,4 +32,5 @@ extension Formatter {
         guard let resultText = formattedText(text: text) else { return false }
         return text == resultText && resultText.count == mask.count
     }
+    
 }
