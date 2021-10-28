@@ -24,6 +24,10 @@
 		D6ABBDB22726C8E00064473E /* FormattingTextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ABBDB12726C8E00064473E /* FormattingTextField+Extension.swift */; };
 		D6ABBDB42726E4BE0064473E /* PhoneNumberFieldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ABBDB32726E4BE0064473E /* PhoneNumberFieldTests.swift */; };
 		D6ABBDB62726EA260064473E /* FormattingFieldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ABBDB52726EA260064473E /* FormattingFieldTests.swift */; };
+		D6ABBDF0272ADDF60064473E /* PhoneNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ABBDEF272ADDF60064473E /* PhoneNumberFormatter.swift */; };
+		D6ABBDF2272AE0020064473E /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ABBDF1272AE0020064473E /* Formatter.swift */; };
+		D6ABBDF4272AE0220064473E /* DefaultFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ABBDF3272AE0220064473E /* DefaultFormatter.swift */; };
+		D6ABBDF6272AE1C60064473E /* DefaultFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ABBDF5272AE1C60064473E /* DefaultFormatterTests.swift */; };
 		D6C9B7D22684DE9A00F08CAA /* AGInputControls.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A6F5B92684BC9700157970 /* AGInputControls.framework */; };
 		D6C9B7D32684DE9A00F08CAA /* AGInputControls.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D6A6F5B92684BC9700157970 /* AGInputControls.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D6C9B7DC2685F65600F08CAA /* PhoneTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C9B7DB2685F65600F08CAA /* PhoneTextField.swift */; };
@@ -84,6 +88,10 @@
 		D6ABBDB32726E4BE0064473E /* PhoneNumberFieldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberFieldTests.swift; sourceTree = "<group>"; };
 		D6ABBDB52726EA260064473E /* FormattingFieldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattingFieldTests.swift; sourceTree = "<group>"; };
 		D6ABBDBF27292FFC0064473E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		D6ABBDEF272ADDF60064473E /* PhoneNumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberFormatter.swift; sourceTree = "<group>"; };
+		D6ABBDF1272AE0020064473E /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
+		D6ABBDF3272AE0220064473E /* DefaultFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFormatter.swift; sourceTree = "<group>"; };
+		D6ABBDF5272AE1C60064473E /* DefaultFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFormatterTests.swift; sourceTree = "<group>"; };
 		D6C9B7DB2685F65600F08CAA /* PhoneTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -124,6 +132,9 @@
 				D60413AF26CA4BA0002031AC /* FloatingLabelTextField.swift */,
 				D6C9B7DB2685F65600F08CAA /* PhoneTextField.swift */,
 				D60413B126CA4BB4002031AC /* FormattingTextField.swift */,
+				D6ABBDEF272ADDF60064473E /* PhoneNumberFormatter.swift */,
+				D6ABBDF1272AE0020064473E /* Formatter.swift */,
+				D6ABBDF3272AE0220064473E /* DefaultFormatter.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -166,6 +177,7 @@
 				D6A6F5C92684BC9700157970 /* Info.plist */,
 				D6ABBDB32726E4BE0064473E /* PhoneNumberFieldTests.swift */,
 				D6ABBDB52726EA260064473E /* FormattingFieldTests.swift */,
+				D6ABBDF5272AE1C60064473E /* DefaultFormatterTests.swift */,
 			);
 			path = AGInputControlsTests;
 			sourceTree = "<group>";
@@ -334,12 +346,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6ABBDF4272AE0220064473E /* DefaultFormatter.swift in Sources */,
 				D6ABBDAF2726B5920064473E /* String+Extension.swift in Sources */,
 				D60413B226CA4BB4002031AC /* FormattingTextField.swift in Sources */,
 				D6C9B7DC2685F65600F08CAA /* PhoneTextField.swift in Sources */,
 				D6ABBDB22726C8E00064473E /* FormattingTextField+Extension.swift in Sources */,
+				D6ABBDF0272ADDF60064473E /* PhoneNumberFormatter.swift in Sources */,
 				D60413B026CA4BA0002031AC /* FloatingLabelTextField.swift in Sources */,
 				D6A6F5D62684BD5100157970 /* OTPCodeTextField.swift in Sources */,
+				D6ABBDF2272AE0020064473E /* Formatter.swift in Sources */,
 				D656DDBE26CD6E6A00BAAA29 /* UIFont+Monospaced.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -350,6 +365,7 @@
 			files = (
 				D6ABBDB42726E4BE0064473E /* PhoneNumberFieldTests.swift in Sources */,
 				D6A6F5C82684BC9700157970 /* AGInputControlsTests.swift in Sources */,
+				D6ABBDF6272AE1C60064473E /* DefaultFormatterTests.swift in Sources */,
 				D6ABBDB62726EA260064473E /* FormattingFieldTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

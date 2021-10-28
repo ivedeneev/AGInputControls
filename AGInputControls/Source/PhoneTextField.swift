@@ -72,11 +72,19 @@ open class PhoneTextField: FormattingTextField {
     }
 
     open override func formattedText(text: String?) -> String? {
+        defer {
+            if showsMask {
+                setNeedsDisplay()
+            }
+        }
+        
+        if let delegate = formattingDelegate {
+            return delegate.formatPhoneNumber(for: self)
+        }
 
         guard var t = text?.trimmingCharacters(in: .whitespacesAndNewlines), t != "+", !t.isEmpty else { return "" }
         
         if t == prefix && hasConstantPrefix {
-            setNeedsDisplay()
             return nil
         }
         
@@ -85,16 +93,8 @@ open class PhoneTextField: FormattingTextField {
             t = prefix + t.dropFirst()
         }
 
-        if showsMask {
-            setNeedsDisplay()
-
-            if hasConstantPrefix && !t.hasPrefix(prefix) {
-                t = prefix + t
-            }
-        }
-        
-        if let delegate = formattingDelegate {
-            return delegate.formatPhoneNumber(for: self)
+        if hasConstantPrefix && !t.hasPrefix(prefix) {
+            t = prefix + t
         }
 
         let formatted = t.formattedNumber(mask: phoneMask)
