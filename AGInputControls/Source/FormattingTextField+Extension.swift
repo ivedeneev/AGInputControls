@@ -15,6 +15,12 @@ extension FormattingTextField {
     }
     
     /// Caret position in int value
+    internal func currentPosition(forStartOfRange: Bool = false) -> Int {
+        guard let range = selectedTextRange else { return 0 }
+        return offset(from: beginningOfDocument, to: forStartOfRange ? range.start : range.end)
+    }
+    
+    /// Caret position in int value
     internal func currentPosition() -> Int {
         guard let range = selectedTextRange else { return 0 }
         return offset(from: beginningOfDocument, to: range.end)
@@ -29,8 +35,8 @@ extension FormattingTextField {
     }
     
     internal func assertForExampleMasksAndPrefix() {
-        guard let mask = exampleMask, formattingMask != nil else { return }
-        assert(mask == formattedText(text: mask), "Formatting mask and example mask should be in same format. This is your responsibility as a developer")
+        guard let mask = exampleMask, !mask.isEmpty, let formattingMask = formattingMask else { return }
+        assert(mask == formattedText(text: mask) && mask.count == formattingMask.count, "Formatting mask and example mask should be in same format. This is your responsibility as a developer\nExampleMask: \(mask)\nFormatting mask: \(formattingMask)")
         assert(prefix.first(where: { $0.isLetter || $0.isNumber }) == nil || hasConstantPrefix, "You cannot have 'semi constant' prefixes at this point ")
     }
 }

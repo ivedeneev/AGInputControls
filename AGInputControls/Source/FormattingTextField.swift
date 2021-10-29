@@ -7,6 +7,10 @@
 
 import UIKit
 
+public protocol FormattingTextFieldDelegate: AnyObject {
+    func textField(textField: FormattingTextField, didProduce text: String?, isValid: Bool)
+}
+
 open class FormattingTextField: UITextField {
     //MARK: Public properties
     /// Formatting mask.
@@ -14,7 +18,14 @@ open class FormattingTextField: UITextField {
     /// `#` - digit
     /// `?` - any (letter or digit)
     /// Example: `*** ## * #` stands for `ABC 12 D 3`
-    open var formattingMask: String? { didSet { invalidateIntrinsicContentSize() } }
+    open var formattingMask: String? {
+        didSet {
+            guard let mask = formattingMask else { return }
+            formatter = DefaultFormatter(mask: mask, allowsEmptyOrNilStrings: false)
+        }
+    }
+    
+    open var formatter: Formatter? { didSet { invalidateIntrinsicContentSize() } }
     
     ///  Mask to be draw as example. Default is nil and no example mask is drawn. Placeholder is ignored if exaplmeMask is non nil
     open var exampleMask: String? { didSet { invalidateIntrinsicContentSize() } }
@@ -34,6 +45,8 @@ open class FormattingTextField: UITextField {
     internal var hasConstantPrefix: Bool {
         prefix.first(where: { "#?*".contains($0) }) == nil && !prefix.isEmpty
     }
+    
+    weak var formattingDelegate: FormattingTextFieldDelegate?
     
     //MARK: Overriden properties
     open override var intrinsicContentSize: CGSize {
@@ -134,7 +147,8 @@ open class FormattingTextField: UITextField {
         
         if !range.isEmpty {
             if mask.contains("*") || mask.contains("?") {
-                setFormattedText(String(txt.prefix(cursorPosition)))
+                let text = String(txt.prefix(currentPosition(forStartOfRange: true)))
+                setFormattedText(text)
                 return
             }
         } else if hasConstantPrefix && String(txt.prefix(cursorPosition - 1)) == prefix {
@@ -216,59 +230,21 @@ open class FormattingTextField: UITextField {
     }
     
     open func formattedText(text: String?) -> String? {
-        guard let mask = formattingMask, let t = text else { return text }
-
-        var textRemovingSpecialSymbols = String(t.filter { isValidCharachter($0) })
-
-        // insert prefix if its constant
-        if hasConstantPrefix,
-           !textRemovingSpecialSymbols.hasPrefix(prefix) {
-            textRemovingSpecialSymbols.insert(
-                contentsOf: prefix,
-                at: textRemovingSpecialSymbols.startIndex
-            )
-        }
-        
-        var result = ""
-        var index = hasConstantPrefix ?
-        textRemovingSpecialSymbols.index(textRemovingSpecialSymbols.startIndex, offsetBy: prefix.count) :
-        textRemovingSpecialSymbols.startIndex
-        for ch in mask where index < textRemovingSpecialSymbols.endIndex {
-            switch ch {
-            case "*", "#", "?":
-                while // trim 'bad' charachters
-                    index < textRemovingSpecialSymbols.endIndex &&
-                        (textRemovingSpecialSymbols[index].isNumber && ch == "*" ||
-                         textRemovingSpecialSymbols[index].isLetter && ch == "#")
-                {
-                    textRemovingSpecialSymbols.remove(at: index)
-                }
-                
-                //double check if we are not out of bounds, because we manupulate with string length inside
-                if index >= textRemovingSpecialSymbols.endIndex {
-                    break
-                }
-                
-                result.append(textRemovingSpecialSymbols[index])
-                index = textRemovingSpecialSymbols.index(after: index)
-            default:
-                result.append(ch)
+        defer {
+            if exampleMask != nil {
+                setNeedsDisplay()
             }
         }
-        
-        if exampleMask != nil {
-            setNeedsDisplay()
+        guard let formatter = formatter else {
+            return text
         }
         
-        if textRemovingSpecialSymbols == prefix && hasConstantPrefix {
-            return textRemovingSpecialSymbols.uppercased()
-        }
-        
-        // consider string which contains only special symbols and spases invalid
-        if result.filter({ $0.isLetter || $0.isNumber }).isEmpty {
-            return nil
-        }
-        
-        return result.uppercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        let result = formatter.formattedText(text: text)
+        formattingDelegate?.textField(
+            textField: self,
+            didProduce: result,
+            isValid: formatter.mask == result
+        )
+        return result
     }
 }

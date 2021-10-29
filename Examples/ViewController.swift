@@ -79,7 +79,7 @@ class ViewController: UIViewController {
         let testField = FormattingTextField()
 //        testField.formattingMask = "123 DDDDDDDDDD"
 //        testField.exampleMask = "123 1234567890"
-        testField.formattingMask = "XYZ **########"
+        testField.formattingMask = "XYZ **##"
         testField.exampleMask = "XYZ AB34"
         testField.font = .monospacedSystemFont(ofSize: 40, weight: .medium)
         testField.translatesAutoresizingMaskIntoConstraints = false

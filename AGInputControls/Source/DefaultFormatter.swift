@@ -10,6 +10,7 @@ import Foundation
 public struct DefaultFormatter: Formatter {
     
     public var mask: String
+    public var allowsEmptyOrNilStrings: Bool
     
     public var prefix: String {
         guard let separator = mask.first(where: { !("#?*".contains($0) || $0.isLetter || $0.isNumber) }) else { return "" }
@@ -18,8 +19,9 @@ public struct DefaultFormatter: Formatter {
     }
     
     
-    public init(mask: String) {
+    public init(mask: String, allowsEmptyOrNilStrings: Bool = false) {
         self.mask = mask
+        self.allowsEmptyOrNilStrings = allowsEmptyOrNilStrings
     }
     
     public func formattedText(text: String?) -> String? {

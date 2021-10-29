@@ -11,6 +11,7 @@ public protocol Formatter {
     var mask: String { get }
     var maskHasConstantPrefix: Bool { get }
     var prefix: String { get }
+    var allowsEmptyOrNilStrings: Bool { get }
     
     func formattedText(text: String?) -> String?
     func isValidCharachter(_ ch: Character?) -> Bool
@@ -29,8 +30,11 @@ extension Formatter {
     
     
     public func isValidString(text: String?) -> Bool {
-        guard let resultText = formattedText(text: text) else { return false }
-        return text == resultText && resultText.count == mask.count
+        guard let resultText = formattedText(text: text) else { return allowsEmptyOrNilStrings }
+        return resultText.count == mask.count
     }
     
+    public var allowsEmptyOrNilStrings: Bool {
+        false
+    }
 }

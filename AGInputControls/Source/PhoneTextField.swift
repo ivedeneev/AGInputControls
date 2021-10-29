@@ -7,14 +7,14 @@
 
 import UIKit
 
-public protocol PhoneTextFieldFormattingDelegate: AnyObject {
+public protocol PhoneFormatter: AnyObject {
     func formatPhoneNumber(for tf: PhoneTextField) -> String
 }
 
 /// Textfield for phone wormatting. `showsMask` works correctly only with Russian phones
 open class PhoneTextField: FormattingTextField {
     
-    weak var formattingDelegate: PhoneTextFieldFormattingDelegate?
+    weak var phoneFormatter: PhoneFormatter?
     
     open var phoneMask: String! {
         didSet { formattingMask = phoneMask }
@@ -78,8 +78,8 @@ open class PhoneTextField: FormattingTextField {
             }
         }
         
-        if let delegate = formattingDelegate {
-            return delegate.formatPhoneNumber(for: self)
+        if let phoneFormatter = phoneFormatter {
+            return phoneFormatter.formatPhoneNumber(for: self)
         }
 
         guard var t = text?.trimmingCharacters(in: .whitespacesAndNewlines), t != "+", !t.isEmpty else { return "" }
