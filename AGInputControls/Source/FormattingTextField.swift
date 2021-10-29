@@ -237,6 +237,11 @@ open class FormattingTextField: UITextField {
             }
         }
         guard let formatter = formatter else {
+            formattingDelegate?.textField(
+                textField: self,
+                didProduce: text,
+                isValid: true
+            )
             return text
         }
         
