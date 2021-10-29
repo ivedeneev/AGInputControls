@@ -208,6 +208,7 @@ open class FormattingTextField: UITextField {
         assertForExampleMasksAndPrefix()
         
         guard let mask = exampleMask,
+              !mask.isEmpty,
               let font = self.font,
               let textColor = self.textColor
         else { return }
