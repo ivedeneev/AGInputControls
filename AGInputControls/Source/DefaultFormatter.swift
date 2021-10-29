@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct DefaultFormatter: Formatter {
+public struct DefaultFormatter: AGFormatter {
     
     public var mask: String
     public var allowsEmptyOrNilStrings: Bool

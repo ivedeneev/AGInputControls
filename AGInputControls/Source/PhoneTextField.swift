@@ -14,7 +14,7 @@ public protocol PhoneFormatter: AnyObject {
 /// Textfield for phone wormatting. `showsMask` works correctly only with Russian phones
 open class PhoneTextField: FormattingTextField {
     
-    weak var phoneFormatter: PhoneFormatter?
+    open weak var phoneFormatter: PhoneFormatter?
     
     open var phoneMask: String! {
         didSet { formattingMask = phoneMask }

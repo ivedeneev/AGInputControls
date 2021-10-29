@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct PhoneNumberFormatter: Formatter {
+public struct PhoneNumberFormatter: AGFormatter {
     
     public let mask: String
     

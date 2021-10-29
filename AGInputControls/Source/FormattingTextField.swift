@@ -25,7 +25,7 @@ open class FormattingTextField: UITextField {
         }
     }
     
-    open var formatter: Formatter? { didSet { invalidateIntrinsicContentSize() } }
+    open var formatter: AGFormatter? { didSet { invalidateIntrinsicContentSize() } }
     
     ///  Mask to be draw as example. Default is nil and no example mask is drawn. Placeholder is ignored if exaplmeMask is non nil
     open var exampleMask: String? { didSet { invalidateIntrinsicContentSize() } }
@@ -46,7 +46,7 @@ open class FormattingTextField: UITextField {
         prefix.first(where: { "#?*".contains($0) }) == nil && !prefix.isEmpty
     }
     
-    weak var formattingDelegate: FormattingTextFieldDelegate?
+    open weak var formattingDelegate: FormattingTextFieldDelegate?
     
     //MARK: Overriden properties
     open override var intrinsicContentSize: CGSize {
