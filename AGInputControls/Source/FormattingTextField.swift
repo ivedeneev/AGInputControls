@@ -249,7 +249,7 @@ open class FormattingTextField: UITextField {
         formattingDelegate?.textField(
             textField: self,
             didProduce: result,
-            isValid: formatter.mask == result
+            isValid: formatter.mask.count == result?.count ?? 0
         )
         return result
     }
