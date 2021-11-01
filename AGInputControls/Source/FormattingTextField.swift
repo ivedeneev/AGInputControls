@@ -93,7 +93,7 @@ open class FormattingTextField: UITextField {
         
         let formatted = formattedText(text: text)
         self.text = formatted
-        
+        notifyDelegate(text: self.text)
         guard let last = text?.prefix(pos).last else { return }
         
         if !last.isNumber {
@@ -195,8 +195,9 @@ open class FormattingTextField: UITextField {
     }
     
     //MARK: Public methods
-    open func setFormattedText(_ text: String) {
+    open func setFormattedText(_ text: String?) {
         self.text = formattedText(text: text)
+        notifyDelegate(text: self.text)
     }
 
     open func isValidCharachter(_ ch: Character?) -> Bool {
@@ -237,20 +238,25 @@ open class FormattingTextField: UITextField {
             }
         }
         guard let formatter = formatter else {
-            formattingDelegate?.textField(
-                textField: self,
-                didProduce: text,
-                isValid: true
-            )
+            notifyDelegate(text: text)
             return text
         }
         
         let result = formatter.formattedText(text: text)
+        return result
+    }
+    
+    private func notifyDelegate(text: String?) {
+        let isValidText: Bool
+        if let formatter = formatter {
+            isValidText = formatter.mask.count == text?.count ?? 0
+        } else {
+            isValidText = true
+        }
         formattingDelegate?.textField(
             textField: self,
-            didProduce: result,
-            isValid: formatter.mask.count == result?.count ?? 0
+            didProduce: text,
+            isValid: isValidText
         )
-        return result
     }
 }
