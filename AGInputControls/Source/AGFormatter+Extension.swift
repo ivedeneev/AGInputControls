@@ -12,11 +12,14 @@ extension AGFormatter {
         prefix.first(where: { "#?*".contains($0) }) == nil && !prefix.isEmpty
     }
     
-    public func isValidCharachter(_ ch: Character?) -> Bool {
+    public func isNumberOrLetter(_ ch: Character?) -> Bool {
         guard let char = ch else { return false }
         return char.isNumber || char.isLetter
     }
     
+    public var acceptedLetters: Set<Character> {
+        .init()
+    }
     
     public func isValidString(text: String?) -> Bool {
         guard let resultText = formattedText(text: text) else { return allowsEmptyOrNilStrings }
@@ -28,9 +31,13 @@ extension AGFormatter {
     }
     
     public func formattedText(text: String?) -> String? {
-        guard let t = text else { return text }
+        defaultFormattedText(text: text)
+    }
+    
+    public func defaultFormattedText(text: String?) -> String? {
+        guard let t = text, !mask.isEmpty else { return text }
 
-        var textRemovingSpecialSymbols = String(t.filter { isValidCharachter($0) })
+        var textRemovingSpecialSymbols = String(t.filter { isNumberOrLetter($0) })
 
         // insert prefix if its constant
         if maskHasConstantPrefix,

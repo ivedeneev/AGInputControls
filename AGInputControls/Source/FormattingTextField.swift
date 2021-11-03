@@ -9,6 +9,7 @@ import UIKit
 
 public protocol FormattingTextFieldDelegate: AnyObject {
     func textField(textField: FormattingTextField, didProduce text: String?, isValid: Bool)
+    func textField(textField: FormattingTextField, didOccurUnacceptedCharacter char: Character)
 }
 
 open class FormattingTextField: UITextField {
@@ -19,12 +20,17 @@ open class FormattingTextField: UITextField {
     /// `?` - any (letter or digit)
     /// Example: `*** ## * #` stands for `ABC 12 D 3`
     open var formattingMask: String? {
-        didSet {
-            guard let mask = formattingMask else { return }
+        get {
+            formatter?.mask
+        }
+        
+        set {
+            guard let mask = newValue else { return }
             formatter = DefaultFormatter(mask: mask, allowsEmptyOrNilStrings: false)
         }
     }
     
+    /// Formatter object in case you need your own formatting logic
     open var formatter: AGFormatter? { didSet { invalidateIntrinsicContentSize() } }
     
     ///  Mask to be draw as example. Default is nil and no example mask is drawn. Placeholder is ignored if exaplmeMask is non nil
@@ -37,20 +43,21 @@ open class FormattingTextField: UITextField {
     internal var showsMask: Bool { exampleMask != nil }
     
     internal var prefix: String {
-        guard let separator = formattingMask?.first(where: { !("#?*".contains($0) || $0.isLetter || $0.isNumber) }) else { return "" }
-        
-        return formattingMask?.components(separatedBy: String(separator)).first ?? ""
+        formatter?.prefix ?? ""
     }
     
     internal var hasConstantPrefix: Bool {
-        prefix.first(where: { "#?*".contains($0) }) == nil && !prefix.isEmpty
+        formatter?.maskHasConstantPrefix ?? false
     }
     
     open weak var formattingDelegate: FormattingTextFieldDelegate?
     
     //MARK: Overriden properties
     open override var intrinsicContentSize: CGSize {
-        guard let exampleMask = exampleMask else {
+
+        guard let exampleMask = formattingMask ??
+                formattingMask?.replacingOccurrences(of: "#", with: "0"), !exampleMask.isEmpty // in case of monospaced digit fonts calculatiing width againts only digit text produces more accurate results
+        else {
             return super.intrinsicContentSize
         }
         
@@ -163,9 +170,9 @@ open class FormattingTextField: UITextField {
             }
         }
         
-        if !isValidCharachter(txt.prefix(cursorPosition).last) && range.isEmpty {
+        if !isNumberOrLetter(txt.prefix(cursorPosition).last) && range.isEmpty {
             var charsToRemove = 0
-            while !isValidCharachter(txt.prefix(cursorPosition - charsToRemove).last), !txt.isEmpty {
+            while !isNumberOrLetter(txt.prefix(cursorPosition - charsToRemove).last), !txt.isEmpty {
                 charsToRemove += 1
                 txt.remove(at: .init(utf16Offset: max(0, cursorPosition - charsToRemove), in: txt))
             }
@@ -178,7 +185,7 @@ open class FormattingTextField: UITextField {
             return
         }
         
-        if !isValidCharachter(txt.dropLast().last) {
+        if !isNumberOrLetter(txt.dropLast().last) {
             let numberToDrop = min(txt.count, 2)  // what if last 2-3 symbols are invalid? is it possible?
             txt.removeLast(numberToDrop)
             setFormattedText(txt)
@@ -200,9 +207,8 @@ open class FormattingTextField: UITextField {
         notifyDelegate(text: self.text)
     }
 
-    open func isValidCharachter(_ ch: Character?) -> Bool {
-        guard let char = ch else { return false }
-        return char.isNumber || char.isLetter
+    open func isNumberOrLetter(_ ch: Character?) -> Bool {
+        formatter?.isNumberOrLetter(ch) ?? true
     }
     
     open func drawExampleMask(rect: CGRect) {
@@ -238,7 +244,6 @@ open class FormattingTextField: UITextField {
             }
         }
         guard let formatter = formatter else {
-            notifyDelegate(text: text)
             return text
         }
         
@@ -253,10 +258,16 @@ open class FormattingTextField: UITextField {
         } else {
             isValidText = true
         }
-        formattingDelegate?.textField(
-            textField: self,
-            didProduce: text,
-            isValid: isValidText
-        )
+        formattingDelegate?.textField(textField: self, didProduce: text, isValid: isValidText)
+        
+        if let formatter = formatter,
+           let text = text?.filter({ $0.isLetter }),
+           !formatter.acceptedLetters.isEmpty
+        {
+            let unacceptedLetters = Set(text).subtracting(formatter.acceptedLetters)
+            if let letter = unacceptedLetters.first {
+                formattingDelegate?.textField(textField: self, didOccurUnacceptedCharacter: letter)
+            }
+        }
     }
 }

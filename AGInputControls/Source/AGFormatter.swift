@@ -12,8 +12,9 @@ public protocol AGFormatter {
     var maskHasConstantPrefix: Bool { get }
     var prefix: String { get }
     var allowsEmptyOrNilStrings: Bool { get }
+    var acceptedLetters: Set<Character> { get }
     
     func formattedText(text: String?) -> String?
-    func isValidCharachter(_ ch: Character?) -> Bool
+    func isNumberOrLetter(_ ch: Character?) -> Bool
     func isValidString(text: String?) -> Bool
 }

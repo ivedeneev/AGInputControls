@@ -35,7 +35,7 @@ extension FormattingTextField {
     }
     
     internal func assertForExampleMasksAndPrefix() {
-        guard let mask = exampleMask, !mask.isEmpty, let formattingMask = formattingMask else { return }
+        guard let mask = exampleMask, !mask.isEmpty, let formattingMask = formattingMask, formatter != nil else { return }
         assert(mask == formattedText(text: mask) && mask.count == formattingMask.count, "Formatting mask and example mask should be in same format. This is your responsibility as a developer\nExampleMask: \(mask)\nFormatting mask: \(formattingMask)")
         assert(prefix.first(where: { $0.isLetter || $0.isNumber }) == nil || hasConstantPrefix, "You cannot have 'semi constant' prefixes at this point ")
     }

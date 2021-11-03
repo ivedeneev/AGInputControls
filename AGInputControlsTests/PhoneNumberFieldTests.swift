@@ -18,22 +18,22 @@ class PhoneNumberFieldTests: XCTestCase {
     }
 
     func testExample() throws {
-        textField.phoneMask = "+# ### ###-##-##"
+        textField.formattingMask = "+# ### ###-##-##"
         XCTAssertEqual(textField.prefix, "+#")
         
-        textField.phoneMask = "+7 ### ###-##-##"
+        textField.formattingMask = "+7 ### ###-##-##"
         XCTAssertEqual(textField.prefix, "+7")
         
-        textField.phoneMask = "+232 ### ###-##-##"
+        textField.formattingMask = "+232 ### ###-##-##"
         XCTAssertEqual(textField.prefix, "+232")
         
-        textField.phoneMask = "232 ### ###-##-##"
+        textField.formattingMask = "232 ### ###-##-##"
         XCTAssertEqual(textField.prefix, "232")
         
-        textField.phoneMask = "+31 (#) ## ## #####"
+        textField.formattingMask = "+31 (#) ## ## #####"
         XCTAssertEqual(textField.prefix, "+31")
         
-        textField.phoneMask = "+## ### ### ## ###"
+        textField.formattingMask = "+## ### ### ## ###"
         textField.setFormattedText("+31 970 102 81 448")
         XCTAssertEqual(textField.text, "+31 970 102 81 448")
         
@@ -41,13 +41,13 @@ class PhoneNumberFieldTests: XCTestCase {
     }
     
     func testReplacing8withPlus7ForRussianNumbersIfConstantMaskWasSet() {
-        textField.phoneMask = "+7 ### ###-##-##"
+        textField.formattingMask = "+7 ### ###-##-##"
         textField.setFormattedText("89153051653")
         XCTAssertEqual(textField.text, "+7 915 305-16-53")
     }
     
     func testFormatting() {
-        textField.phoneMask = "+31 (#) ## ## #####"
+        textField.formattingMask = "+31 (#) ## ## #####"
         let phone = "+31 (4) 10 20 76066"
         XCTAssertEqual(textField.formattedText(text: phone), phone)
     }

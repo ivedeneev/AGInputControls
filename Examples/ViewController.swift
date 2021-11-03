@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         
         phoneField.backgroundColor = .systemBackground
         phoneField.font = .monospacedDigitSystemFont(ofSize: 30, weight: .light)
-        phoneField.phoneMask = "+# (###) ###-##-##"
+        phoneField.formattingMask = "+# (###) ###-##-##"
         phoneField.exampleMask = "+7 (888) 777-66-55"
         phoneField.backgroundColor = UIColor.systemPink.withAlphaComponent(0.1)
         
@@ -56,7 +56,7 @@ class ViewController: UIViewController {
         
         fixedWidthPhoneField.font = UIFont(name: "Avenir", size: 30)?.monospaced
         fixedWidthPhoneField.exampleMask = "+7 900 432 89 67"
-        fixedWidthPhoneField.phoneMask =  "+7 ### ### ## ##"
+        fixedWidthPhoneField.formattingMask =  "+7 ### ### ## ##"
         
 //        fixedWidthPhoneField.exampleMask = "+31 (0) 20 76 06697"
 //        fixedWidthPhoneField.phoneMask =  "+31 (#) ## ## #####"
@@ -77,9 +77,7 @@ class ViewController: UIViewController {
         lettersField.font = UIFont(name: "Courier", size: 30)
         
         let testField = FormattingTextField()
-//        testField.formattingMask = "123 DDDDDDDDDD"
-//        testField.exampleMask = "123 1234567890"
-        testField.formattingMask = "XYZ **##"
+        testField.formatter = DefaultFormatter(mask: "XYZ **##")
         testField.exampleMask = "XYZ AB34"
         testField.font = .monospacedSystemFont(ofSize: 40, weight: .medium)
         testField.translatesAutoresizingMaskIntoConstraints = false
