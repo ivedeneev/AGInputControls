@@ -54,9 +54,9 @@ open class FormattingTextField: UITextField {
     
     //MARK: Overriden properties
     open override var intrinsicContentSize: CGSize {
-
         guard let exampleMask = formattingMask ??
-                formattingMask?.replacingOccurrences(of: "#", with: "0"), !exampleMask.isEmpty // in case of monospaced digit fonts calculatiing width againts only digit text produces more accurate results
+              formattingMask?.replacingOccurrences(of: "#", with: "0"),
+              !exampleMask.isEmpty // in case of monospaced digit fonts calculatiing width againts only digit text produces more accurate results
         else {
             return super.intrinsicContentSize
         }
@@ -92,7 +92,6 @@ open class FormattingTextField: UITextField {
         borderStyle = .none // This is important. bordered style adds its own layer so we cant draw example mask at this point. This behaviour may change in future
         addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
     }
-    
     
     @objc internal func didChangeEditing() {
         var pos = currentPosition()
@@ -253,7 +252,7 @@ open class FormattingTextField: UITextField {
     
     private func notifyDelegate(text: String?) {
         let isValidText: Bool
-        if let formatter = formatter {
+        if let formatter = formatter, !formatter.mask.isEmpty {
             isValidText = formatter.mask.count == text?.count ?? 0
         } else {
             isValidText = true
