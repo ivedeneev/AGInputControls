@@ -251,12 +251,7 @@ open class FormattingTextField: UITextField {
     }
     
     private func notifyDelegate(text: String?) {
-        let isValidText: Bool
-        if let formatter = formatter, !formatter.mask.isEmpty {
-            isValidText = formatter.mask.count == text?.count ?? 0
-        } else {
-            isValidText = true
-        }
+        let isValidText = formatter?.isValidString(text: text) ?? true
         formattingDelegate?.textField(textField: self, didProduce: text, isValid: isValidText)
         
         if let formatter = formatter,

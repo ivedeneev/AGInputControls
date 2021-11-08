@@ -22,7 +22,14 @@ extension AGFormatter {
     }
     
     public func isValidString(text: String?) -> Bool {
-        guard let resultText = formattedText(text: text) else { return allowsEmptyOrNilStrings }
+        guard !mask.isEmpty else {
+            return true
+        }
+        
+        guard let resultText = formattedText(text: text) else {
+            return allowsEmptyOrNilStrings
+        }
+        
         return resultText.count == mask.count
     }
     

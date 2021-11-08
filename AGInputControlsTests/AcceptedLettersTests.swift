@@ -31,6 +31,21 @@ class AcceptedLettersTests: XCTestCase {
         XCTAssertEqual(delegate.unacceptedCharCalled, 1)
     }
     
+    
+    func testNotifyingDelegateWithEmptyMaskAndNonEmptyString() {
+        textField.formatter = EmptyMaskFormatter()
+        textField.setFormattedText("gfhdskjfhdskjfhds")
+        XCTAssertEqual(delegate.isValidCalled, 1)
+        XCTAssertEqual(delegate.isValid, true)
+    }
+    
+    func testNotifyingDelegateWithEmptyMaskAndEmptyString() {
+        textField.formatter = EmptyMaskFormatter()
+        textField.setFormattedText("")
+        XCTAssertEqual(delegate.isValidCalled, 1)
+        XCTAssertEqual(delegate.isValid, false)
+    }
+    
     override func tearDown() {
         super.tearDown()
         textField = nil
@@ -40,6 +55,7 @@ class AcceptedLettersTests: XCTestCase {
 class MockTextFieldDelegate: FormattingTextFieldDelegate {
     func textField(textField: FormattingTextField, didProduce text: String?, isValid: Bool) {
         isValidCalled += 1
+        self.isValid = isValid
     }
     
     func textField(textField: FormattingTextField, didOccurUnacceptedCharacter char: Character) {
@@ -48,4 +64,14 @@ class MockTextFieldDelegate: FormattingTextFieldDelegate {
     
     var isValidCalled = 0
     var unacceptedCharCalled = 0
+    var isValid = false
+}
+
+struct EmptyMaskFormatter: AGFormatter {
+    var prefix: String = ""
+    let mask = ""
+    
+    func isValidString(text: String?) -> Bool {
+        !(text?.isEmpty ?? true)
+    }
 }
