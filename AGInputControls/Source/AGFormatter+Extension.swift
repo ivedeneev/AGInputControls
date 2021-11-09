@@ -8,6 +8,16 @@
 import Foundation
 
 extension AGFormatter {
+    
+    public var prefix: String {
+        guard !mask.isEmpty, let separator = mask.first(
+            where: { !("#?*".contains($0) || $0.isLetter || $0.isNumber) }) else {
+                return ""
+            }
+        
+        return mask.components(separatedBy: String(separator)).first ?? ""
+    }
+    
     public var maskHasConstantPrefix: Bool {
         prefix.first(where: { "#?*".contains($0) }) == nil && !prefix.isEmpty
     }

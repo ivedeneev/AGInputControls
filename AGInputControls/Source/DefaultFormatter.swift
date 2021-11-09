@@ -22,10 +22,4 @@ public struct DefaultFormatter: AGFormatter {
         self.allowsEmptyOrNilStrings = allowsEmptyOrNilStrings
         self.acceptedLetters = acceptedLetters
     }
-    
-    public var prefix: String {
-        guard let separator = mask.first(where: { !("#?*".contains($0) || $0.isLetter || $0.isNumber) }) else { return "" }
-        
-        return mask.components(separatedBy: String(separator)).first ?? ""
-    }
 }
