@@ -7,6 +7,7 @@
 
 import UIKit
 import AGInputControls
+//import SwiftUI
 
 class ViewController: UIViewController {
     @IBOutlet weak var field_1: OTPCodeTextField!
@@ -71,6 +72,7 @@ class ViewController: UIViewController {
         floatingFieldNoFormatting.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.15)
         floatingFieldNoFormatting.padding = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         
+        lettersField.showsMaskIfEmpty = false
         lettersField.formattingMask = "* ### ** ###"
         lettersField.exampleMask = "A 123 BB 456"
         lettersField.backgroundColor = UIColor.systemYellow.withAlphaComponent(0.25)
@@ -87,6 +89,12 @@ class ViewController: UIViewController {
             testField.topAnchor.constraint(equalTo: lettersField.bottomAnchor, constant: 8),
             testField.centerXAnchor.constraint(equalTo: lettersField.centerXAnchor)
         ])
+        
+        navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .action, target: self, action: #selector(showSwiftUIExample))
+    }
+    
+    @objc func showSwiftUIExample() {
+//        present(UIHostingController(rootView: ExampleSUI()), animated: true, completion: nil)
     }
     
     @objc private func didChangeEditing(textField: UITextField) {
