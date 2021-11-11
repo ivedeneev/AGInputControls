@@ -41,6 +41,9 @@ open class FormattingTextField: UITextField {
     
     //MARK: Internal properties
     internal var showsMask: Bool { exampleMask != nil }
+    private lazy var _showsMask = showsMaskIfEmpty
+    
+    open var showsMaskIfEmpty: Bool = true
     
     internal var prefix: String {
         formatter?.prefix ?? ""
@@ -212,14 +215,14 @@ open class FormattingTextField: UITextField {
     
     open func drawExampleMask(rect: CGRect) {
         assertForExampleMasksAndPrefix()
+        let text = self.text ?? ""
         
         guard let mask = exampleMask,
               !mask.isEmpty,
               let font = self.font,
-              let textColor = self.textColor
+              let textColor = self.textColor,
+              !text.isEmpty || _showsMask
         else { return }
-        
-        let text = self.text ?? ""
 
         let _text = text + mask.suffix(mask.count - text.count)
         let textToDraw = NSMutableAttributedString(string: _text, attributes: [
@@ -263,5 +266,21 @@ open class FormattingTextField: UITextField {
                 formattingDelegate?.textField(textField: self, didOccurUnacceptedCharacter: letter)
             }
         }
+    }
+    
+    open override func becomeFirstResponder() -> Bool {
+        if (text?.isEmpty ?? true) && !showsMaskIfEmpty && !_showsMask {
+            _showsMask = true
+            setNeedsDisplay()
+        }
+        return super.becomeFirstResponder()
+    }
+    
+    open override func resignFirstResponder() -> Bool {
+        if (text?.isEmpty ?? true) && !showsMaskIfEmpty && _showsMask {
+            _showsMask = false
+            setNeedsDisplay()
+        }
+        return super.resignFirstResponder()
     }
 }
