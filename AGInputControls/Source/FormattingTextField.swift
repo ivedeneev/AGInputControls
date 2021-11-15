@@ -149,6 +149,8 @@ open class FormattingTextField: UITextField {
         
         let cursorPosition = currentPosition()
         
+        guard cursorPosition != 0 else { return } // nothing to delete if we place cursor at the beginning of the text
+        
         if cursorPosition <= prefix.count && hasConstantPrefix {
             setCursorPosition(offset: cursorPosition)
             return
