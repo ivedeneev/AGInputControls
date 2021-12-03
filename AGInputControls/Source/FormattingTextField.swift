@@ -141,7 +141,8 @@ open class FormattingTextField: UITextField {
             let range = selectedTextRange,
             var txt = self.text,
             !txt.isEmpty,
-            let mask = formattingMask
+            let mask = formattingMask,
+            !mask.isEmpty
         else {
             super.deleteBackward()
             return
