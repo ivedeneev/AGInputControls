@@ -36,7 +36,7 @@ public struct PhoneNumberFormatter: AGFormatter {
         }
         
         // pecial case for Russian numbers. if we paste number in old format (e.g 89997776655) we conver it in international format (replace 8 with +7)
-        if prefix == "+7" && t.first == "8" && t.count >= 11 {
+        if prefix == "+7" && (t.first == "8" || t.first == "7") && t.count >= 11 {
             t = prefix + t.dropFirst()
         }
 
