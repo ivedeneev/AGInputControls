@@ -74,7 +74,7 @@ open class FloatingLabelTextField : FormattingTextField {
     
     
     private var hasBottomText: Bool {
-        !(bottomText?.isEmpty ?? true)
+        bottomText.isEmptyOrTrue
     }
     
     private var bottomLabelHeight: CGFloat {

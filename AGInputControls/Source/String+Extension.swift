@@ -36,3 +36,9 @@ extension String {
         components(separatedBy: CharacterSet.letters.inverted).joined()
     }
 }
+
+internal extension Optional where Wrapped == String {
+    var isEmptyOrTrue: Bool {
+        self?.isEmpty ?? true
+    }
+}

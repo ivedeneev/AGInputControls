@@ -120,7 +120,7 @@ open class FormattingTextField: UITextField {
     }
     
     open override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        guard !showsMask else { return .zero }
+        guard !showsMask && formatter != nil else { return .zero }
         return super.placeholderRect(forBounds: bounds)
     }
     
@@ -128,7 +128,7 @@ open class FormattingTextField: UITextField {
         var rect = super.caretRect(for: position)
 
         // let place caret ONLY AFTER prefix, if its constant
-        guard showsMask, hasConstantPrefix, text?.isEmpty ?? true else {
+        guard showsMask, hasConstantPrefix, text.isEmptyOrTrue else {
             return rect
         }
 
@@ -175,7 +175,7 @@ open class FormattingTextField: UITextField {
             }
         }
         
-        if !isNumberOrLetter(txt.prefix(cursorPosition).last) && range.isEmpty {
+        if !isNumberOrLetter(txt.prefix(cursorPosition).last) && range.isEmpty && cursorPosition != 1 {
             var charsToRemove = 0
             while !isNumberOrLetter(txt.prefix(cursorPosition - charsToRemove).last), !txt.isEmpty {
                 charsToRemove += 1
@@ -190,7 +190,7 @@ open class FormattingTextField: UITextField {
             return
         }
         
-        if !isNumberOrLetter(txt.dropLast().last) {
+        if !isNumberOrLetter(txt.dropLast().last) && range.end == endOfDocument {
             let numberToDrop = min(txt.count, 2)  // what if last 2-3 symbols are invalid? is it possible?
             txt.removeLast(numberToDrop)
             setFormattedText(txt)
@@ -272,7 +272,7 @@ open class FormattingTextField: UITextField {
     }
     
     open override func becomeFirstResponder() -> Bool {
-        if (text?.isEmpty ?? true) && !showsMaskIfEmpty && !_showsMask {
+        if text.isEmptyOrTrue && !showsMaskIfEmpty && !_showsMask && formatter != nil {
             _showsMask = true
             setNeedsDisplay()
         }
@@ -280,7 +280,7 @@ open class FormattingTextField: UITextField {
     }
     
     open override func resignFirstResponder() -> Bool {
-        if (text?.isEmpty ?? true) && !showsMaskIfEmpty && _showsMask {
+        if text.isEmptyOrTrue && !showsMaskIfEmpty && _showsMask && formatter != nil {
             _showsMask = false
             setNeedsDisplay()
         }
