@@ -7,7 +7,6 @@
 
 import UIKit
 import AGInputControls
-//import SwiftUI
 
 class ViewController: UIViewController {
     @IBOutlet weak var field_1: OTPCodeTextField!
@@ -70,7 +69,7 @@ class ViewController: UIViewController {
         fixedWidthPhoneField.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
         
         floatingFieldNoFormatting.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.15)
-        floatingFieldNoFormatting.padding = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        floatingFieldNoFormatting.padding = UIEdgeInsets(top: 0, left: 8, bottom: 16, right: 8)
         
         lettersField.showsMaskIfEmpty = false
         lettersField.formattingMask = "* ### ** ###"
@@ -79,7 +78,7 @@ class ViewController: UIViewController {
         lettersField.font = UIFont(name: "Courier", size: 30)
         
         let testField = FormattingTextField()
-        testField.formatter = DefaultFormatter(mask: "XYZ **##")
+        testField.formatter = DefaultFormatter(mask: "XYZ AB##")
         testField.exampleMask = "XYZ AB34"
         testField.font = .monospacedSystemFont(ofSize: 40, weight: .medium)
         testField.translatesAutoresizingMaskIntoConstraints = false
@@ -89,12 +88,6 @@ class ViewController: UIViewController {
             testField.topAnchor.constraint(equalTo: lettersField.bottomAnchor, constant: 8),
             testField.centerXAnchor.constraint(equalTo: lettersField.centerXAnchor)
         ])
-        
-        navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .action, target: self, action: #selector(showSwiftUIExample))
-    }
-    
-    @objc func showSwiftUIExample() {
-//        present(UIHostingController(rootView: ExampleSUI()), animated: true, completion: nil)
     }
     
     @objc private func didChangeEditing(textField: UITextField) {

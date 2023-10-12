@@ -18,7 +18,19 @@ open class FloatingLabelTextField : FormattingTextField {
     private let underlineView = UIView()
     private let placeholderLabel = UILabel()
     
-    /// Text paddings. Default is zero
+    private let floatingLabelScaleFactor: CGFloat = 0.75
+    
+    /// Space between text and floating placeholder
+    private var textTopPadding: CGFloat {
+        (font?.lineHeight ?? 0) * 0.15
+    }
+    
+    /// Space between text and underline view and bottom label
+    private var textBottomPadding: CGFloat {
+        textTopPadding * 2
+    }
+    
+    /// Content paddings. Default is zero
     open var padding: UIEdgeInsets = .zero
     
     /// Bottom label. Typically used for errors
@@ -26,9 +38,11 @@ open class FloatingLabelTextField : FormattingTextField {
     
     ///
     open var bottomText: String? {
-        didSet {
-            bottomLabel.text = bottomText
-            bottomLabel.sizeToFit()
+        get {
+            bottomLabel.text
+        }
+        set {
+            bottomLabel.text = newValue
         }
     }
     
@@ -62,19 +76,19 @@ open class FloatingLabelTextField : FormattingTextField {
     }
     
     open override var intrinsicContentSize: CGSize {
-        //TODO: do smth with height calculatuion
-        let height: CGFloat
-        let lineHeight = font!.lineHeight * 2.25
+        var height: CGFloat
+        let lineHeight = font!.lineHeight
         let paddings: CGFloat = padding.top + padding.bottom
-        height = lineHeight + paddings
+        let topLabelHeight = lineHeight * floatingLabelScaleFactor
+        height = lineHeight + paddings + 1 + topLabelHeight + textTopPadding
         let bottomHeight: CGFloat = hasBottomText ? bottomLabelHeight : 0
-        
+        height += textBottomPadding
         return CGSize(width: UIScreen.main.bounds.width * 0.6, height: height + bottomHeight)
     }
     
     
     private var hasBottomText: Bool {
-        bottomText.isEmptyOrTrue
+        !bottomText.isEmptyOrTrue
     }
     
     private var bottomLabelHeight: CGFloat {
@@ -98,7 +112,7 @@ open class FloatingLabelTextField : FormattingTextField {
         addSubview(placeholderLabel)
         
         addSubview(bottomLabel)
-        bottomLabel.font = font?.withSize(font!.pointSize * 0.75)
+        bottomLabel.font = font?.withSize(font!.pointSize * floatingLabelScaleFactor)
         bottomLabel.textColor = placeholderColor
         
         setPlaceholderBottomAttributes()
@@ -128,7 +142,10 @@ open class FloatingLabelTextField : FormattingTextField {
     }
     
     private func setPlaceholderTopAttributes() {
-        placeholderLabel.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        placeholderLabel.transform = CGAffineTransform(
+            scaleX: floatingLabelScaleFactor,
+            y: floatingLabelScaleFactor
+        )
         placeholderLabel.frame.origin.x = padding.left
         placeholderLabel.frame.origin.y = padding.top
         placeholderLabel.frame.size.height = editingRect(forBounds: bounds).height * 0.5
@@ -175,9 +192,10 @@ open class FloatingLabelTextField : FormattingTextField {
 
     open override func textRect(forBounds bounds: CGRect) -> CGRect {
         var p = padding
-        p.top += font!.lineHeight * 0.45 // FIXME: magic numbers
+        p.top += (font!.lineHeight * floatingLabelScaleFactor + textTopPadding)
         p.right = bounds.width - super.editingRect(forBounds: bounds).width
         p.bottom += hasBottomText ? bottomLabelHeight : 0
+        p.bottom += textBottomPadding
         return bounds.inset(by: p)
     }
 
@@ -191,9 +209,10 @@ open class FloatingLabelTextField : FormattingTextField {
 
     open override func editingRect(forBounds bounds: CGRect) -> CGRect {
         var p = padding
-        p.top += font!.lineHeight * 0.45 // FIXME: magic numbers
+        p.top += (font!.lineHeight * floatingLabelScaleFactor + textTopPadding)
         p.right = bounds.width - super.editingRect(forBounds: bounds).width
         p.bottom += hasBottomText ? bottomLabelHeight : 0
+        p.bottom += textBottomPadding
         return bounds.inset(by: p)
     }
     
@@ -203,8 +222,8 @@ open class FloatingLabelTextField : FormattingTextField {
     
     open override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
         var rect = super.clearButtonRect(forBounds: bounds)
-        //FIXME: get rid of '-4' magic number
         rect.origin.y -= hasBottomText ? bottomLabelHeight / 2 - 4 : -4
+        
         return rect
     }
 
@@ -217,7 +236,6 @@ open class FloatingLabelTextField : FormattingTextField {
             setPlaceholderTopAttributes()
         }
         
-        let bottomLabelSize = bottomLabel.frame.size
         let underlineHeight: CGFloat = 1
 
         let underlineBottomPadding: CGFloat = hasBottomText ? bottomLabelHeight + underlineHeight : underlineHeight
@@ -232,8 +250,8 @@ open class FloatingLabelTextField : FormattingTextField {
         bottomLabel.frame = CGRect(
             x: padding.left,
             y: underlineView.frame.maxY,
-            width: min(bottomLabelSize.width, bounds.width - (padding.left + padding.right)),
-            height: bottomLabelSize.height
+            width: bottomLabel.text.isEmptyOrTrue ? 0 : bounds.width - (padding.left + padding.right),
+            height: bottomLabel.font.lineHeight
         )
     }
     
