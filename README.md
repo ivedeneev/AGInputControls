@@ -19,7 +19,7 @@ This library contains 3 UITextField subclasses:
 `github "ivedeneev/AGInputControls"`
 
 ### Swift Package Manager
-//TODO
+Add this line to your `Package.swift` file: `.package(url: "https://github.com/ivedeneev/AGInputControls", branch: "master")`
 
 
 Library also provides basic class `FormattingTextField` which can format input text respecting given mask. 
@@ -73,14 +73,18 @@ You can use this textfield for mobile phone number input
 You can override this behaviour by subclassing `PhoneTextField` and override `formattedText(text:)` method or use `formattingDelegate` property and customize formatting behavoiur without creating subclasses
 
 ## FloatingLabelTextField
+FloatingLabelTextField is a `UITextField` subclass which resembles [Material design text field](https://m2.material.io/components/text-fields)
 
 ### Usage
 ```swift
     let floatTextField = FloatingLabelTextField()
     floatTextField.formattingMask = "##/##" // Formatting mask
     floatTextField.placeholder = "Expires at"
-    floatTextField.padding = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0) // Paddings :)
-    floatTextField.highlightsWhenActive = true // Placeholder and underline view are filled by tintColor when textfield is active
+    floatTextField.textPaddings = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0) // Paddings :)
+    floatTextField.highlightsWhenActive = true // Placeholder and underline view and bottom label are filled by tintColor when textfield is active
+
+    floatTextField.errorTintColor = .systemRed
+    floatTextField.isError = true // if true, placeholder and underline view and bottom label are filled by errorTintColor
 ```
 
 * Support auto-sizing height respecting given font and paddings
