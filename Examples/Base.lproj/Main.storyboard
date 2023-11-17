@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="92" width="414" height="770"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="XYD-44-ltN">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="928"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="968"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QQG-4o-0Dp" userLabel="letters">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="120"/>
@@ -109,7 +109,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1tu-ce-tEo" userLabel="float_bg_w_formatting">
-                                                <rect key="frame" x="0.0" y="424" width="414" height="120"/>
+                                                <rect key="frame" x="0.0" y="424" width="414" height="160"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FloatingLabelTextField with formatting" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UMk-pq-H9F">
                                                         <rect key="frame" x="0.0" y="8" width="414" height="20.5"/>
@@ -131,12 +131,12 @@
                                                     <constraint firstItem="UMk-pq-H9F" firstAttribute="leading" secondItem="lV9-kH-fom" secondAttribute="leading" id="VLj-2l-E1W"/>
                                                     <constraint firstItem="UMk-pq-H9F" firstAttribute="top" secondItem="lV9-kH-fom" secondAttribute="top" constant="8" id="adg-8m-k1H"/>
                                                     <constraint firstItem="SAD-K4-JCd" firstAttribute="leading" secondItem="UMk-pq-H9F" secondAttribute="leading" constant="8" id="cfO-pw-2mM"/>
-                                                    <constraint firstAttribute="height" constant="120" id="mJq-OB-c4O"/>
+                                                    <constraint firstAttribute="height" constant="160" id="mJq-OB-c4O"/>
                                                     <constraint firstItem="SAD-K4-JCd" firstAttribute="trailing" secondItem="UMk-pq-H9F" secondAttribute="trailing" constant="-8" id="wBo-A4-E6p"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cUF-wv-BcO" userLabel="otp_bg">
-                                                <rect key="frame" x="0.0" y="552" width="414" height="120"/>
+                                                <rect key="frame" x="0.0" y="592" width="414" height="120"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OTPCodeTextField" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gwB-ev-g31">
                                                         <rect key="frame" x="0.0" y="8" width="414" height="20.5"/>
@@ -162,7 +162,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8XK-Ga-C4T" userLabel="phone_bg">
-                                                <rect key="frame" x="0.0" y="680" width="414" height="120"/>
+                                                <rect key="frame" x="0.0" y="720" width="414" height="120"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PhoneTextField" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gfc-WF-3FH">
                                                         <rect key="frame" x="0.0" y="8" width="414" height="20.5"/>
@@ -188,7 +188,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bnf-N7-K9W" userLabel="otp_dashes">
-                                                <rect key="frame" x="0.0" y="808" width="414" height="120"/>
+                                                <rect key="frame" x="0.0" y="848" width="414" height="120"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OTPCodeTextField fixed dimentions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y8i-YP-3kF">
                                                         <rect key="frame" x="0.0" y="8" width="414" height="20.5"/>

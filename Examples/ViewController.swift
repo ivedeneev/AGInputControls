@@ -45,6 +45,7 @@ class ViewController: UIViewController {
         floatingFieldNoFormatting.bottomText = "Test"
         floatingFieldNoFormatting.textPadding = UIEdgeInsets(top: 20, left: 12, bottom: 20, right: 8)
         floatingFieldNoFormatting.showUnderlineView = true
+        floatingFieldNoFormatting.highlightsWhenActive = true
         floatingFieldNoFormatting.clearButtonMode = .never
         floatingFieldNoFormatting.rightViewMode = .whileEditing
         
@@ -55,7 +56,7 @@ class ViewController: UIViewController {
         floatingFieldNoFormatting.rightView = customClearButton
         
         floatTextField.placeholder = "Card number"
-        floatTextField.tintColor = .systemPink
+        floatTextField.tintColor = .systemPurple
         floatTextField.backgroundColor = .white
         floatTextField.formattingMask = "#### #### #### ####"
         floatTextField.font = .monospacedDigitSystemFont(ofSize: 18, weight: .regular)
@@ -66,9 +67,9 @@ class ViewController: UIViewController {
         floatTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.15)
         floatTextField.cornerRadius = 8
         floatTextField.showUnderlineView = false
-        floatTextField.borderColor = .systemPurple
+        floatTextField.borderColor = .systemGreen
         floatTextField.borderWidth = 1
-        floatTextField.placeholderColor = .systemPurple
+        floatTextField.placeholderColor = .systemGreen
         
         fixedWidthPhoneField.font = UIFont(name: "Avenir", size: 30)?.monospaced
         fixedWidthPhoneField.exampleMask = "+7 900 432 89 67"
@@ -105,8 +106,9 @@ class ViewController: UIViewController {
     
     @objc private func didChangeEditing(textField: UITextField) {
         guard let tf = textField as? FloatingLabelTextField else { return }
-        tf.bottomText = tf.text!.count % 2 == 0 ? "Incorrect card format" : nil
-        
+        let isError = tf.text!.count % 2 == 0
+        tf.bottomText = isError ? "Incorrect card format" : nil
+        isError ? tf.configureErrorState(accentColor: .systemPink) : tf.resetErrorState()
     }
     
     @objc func didTapClear() {
