@@ -66,7 +66,6 @@ class ViewController: UIViewController {
         floatTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.15)
         floatTextField.cornerRadius = 8
         floatTextField.showUnderlineView = false
-        floatTextField.borderColor = .systemGreen
         floatTextField.borderWidth = 1
         floatTextField.placeholderColor = .systemGreen
         

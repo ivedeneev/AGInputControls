@@ -51,14 +51,6 @@ open class FloatingLabelTextField : FormattingTextField {
     }
     
     ///
-    open var borderColor: UIColor? {
-        didSet {
-            guard borderColor != nil else { return }
-            setNeedsDisplay()
-        }
-    }
-    
-    ///
     open var borderWidth: CGFloat = 0 {
         didSet {
             guard borderWidth > 0 else { return }
@@ -226,7 +218,7 @@ open class FloatingLabelTextField : FormattingTextField {
             context.fillPath()
         }
         
-        if let borderColor, borderWidth > 0 {
+        if borderWidth > 0 {
             var borderRect = rect
             borderRect.size.height = textYOrigin + font!.lineHeight + textPadding.bottom
             borderRect = borderRect.insetBy(dx: borderWidth, dy: borderWidth)
@@ -239,7 +231,7 @@ open class FloatingLabelTextField : FormattingTextField {
             if isError {
                 color = errorTintColor
             } else {
-                color = isFirstResponder && highlightsWhenActive ? tintColor : borderColor
+                color = isFirstResponder && highlightsWhenActive ? tintColor : placeholderColor
             }
             
             color?.setStroke()
