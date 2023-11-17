@@ -8,13 +8,10 @@
 
 import UIKit
 
+/// <#Description#>
 open class FloatingLabelTextField : FormattingTextField {
-    
-    enum HighlightStyle {
-        case none
-        case color(UIColor?, Bool)
-    }
-    
+
+    //MARK: - Public variables
     /// Space between text and floating placeholder
     open var floatingLabelBottomPadding: CGFloat = 4
 
@@ -36,6 +33,15 @@ open class FloatingLabelTextField : FormattingTextField {
             }
             bottomLabel.text = newValue
         }
+    }
+    
+    
+    /// Accent color for error state. Border, underline view and placeholder and bottom labels are affected. Default is red
+    open var errorTintColor: UIColor = .red
+    
+    /// Indicates, is textfield is in error state or not.
+    open var isError: Bool = false {
+        didSet { configureColors() }
     }
     
     /// Background color is set only for text and floating placeholder area. Bottom text area always has default background color
@@ -84,11 +90,9 @@ open class FloatingLabelTextField : FormattingTextField {
     open var highlightsWhenActive = false
     
     //MARK: - Variables overrides
-    /// Color of placeholder label and underline view
+    /// Color of placeholder label, bottom label and underline view for inactive state
     open override var placeholderColor: UIColor {
-        didSet {
-            configurePlaceholderColor()
-        }
+        didSet { configureColors() }
     }
     
     open override var placeholder: String? {
@@ -135,10 +139,6 @@ open class FloatingLabelTextField : FormattingTextField {
         textPadding.top + (font!.lineHeight * floatingLabelScaleFactor + floatingLabelBottomPadding)
     }
     
-    private var errorTintColor: UIColor? {
-        didSet { setNeedsDisplay() }
-    }
-    
     //MARK: - Init
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -148,21 +148,6 @@ open class FloatingLabelTextField : FormattingTextField {
     override public init(frame: CGRect) {
         super.init(frame: frame)
         initialSetup()
-    }
-    
-    //MARK: Public
-    open func configureErrorState(accentColor: UIColor) {
-        placeholderLabel.textColor = accentColor
-        bottomLabel.textColor = accentColor
-        underlineView.backgroundColor = accentColor
-        errorTintColor = accentColor
-    }
-    
-    open func resetErrorState() {
-        placeholderLabel.textColor = highlightsWhenActive && isFirstResponder ? tintColor : placeholderColor
-        bottomLabel.textColor = placeholderColor
-        underlineView.backgroundColor = placeholderColor
-        errorTintColor = nil
     }
     
     //MARK: - Setup
@@ -212,7 +197,6 @@ open class FloatingLabelTextField : FormattingTextField {
         var rect = editingRect(forBounds: bounds)
         rect.origin.y = (textAreaHeight - lineHeight) / 2
         placeholderLabel.frame = rect
-        placeholderLabel.textColor = placeholderColor
     }
     
     private func configureFont() {
@@ -225,11 +209,6 @@ open class FloatingLabelTextField : FormattingTextField {
         guard placeholder != nil else { return }
         placeholderLabel.text = placeholder
         placeholderLabel.sizeToFit()
-    }
-    
-    private func configurePlaceholderColor() {
-        placeholderLabel.textColor = placeholderColor
-        underlineView.backgroundColor = placeholderColor
     }
     
     //MARK: - Overrides
@@ -255,10 +234,12 @@ open class FloatingLabelTextField : FormattingTextField {
             assert(cornerRadius >= 0, "cornerRadius should be greater or equal zero")
             assert(borderWidth >= 0, "borderWidth should be greater or equal zero")
             let path = UIBezierPath(roundedRect: borderRect, cornerRadius: cornerRadius)
-            var color = isFirstResponder && highlightsWhenActive ? tintColor : borderColor
             
-            if let errorTintColor {
+            var color: UIColor?
+            if isError {
                 color = errorTintColor
+            } else {
+                color = isFirstResponder && highlightsWhenActive ? tintColor : borderColor
             }
             
             color?.setStroke()
@@ -271,7 +252,7 @@ open class FloatingLabelTextField : FormattingTextField {
         super.didMoveToSuperview()
         configureFont()
         configurePlaceholder()
-        configurePlaceholderColor()
+        configureColors()
     }
 
     open override func textRect(forBounds bounds: CGRect) -> CGRect {
@@ -339,33 +320,48 @@ open class FloatingLabelTextField : FormattingTextField {
     }
     
     open override func becomeFirstResponder() -> Bool {
-        if highlightsWhenActive {
-            underlineView.backgroundColor = tintColor
-            placeholderLabel.textColor = tintColor
-            setNeedsDisplay()
-        }
-        
         let value = super.becomeFirstResponder()
         
         if value {
             animatePlaceholderLabelOnTop()
+            configureColors()
         }
         
         return value
     }
 
     open override func resignFirstResponder() -> Bool {
-        placeholderLabel.textColor = errorTintColor ?? placeholderColor
-        underlineView.backgroundColor = errorTintColor ?? placeholderColor
         
         let value = super.resignFirstResponder()
         
-        if value && text.isEmptyOrTrue {
-            animatePlaceholderLabelOnBottom()
+        if value {
+            configureColors()
+            
+            if text.isEmptyOrTrue {
+                animatePlaceholderLabelOnBottom()
+            }
         }
         
-        setNeedsDisplay()
-        
         return value
+    }
+    
+    func configureColors() {
+        defer {
+            setNeedsDisplay()
+        }
+        
+        var color: UIColor?
+        
+        if isError {
+            color = errorTintColor
+        } else if isFirstResponder && highlightsWhenActive {
+            color = tintColor
+        } else {
+            color = placeholderColor
+        }
+        
+        placeholderLabel.textColor = color
+        underlineView.backgroundColor = color
+        bottomLabel.textColor = color
     }
 }

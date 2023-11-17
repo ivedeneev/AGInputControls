@@ -63,7 +63,6 @@ class ViewController: UIViewController {
         floatTextField.minimumFontSize = 36
         floatTextField.textPadding = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 1)
         floatTextField.highlightsWhenActive = true
-        floatTextField.bottomText = "Incorrect card format"
         floatTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.15)
         floatTextField.cornerRadius = 8
         floatTextField.showUnderlineView = false
@@ -108,7 +107,7 @@ class ViewController: UIViewController {
         guard let tf = textField as? FloatingLabelTextField else { return }
         let isError = tf.text!.count % 2 == 0
         tf.bottomText = isError ? "Incorrect card format" : nil
-        isError ? tf.configureErrorState(accentColor: .systemPink) : tf.resetErrorState()
+        tf.isError = isError
     }
     
     @objc func didTapClear() {
