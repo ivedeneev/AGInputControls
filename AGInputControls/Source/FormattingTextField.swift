@@ -233,12 +233,12 @@ open class FormattingTextField: UITextField {
             .foregroundColor : placeholderColor
         ])
         
-            if hasConstantPrefix {
-                textToDraw.addAttributes(
-                    [.foregroundColor : textColor],
-                    range: .init(location: 0, length: prefix.count)
-                )
-            }
+        if hasConstantPrefix {
+            textToDraw.addAttributes(
+                [.foregroundColor : textColor],
+                range: .init(location: 0, length: prefix.count)
+            )
+        }
         textToDraw.draw(at: CGPoint(x: 0, y: ((bounds.height - font.lineHeight) / 2)))
     }
     

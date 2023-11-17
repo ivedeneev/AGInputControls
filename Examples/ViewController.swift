@@ -7,7 +7,6 @@
 
 import UIKit
 import AGInputControls
-//import SwiftUI
 
 class ViewController: UIViewController {
     @IBOutlet weak var field_1: OTPCodeTextField!
@@ -42,18 +41,33 @@ class ViewController: UIViewController {
         phoneField.exampleMask = "+7 (888) 777-66-55"
         phoneField.backgroundColor = UIColor.systemPink.withAlphaComponent(0.1)
         
+        floatingFieldNoFormatting.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.15)
+        floatingFieldNoFormatting.bottomText = "Test"
+        floatingFieldNoFormatting.textPadding = UIEdgeInsets(top: 20, left: 12, bottom: 20, right: 8)
+        floatingFieldNoFormatting.showUnderlineView = true
+        floatingFieldNoFormatting.highlightsWhenActive = true
+        floatingFieldNoFormatting.clearButtonMode = .never
+        floatingFieldNoFormatting.rightViewMode = .whileEditing
+        
+        let customClearButton = UIButton()
+        customClearButton.backgroundColor = .systemPurple
+        customClearButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+        customClearButton.addTarget(self, action: #selector(didTapClear), for: .touchUpInside)
+        floatingFieldNoFormatting.rightView = customClearButton
+        
         floatTextField.placeholder = "Card number"
-        floatTextField.tintColor = .systemPink
+        floatTextField.tintColor = .systemPurple
         floatTextField.backgroundColor = .white
         floatTextField.formattingMask = "#### #### #### ####"
         floatTextField.font = .monospacedDigitSystemFont(ofSize: 18, weight: .regular)
         floatTextField.minimumFontSize = 36
-        floatTextField.padding = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+        floatTextField.textPadding = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 1)
         floatTextField.highlightsWhenActive = true
-        floatTextField.bottomText = "Incorrect card format"
         floatTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.15)
-        floatTextField.clipsToBounds = true
-        floatTextField.layer.cornerRadius = 8
+        floatTextField.cornerRadius = 8
+        floatTextField.showUnderlineView = false
+        floatTextField.borderWidth = 1
+        floatTextField.placeholderColor = .systemGreen
         
         fixedWidthPhoneField.font = UIFont(name: "Avenir", size: 30)?.monospaced
         fixedWidthPhoneField.exampleMask = "+7 900 432 89 67"
@@ -69,9 +83,6 @@ class ViewController: UIViewController {
         floatTextField.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
         fixedWidthPhoneField.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
         
-        floatingFieldNoFormatting.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.15)
-        floatingFieldNoFormatting.padding = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-        
         lettersField.showsMaskIfEmpty = false
         lettersField.formattingMask = "* ### ** ###"
         lettersField.exampleMask = "A 123 BB 456"
@@ -79,7 +90,7 @@ class ViewController: UIViewController {
         lettersField.font = UIFont(name: "Courier", size: 30)
         
         let testField = FormattingTextField()
-        testField.formatter = DefaultFormatter(mask: "XYZ **##")
+        testField.formatter = DefaultFormatter(mask: "XYZ AB##")
         testField.exampleMask = "XYZ AB34"
         testField.font = .monospacedSystemFont(ofSize: 40, weight: .medium)
         testField.translatesAutoresizingMaskIntoConstraints = false
@@ -89,18 +100,17 @@ class ViewController: UIViewController {
             testField.topAnchor.constraint(equalTo: lettersField.bottomAnchor, constant: 8),
             testField.centerXAnchor.constraint(equalTo: lettersField.centerXAnchor)
         ])
-        
-        navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .action, target: self, action: #selector(showSwiftUIExample))
-    }
-    
-    @objc func showSwiftUIExample() {
-//        present(UIHostingController(rootView: ExampleSUI()), animated: true, completion: nil)
     }
     
     @objc private func didChangeEditing(textField: UITextField) {
-        print(type(of: textField), textField.text ?? "NO_TEXT")
         guard let tf = textField as? FloatingLabelTextField else { return }
-        tf.bottomText = tf.text!.count % 2 == 0 ? "Incorrect card format" : nil
+        let isError = tf.text!.count % 2 == 0
+        tf.bottomText = isError ? "Incorrect card format" : nil
+        tf.isError = isError
+    }
+    
+    @objc func didTapClear() {
+        floatingFieldNoFormatting.text = nil
     }
 }
 
