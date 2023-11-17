@@ -41,18 +41,28 @@ class ViewController: UIViewController {
         phoneField.exampleMask = "+7 (888) 777-66-55"
         phoneField.backgroundColor = UIColor.systemPink.withAlphaComponent(0.1)
         
+        floatingFieldNoFormatting.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.15)
+        floatingFieldNoFormatting.bottomText = "Test"
+        
+        floatingFieldNoFormatting.showUnderlineView = false
+        floatingFieldNoFormatting.borderColor = .systemPurple
+        floatingFieldNoFormatting.borderWidth = 1
+        
         floatTextField.placeholder = "Card number"
         floatTextField.tintColor = .systemPink
         floatTextField.backgroundColor = .white
         floatTextField.formattingMask = "#### #### #### ####"
         floatTextField.font = .monospacedDigitSystemFont(ofSize: 18, weight: .regular)
         floatTextField.minimumFontSize = 36
-        floatTextField.padding = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+        floatTextField.textPadding = .zero
         floatTextField.highlightsWhenActive = true
         floatTextField.bottomText = "Incorrect card format"
         floatTextField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.15)
         floatTextField.clipsToBounds = true
-        floatTextField.layer.cornerRadius = 8
+        floatTextField.cornerRadius = 8
+        floatTextField.showUnderlineView = false
+        floatTextField.borderColor = .systemPurple
+        floatTextField.borderWidth = 1
         
         fixedWidthPhoneField.font = UIFont(name: "Avenir", size: 30)?.monospaced
         fixedWidthPhoneField.exampleMask = "+7 900 432 89 67"
@@ -67,9 +77,6 @@ class ViewController: UIViewController {
 
         floatTextField.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
         fixedWidthPhoneField.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
-        
-        floatingFieldNoFormatting.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.15)
-        floatingFieldNoFormatting.padding = UIEdgeInsets(top: 0, left: 8, bottom: 16, right: 8)
         
         lettersField.showsMaskIfEmpty = false
         lettersField.formattingMask = "* ### ** ###"
@@ -91,9 +98,11 @@ class ViewController: UIViewController {
     }
     
     @objc private func didChangeEditing(textField: UITextField) {
-        print(type(of: textField), textField.text ?? "NO_TEXT")
+//        print(type(of: textField), textField.text ?? "NO_TEXT")
+        print(textField.textRect(forBounds: textField.bounds), textField.editingRect(forBounds: textField.bounds), textField.bounds.height)
         guard let tf = textField as? FloatingLabelTextField else { return }
         tf.bottomText = tf.text!.count % 2 == 0 ? "Incorrect card format" : nil
+        
     }
 }
 
