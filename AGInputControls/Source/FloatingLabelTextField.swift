@@ -25,6 +25,10 @@ open class FloatingLabelTextField : FormattingTextField {
         (font?.lineHeight ?? 0) * 0.15
     }
     
+    private var textYOrigin: CGFloat {
+        padding.top + (font!.lineHeight * floatingLabelScaleFactor + textTopPadding)
+    }
+    
     /// Space between text and underline view and bottom label
     private var textBottomPadding: CGFloat {
         textTopPadding * 2
@@ -148,7 +152,6 @@ open class FloatingLabelTextField : FormattingTextField {
         )
         placeholderLabel.frame.origin.x = padding.left
         placeholderLabel.frame.origin.y = padding.top
-        placeholderLabel.frame.size.height = editingRect(forBounds: bounds).height * 0.5
         
         guard isFirstResponder, highlightsWhenActive else { return }
         placeholderLabel.textColor = tintColor
@@ -162,7 +165,7 @@ open class FloatingLabelTextField : FormattingTextField {
     
     private func configureFont() {
         placeholderLabel.font = font
-        minimumFontSize = font?.pointSize ?? 17
+        minimumFontSize = font!.pointSize
         placeholderLabel.sizeToFit()
     }
     
@@ -209,7 +212,7 @@ open class FloatingLabelTextField : FormattingTextField {
 
     open override func editingRect(forBounds bounds: CGRect) -> CGRect {
         var p = padding
-        p.top += (font!.lineHeight * floatingLabelScaleFactor + textTopPadding)
+        p.top = textYOrigin
         p.right = bounds.width - super.editingRect(forBounds: bounds).width
         p.bottom += hasBottomText ? bottomLabelHeight : 0
         p.bottom += textBottomPadding
@@ -222,7 +225,7 @@ open class FloatingLabelTextField : FormattingTextField {
     
     open override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
         var rect = super.clearButtonRect(forBounds: bounds)
-        rect.origin.y -= hasBottomText ? bottomLabelHeight / 2 - 4 : -4
+        rect.origin.y = textYOrigin
         
         return rect
     }
