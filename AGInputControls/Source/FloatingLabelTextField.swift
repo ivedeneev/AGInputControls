@@ -15,17 +15,8 @@ open class FloatingLabelTextField : FormattingTextField {
         case color(UIColor?, Bool)
     }
     
-    private let underlineView = UIView()
-    private let placeholderLabel = UILabel()
-    
-    private let floatingLabelScaleFactor: CGFloat = 0.75
-    
     /// Space between text and floating placeholder
     open var floatingLabelBottomPadding: CGFloat = 4
-    
-    private var textYOrigin: CGFloat {
-        textPadding.top + (font!.lineHeight * floatingLabelScaleFactor + floatingLabelBottomPadding)
-    }
 
     /// Space between text and underline view and bottom label
     open var bottomTextTopPadding: CGFloat = 8
@@ -47,11 +38,11 @@ open class FloatingLabelTextField : FormattingTextField {
         }
     }
     
+    /// Background color is set only for text and floating placeholder area. Bottom text area always has default background color
     open override var backgroundColor: UIColor? {
         get { privateBackgroundColor }
         set { privateBackgroundColor = newValue }
     }
-    
     
     ///
     open var borderColor: UIColor? {
@@ -70,7 +61,7 @@ open class FloatingLabelTextField : FormattingTextField {
         }
     }
     
-    ///
+    /// Corner radius for text area
     open var cornerRadius: CGFloat = 0 {
         didSet {
             guard cornerRadius > 0 else { return }
@@ -78,17 +69,12 @@ open class FloatingLabelTextField : FormattingTextField {
         }
     }
     
-    private var privateBackgroundColor: UIColor? {
-        didSet { setNeedsDisplay() }
-    }
-    
-    /// Color of placeholder label and underline view. Default is `UIColor.lightGray`
+    /// Color of placeholder label and underline view
     open override var placeholderColor: UIColor {
         didSet {
             configurePlaceholderColor()
         }
     }
-    
     
     /// Height of underline view
     open var underlineHeight: CGFloat = 1 {
@@ -124,6 +110,7 @@ open class FloatingLabelTextField : FormattingTextField {
         let topLabelHeight = lineHeight * floatingLabelScaleFactor
         height = lineHeight + paddings + 1 + topLabelHeight + floatingLabelBottomPadding
         let bottomHeight: CGFloat = hasBottomText ? bottomLabelHeight + bottomTextTopPadding : 0
+        print(height + bottomHeight)
         return CGSize(width: UIScreen.main.bounds.width * 0.6, height: height + bottomHeight)
     }
     
@@ -161,6 +148,19 @@ open class FloatingLabelTextField : FormattingTextField {
     
     private var bottomLabelHeight: CGFloat {
         bottomLabel.font.lineHeight.rounded(.up)
+    }
+    
+    private var privateBackgroundColor: UIColor? {
+        didSet { setNeedsDisplay() }
+    }
+    
+    private let underlineView = UIView()
+    private let placeholderLabel = UILabel()
+    
+    private let floatingLabelScaleFactor: CGFloat = 0.75
+    
+    private var textYOrigin: CGFloat {
+        textPadding.top + (font!.lineHeight * floatingLabelScaleFactor + floatingLabelBottomPadding)
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -218,7 +218,7 @@ open class FloatingLabelTextField : FormattingTextField {
         placeholderLabel.frame.origin.y = textPadding.top
         
         guard isFirstResponder, highlightsWhenActive else { return }
-        placeholderLabel.textColor = tintColor
+//        placeholderLabel.textColor = tintColor
     }
     
     private func setPlaceholderBottomAttributes() {
@@ -266,6 +266,7 @@ open class FloatingLabelTextField : FormattingTextField {
         return bounds.inset(by: p)
     }
 
+    // we should hide original placehoder in favor of floating placeholder
     open override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
         .zero
     }
@@ -283,14 +284,16 @@ open class FloatingLabelTextField : FormattingTextField {
         return bounds.inset(by: p)
     }
     
-    //TODO:
-//    open override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
-//    }
+    open override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
+        var rect = super.rightViewRect(forBounds: bounds)
+        rect.origin.x -= textPadding.right
+        rect.origin.y = textYOrigin + (font!.lineHeight - rect.height) / 2
+        return rect
+    }
     
     open override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
         var rect = super.clearButtonRect(forBounds: bounds)
         rect.origin.y = textYOrigin
-        
         return rect
     }
 

@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="92" width="414" height="770"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="XYD-44-ltN">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="888"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="928"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QQG-4o-0Dp" userLabel="letters">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="120"/>
@@ -82,7 +82,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Zs-ZU-peS" userLabel="float_bg">
-                                                <rect key="frame" x="0.0" y="256" width="414" height="120"/>
+                                                <rect key="frame" x="0.0" y="256" width="414" height="160"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FloatingLabelTextField without formatting" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TuV-4p-e7m">
                                                         <rect key="frame" x="0.0" y="8" width="414" height="20.5"/>
@@ -99,7 +99,7 @@
                                                 <viewLayoutGuide key="safeArea" id="ltC-4P-nOX"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="120" id="0eV-a6-Zdp"/>
+                                                    <constraint firstAttribute="height" constant="160" id="0eV-a6-Zdp"/>
                                                     <constraint firstItem="TuV-4p-e7m" firstAttribute="trailing" secondItem="ltC-4P-nOX" secondAttribute="trailing" id="1Kf-oQ-883"/>
                                                     <constraint firstItem="TuV-4p-e7m" firstAttribute="leading" secondItem="ltC-4P-nOX" secondAttribute="leading" id="BYQ-Pl-OTS"/>
                                                     <constraint firstItem="EBj-8I-nur" firstAttribute="leading" secondItem="TuV-4p-e7m" secondAttribute="leading" constant="8" id="EjP-zy-rmC"/>
@@ -109,7 +109,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1tu-ce-tEo" userLabel="float_bg_w_formatting">
-                                                <rect key="frame" x="0.0" y="384" width="414" height="120"/>
+                                                <rect key="frame" x="0.0" y="424" width="414" height="120"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FloatingLabelTextField with formatting" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UMk-pq-H9F">
                                                         <rect key="frame" x="0.0" y="8" width="414" height="20.5"/>
@@ -136,7 +136,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cUF-wv-BcO" userLabel="otp_bg">
-                                                <rect key="frame" x="0.0" y="512" width="414" height="120"/>
+                                                <rect key="frame" x="0.0" y="552" width="414" height="120"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OTPCodeTextField" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gwB-ev-g31">
                                                         <rect key="frame" x="0.0" y="8" width="414" height="20.5"/>
@@ -162,7 +162,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8XK-Ga-C4T" userLabel="phone_bg">
-                                                <rect key="frame" x="0.0" y="640" width="414" height="120"/>
+                                                <rect key="frame" x="0.0" y="680" width="414" height="120"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PhoneTextField" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gfc-WF-3FH">
                                                         <rect key="frame" x="0.0" y="8" width="414" height="20.5"/>
@@ -188,7 +188,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bnf-N7-K9W" userLabel="otp_dashes">
-                                                <rect key="frame" x="0.0" y="768" width="414" height="120"/>
+                                                <rect key="frame" x="0.0" y="808" width="414" height="120"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OTPCodeTextField fixed dimentions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y8i-YP-3kF">
                                                         <rect key="frame" x="0.0" y="8" width="414" height="20.5"/>
