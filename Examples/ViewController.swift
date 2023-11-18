@@ -47,13 +47,18 @@ class ViewController: UIViewController {
         floatingFieldNoFormatting.showUnderlineView = true
         floatingFieldNoFormatting.highlightsWhenActive = true
         floatingFieldNoFormatting.clearButtonMode = .never
-        floatingFieldNoFormatting.rightViewMode = .whileEditing
+        floatingFieldNoFormatting.rightViewMode = .always
         
         let customClearButton = UIButton()
-        customClearButton.backgroundColor = .systemPurple
+//        customClearButton.backgroundColor = .systemPurple
         customClearButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+        customClearButton.tintColor = .lightGray
         customClearButton.addTarget(self, action: #selector(didTapClear), for: .touchUpInside)
         floatingFieldNoFormatting.rightView = customClearButton
+        
+        floatingFieldNoFormatting.leftView = UIImageView(image: UIImage(systemName: "magnifyingglass"))
+        floatingFieldNoFormatting.leftView?.tintColor = .lightGray
+        floatingFieldNoFormatting.leftViewMode = .always
         
         floatTextField.placeholder = "Card number"
         floatTextField.tintColor = .systemPurple

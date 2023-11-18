@@ -8,7 +8,6 @@
 
 import UIKit
 
-/// <#Description#>
 open class FloatingLabelTextField : FormattingTextField {
 
     //MARK: - Public variables
@@ -17,6 +16,9 @@ open class FloatingLabelTextField : FormattingTextField {
 
     /// Space between  underline view and bottom label
     open var bottomTextTopPadding: CGFloat = 8
+    
+    /// Spacing between text and right and left views
+    open var rightLeftViewsTextSpacing: CGFloat = 8
     
     /// Paddings for text area and floating placeholder. Default is (8, 8, 8, 8)
     open var textPadding: UIEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
@@ -35,19 +37,12 @@ open class FloatingLabelTextField : FormattingTextField {
         }
     }
     
-    
     /// Accent color for error state. Border, underline view and placeholder and bottom labels are affected. Default is red
     open var errorTintColor: UIColor = .red
     
     /// Indicates, is textfield is in error state or not.
     open var isError: Bool = false {
         didSet { configureColors() }
-    }
-    
-    /// Background color is set only for text and floating placeholder area. Bottom text area always has default background color
-    open override var backgroundColor: UIColor? {
-        get { privateBackgroundColor }
-        set { privateBackgroundColor = newValue }
     }
     
     ///
@@ -78,8 +73,8 @@ open class FloatingLabelTextField : FormattingTextField {
         }
     }
     
-    /// Colors placeholder label and underline view in tint color. Default is `false`
-    open var highlightsWhenActive = false
+    /// Colors placeholder label, bottom label and underline view in `tintColor` when textfield is focused. Default is `true`
+    open var highlightsWhenActive = true
     
     //MARK: - Variables overrides
     /// Color of placeholder label, bottom label and underline view for inactive state
@@ -97,6 +92,12 @@ open class FloatingLabelTextField : FormattingTextField {
         didSet {
             configurePlaceholder()
         }
+    }
+    
+    /// Background color is set only for text and floating placeholder area. Bottom text area always has default background color
+    open override var backgroundColor: UIColor? {
+        get { privateBackgroundColor }
+        set { privateBackgroundColor = newValue }
     }
     
     open override var intrinsicContentSize: CGSize {
@@ -178,7 +179,7 @@ open class FloatingLabelTextField : FormattingTextField {
             scaleX: floatingLabelScaleFactor,
             y: floatingLabelScaleFactor
         )
-        placeholderLabel.frame.origin.x = textPadding.left
+        placeholderLabel.frame.origin.x = textEditingRect(for: bounds).minX
         placeholderLabel.frame.origin.y = textPadding.top
     }
     
@@ -186,7 +187,7 @@ open class FloatingLabelTextField : FormattingTextField {
         let lineHeight = font!.lineHeight
         let textAreaHeight = textYOrigin + lineHeight + textPadding.bottom
         placeholderLabel.transform = .identity
-        var rect = editingRect(forBounds: bounds)
+        var rect = textEditingRect(for: bounds)
         rect.origin.y = (textAreaHeight - lineHeight) / 2
         placeholderLabel.frame = rect
     }
@@ -201,6 +202,50 @@ open class FloatingLabelTextField : FormattingTextField {
         guard placeholder != nil else { return }
         placeholderLabel.text = placeholder
         placeholderLabel.sizeToFit()
+    }
+    
+    private func configureColors() {
+        defer {
+            setNeedsDisplay()
+        }
+        
+        var color: UIColor?
+        
+        if isError {
+            color = errorTintColor
+        } else if isFirstResponder && highlightsWhenActive {
+            color = tintColor
+        } else {
+            color = placeholderColor
+        }
+        
+        placeholderLabel.textColor = color
+        underlineView.backgroundColor = color
+        bottomLabel.textColor = color
+    }
+    
+    private func leftRightViewsYOrigin(viewHeight: CGFloat) -> CGFloat {
+        textPadding.top + (textYOrigin + font!.lineHeight - textPadding.top - viewHeight) / 2
+    }
+    
+    private func textEditingRect(for bounds: CGRect) -> CGRect {
+        var p = textPadding
+        p.top = textYOrigin
+        p.right = bounds.width - super.editingRect(forBounds: bounds).width
+        let hasBottomText = !(bottomText ?? "").isEmpty
+        p.bottom += hasBottomText ? bottomLabelHeight + bottomTextTopPadding : 0
+        
+//        if let rightView, rightViewMode != .never {
+//            p.right += rightView.frame.width + rightLeftViewsTextSpacing
+//        }
+        
+        if let leftView, leftViewMode != .never {
+            p.left += leftView.frame.width + rightLeftViewsTextSpacing
+        }
+        
+        let result = bounds.inset(by: p)
+        
+        return result
     }
     
     //MARK: - Overrides
@@ -247,15 +292,6 @@ open class FloatingLabelTextField : FormattingTextField {
         configureColors()
     }
 
-    open override func textRect(forBounds bounds: CGRect) -> CGRect {
-        var p = textPadding
-        p.top = textYOrigin
-        p.right = bounds.width - super.editingRect(forBounds: bounds).width
-        let hasBottomText = !(bottomText ?? "").isEmpty
-        p.bottom += hasBottomText ? bottomLabelHeight + bottomTextTopPadding : 0
-        return bounds.inset(by: p)
-    }
-
     // we should hide original placehoder in favor of floating placeholder
     open override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
         .zero
@@ -266,24 +302,30 @@ open class FloatingLabelTextField : FormattingTextField {
     }
 
     open override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        var p = textPadding
-        p.top = textYOrigin
-        p.right = bounds.width - super.editingRect(forBounds: bounds).width
-        let hasBottomText = !(bottomText ?? "").isEmpty
-        p.bottom += hasBottomText ? bottomLabelHeight + bottomTextTopPadding : 0
-        return bounds.inset(by: p)
+        textEditingRect(for: bounds)
+    }
+    
+    open override func textRect(forBounds bounds: CGRect) -> CGRect {
+        textEditingRect(for: bounds)
+    }
+    
+    open override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
+        var rect = super.leftViewRect(forBounds: bounds)
+        rect.origin.x += textPadding.left
+        rect.origin.y = leftRightViewsYOrigin(viewHeight: rect.height)
+        return rect
     }
     
     open override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
         var rect = super.rightViewRect(forBounds: bounds)
         rect.origin.x -= textPadding.right
-        rect.origin.y = textYOrigin + (font!.lineHeight - rect.height) / 2
+        rect.origin.y = leftRightViewsYOrigin(viewHeight: rect.height)
         return rect
     }
     
     open override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
         var rect = super.clearButtonRect(forBounds: bounds)
-        rect.origin.y = textYOrigin
+        rect.origin.y = leftRightViewsYOrigin(viewHeight: rect.height)
         return rect
     }
 
@@ -335,25 +377,5 @@ open class FloatingLabelTextField : FormattingTextField {
         }
         
         return value
-    }
-    
-    func configureColors() {
-        defer {
-            setNeedsDisplay()
-        }
-        
-        var color: UIColor?
-        
-        if isError {
-            color = errorTintColor
-        } else if isFirstResponder && highlightsWhenActive {
-            color = tintColor
-        } else {
-            color = placeholderColor
-        }
-        
-        placeholderLabel.textColor = color
-        underlineView.backgroundColor = color
-        bottomLabel.textColor = color
     }
 }
