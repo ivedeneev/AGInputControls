@@ -42,7 +42,19 @@ open class FloatingLabelTextField : FormattingTextField {
     
     /// Indicates, is textfield is in error state or not.
     open var isError: Bool = false {
-        didSet { configureColors() }
+        didSet {
+            if isError {
+                if nonErrorTintColor == nil {
+                    nonErrorTintColor = tintColor
+                }
+
+                tintColor = errorTintColor
+            } else {
+                guard nonErrorTintColor != nil else { return }
+                tintColor = nonErrorTintColor
+            }
+            configureColors()
+        }
     }
     
     ///
@@ -122,6 +134,8 @@ open class FloatingLabelTextField : FormattingTextField {
     private var privateBackgroundColor: UIColor? {
         didSet { setNeedsDisplay() }
     }
+    
+    private var nonErrorTintColor: UIColor?
     
     private let underlineView = UIView()
     private let placeholderLabel = UILabel()
