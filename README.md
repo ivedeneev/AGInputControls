@@ -47,11 +47,11 @@ You can use this textfield for sms codes.
     codeField.decorationColor = UIColor.systemGreen // Color of decoration elements
     codeField.letterSpacing = 20 // Spacing between digits
     codeField.length = 6 // Number of digits in code
+    codeField.showCaret = false // Show or hide caret
 ```
 
 ### Current limitations:
 * Placeholders are not supported
-* Caret is invisible (my personal UI preference)
 * You cannot use copy/cut/paste actions
 
 ## PhoneTextField
@@ -63,8 +63,8 @@ You can use this textfield for mobile phone number input
     codeField.phoneMask = "+# (###) ###-##-##"
 ```
 
-* Support auto-sizing respecting given font and mask.
-* Support constant prefixes. Example: if you support only phones which begins with +7 you can specify phone mask like this: +7 ### ###-##-## and +7 prefix will become 'constant' and user will not be able to erase or edit it
+* Supports auto-sizing respecting given font and mask.
+* Supports constant prefixes. Example: if you support only phones which begins with +7 you can specify phone mask like this: +7 ### ###-##-## and +7 prefix will become 'constant' and user will not be able to erase or edit it
 
 ### Current limitations:
 * Only one phone mask supported at this moment.
@@ -89,6 +89,7 @@ FloatingLabelTextField is a `UITextField` subclass which resembles [Material des
 
 * Supports auto-sizing height respecting given font and paddings
 * Supports input masks
+* `placeholderColor` is used for coloring underline view and bottom label for default state
 * If you dont need any formatting behaviour just dont specify `formattingMask` (its `nil` by default)
 
 ## FormattingTextField

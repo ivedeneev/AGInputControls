@@ -34,6 +34,7 @@ class ViewController: UIViewController {
         field_2.letterSpacing = 24
         field_2.length = 4
         field_2.font = UIFont(name: "Avenir", size: 30)?.monospaced
+        field_1.showsCaret = false
         
         phoneField.backgroundColor = .systemBackground
         phoneField.font = .monospacedDigitSystemFont(ofSize: 30, weight: .light)
