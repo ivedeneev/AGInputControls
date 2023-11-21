@@ -16,4 +16,4 @@ jobs:
     # - name: Build
     #   run: xcodebuild build -scheme AGInputControls -verbose
     - name: Run tests
-      run: xcodebuild -scheme AGInputControlsTests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone SE (2nd generation),OS=14.4' test 
+      run: xcodebuild -scheme AGInputControlsTests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone SE (2nd generation),OS=16.2' test 
