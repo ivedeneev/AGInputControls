@@ -249,10 +249,6 @@ open class FloatingLabelTextField : FormattingTextField {
         let hasBottomText = !(bottomText ?? "").isEmpty
         p.bottom += hasBottomText ? bottomLabelHeight + bottomTextTopPadding : 0
         
-//        if let rightView, rightViewMode != .never {
-//            p.right += rightView.frame.width + rightLeftViewsTextSpacing
-//        }
-        
         if let leftView, leftViewMode != .never {
             p.left += leftView.frame.width + rightLeftViewsTextSpacing
         }

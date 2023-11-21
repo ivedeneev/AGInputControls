@@ -42,7 +42,7 @@ You can use this textfield for sms codes.
 
 ### Usage
 ```swift
-    let codeField = OTPCodeField()
+    let codeField = OTPCodeTextField()
     codeField.decoration = .rect // Decoration: rounded rects, dashes or none. See OTPCodeField.Decoration
     codeField.decorationColor = UIColor.systemGreen // Color of decoration elements
     codeField.letterSpacing = 20 // Spacing between digits
@@ -80,15 +80,15 @@ FloatingLabelTextField is a `UITextField` subclass which resembles [Material des
     let floatTextField = FloatingLabelTextField()
     floatTextField.formattingMask = "##/##" // Formatting mask
     floatTextField.placeholder = "Expires at"
-    floatTextField.textPaddings = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0) // Paddings :)
+    floatTextField.textPaddings = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0) // Paddings for text and floating placeholder
     floatTextField.highlightsWhenActive = true // Placeholder and underline view and bottom label are filled by tintColor when textfield is active
 
     floatTextField.errorTintColor = .systemRed
     floatTextField.isError = true // if true, placeholder and underline view and bottom label are filled by errorTintColor
 ```
 
-* Support auto-sizing height respecting given font and paddings
-* Support input masks
+* Supports auto-sizing height respecting given font and paddings
+* Supports input masks
 * If you dont need any formatting behaviour just dont specify `formattingMask` (its `nil` by default)
 
 ## FormattingTextField

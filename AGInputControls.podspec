@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AGInputControls'
-  s.version          = '1.0.0'
+  s.version          = '1.1.2'
   s.summary          = 'Commonly used text input controls'
   s.description      = <<-DESC
 TODO: Add long description of the pod here.
