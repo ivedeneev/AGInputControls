@@ -42,16 +42,16 @@ You can use this textfield for sms codes.
 
 ### Usage
 ```swift
-    let codeField = OTPCodeField()
+    let codeField = OTPCodeTextField()
     codeField.decoration = .rect // Decoration: rounded rects, dashes or none. See OTPCodeField.Decoration
     codeField.decorationColor = UIColor.systemGreen // Color of decoration elements
     codeField.letterSpacing = 20 // Spacing between digits
     codeField.length = 6 // Number of digits in code
+    codeField.showCaret = false // Show or hide caret
 ```
 
 ### Current limitations:
 * Placeholders are not supported
-* Caret is invisible (my personal UI preference)
 * You cannot use copy/cut/paste actions
 
 ## PhoneTextField
@@ -63,8 +63,8 @@ You can use this textfield for mobile phone number input
     codeField.phoneMask = "+# (###) ###-##-##"
 ```
 
-* Support auto-sizing respecting given font and mask.
-* Support constant prefixes. Example: if you support only phones which begins with +7 you can specify phone mask like this: +7 ### ###-##-## and +7 prefix will become 'constant' and user will not be able to erase or edit it
+* Supports auto-sizing respecting given font and mask.
+* Supports constant prefixes. Example: if you support only phones which begins with +7 you can specify phone mask like this: +7 ### ###-##-## and +7 prefix will become 'constant' and user will not be able to erase or edit it
 
 ### Current limitations:
 * Only one phone mask supported at this moment.
@@ -80,15 +80,16 @@ FloatingLabelTextField is a `UITextField` subclass which resembles [Material des
     let floatTextField = FloatingLabelTextField()
     floatTextField.formattingMask = "##/##" // Formatting mask
     floatTextField.placeholder = "Expires at"
-    floatTextField.textPaddings = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0) // Paddings :)
+    floatTextField.textPaddings = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0) // Paddings for text and floating placeholder
     floatTextField.highlightsWhenActive = true // Placeholder and underline view and bottom label are filled by tintColor when textfield is active
 
     floatTextField.errorTintColor = .systemRed
     floatTextField.isError = true // if true, placeholder and underline view and bottom label are filled by errorTintColor
 ```
 
-* Support auto-sizing height respecting given font and paddings
-* Support input masks
+* Supports auto-sizing height respecting given font and paddings
+* Supports input masks
+* `placeholderColor` is used for coloring underline view and bottom label for default state
 * If you dont need any formatting behaviour just dont specify `formattingMask` (its `nil` by default)
 
 ## FormattingTextField

@@ -34,6 +34,7 @@ class ViewController: UIViewController {
         field_2.letterSpacing = 24
         field_2.length = 4
         field_2.font = UIFont(name: "Avenir", size: 30)?.monospaced
+        field_1.showsCaret = false
         
         phoneField.backgroundColor = .systemBackground
         phoneField.font = .monospacedDigitSystemFont(ofSize: 30, weight: .light)
@@ -47,13 +48,18 @@ class ViewController: UIViewController {
         floatingFieldNoFormatting.showUnderlineView = true
         floatingFieldNoFormatting.highlightsWhenActive = true
         floatingFieldNoFormatting.clearButtonMode = .never
-        floatingFieldNoFormatting.rightViewMode = .whileEditing
+        floatingFieldNoFormatting.rightViewMode = .always
         
         let customClearButton = UIButton()
-        customClearButton.backgroundColor = .systemPurple
+//        customClearButton.backgroundColor = .systemPurple
         customClearButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+        customClearButton.tintColor = .lightGray
         customClearButton.addTarget(self, action: #selector(didTapClear), for: .touchUpInside)
         floatingFieldNoFormatting.rightView = customClearButton
+        
+        floatingFieldNoFormatting.leftView = UIImageView(image: UIImage(systemName: "magnifyingglass"))
+        floatingFieldNoFormatting.leftView?.tintColor = .lightGray
+        floatingFieldNoFormatting.leftViewMode = .always
         
         floatTextField.placeholder = "Card number"
         floatTextField.tintColor = .systemPurple

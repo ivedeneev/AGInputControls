@@ -34,7 +34,7 @@ import UIKit
     @IBInspectable open var decorationColor: UIColor = UIColor(white: 0.9, alpha: 1)
     
     /// Show or hide caret
-    @IBInspectable open var showsCaret: Bool = false
+    @IBInspectable open var showsCaret: Bool = true
     
     /// Decorate every symbol: underline dash, rounded rect or none. If dash or rect selected using monospaced font is highly recommended
     open var decoration: Decoration = .none
@@ -148,7 +148,7 @@ import UIKit
         )
     }
     
-    // TODO: Placeholders ignored at this point. In future maybe we will add custom placeholders like zeros, dots or asterisks if needed.
+    // TODO: Placeholders ignored at this point. In future custom placeholders like zeros, dots or asterisks could be added.
     open override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
         .zero
     }
