@@ -10,7 +10,8 @@ import UIKit
 extension FormattingTextField {
     
     internal func setCursorPosition(offset: Int) {
-        guard let newPosition = position(from: beginningOfDocument, in: .right, offset: offset) else {return }
+        let fixedOffset = max(offset, prefix.count)
+        guard let newPosition = position(from: beginningOfDocument, in: .right, offset: fixedOffset) else {return }
         selectedTextRange = textRange(from: newPosition, to: newPosition)
     }
     
@@ -27,16 +28,11 @@ extension FormattingTextField {
     }
     
     internal func sizeOfText(_ text: String) -> CGSize {
+        guard let font else { return .zero }
         return (text as NSString).boundingRect(
             with: UIScreen.main.bounds.size,
             options: [.usesFontLeading, .usesLineFragmentOrigin],
             attributes: [.font : font],
             context: nil).size
-    }
-    
-    internal func assertForExampleMasksAndPrefix() {
-        guard let mask = exampleMask, !mask.isEmpty, let formattingMask = formattingMask, formatter != nil else { return }
-        assert(mask == formattedText(text: mask) && mask.count == formattingMask.count, "Formatting mask and example mask should be in same format. This is your responsibility as a developer\nExampleMask: \(mask)\nFormatting mask: \(formattingMask)")
-        assert(prefix.first(where: { $0.isLetter || $0.isNumber }) == nil || hasConstantPrefix, "You cannot have 'semi constant' prefixes at this point ")
     }
 }

@@ -27,21 +27,21 @@ class AcceptedLettersTests: XCTestCase {
     }
     
     func testUnacceptedLettersDelegateMethodCalled() {
-        textField.setFormattedText("gз")
+        textField.text = "gз"
         XCTAssertEqual(delegate.unacceptedCharCalled, 1)
     }
     
     
     func testNotifyingDelegateWithEmptyMaskAndNonEmptyString() {
         textField.formatter = EmptyMaskFormatter()
-        textField.setFormattedText("gfhdskjfhdskjfhds")
+        textField.text = "gfhdskjfhdskjfhds"
         XCTAssertEqual(delegate.isValidCalled, 1)
         XCTAssertEqual(delegate.isValid, true)
     }
     
     func testNotifyingDelegateWithEmptyMaskAndEmptyString() {
         textField.formatter = EmptyMaskFormatter()
-        textField.setFormattedText("")
+        textField.text = ""
         XCTAssertEqual(delegate.isValidCalled, 1)
         XCTAssertEqual(delegate.isValid, false)
     }

@@ -7,6 +7,7 @@
 
 import UIKit
 import AGInputControls
+import Combine
 
 class ViewController: UIViewController {
     @IBOutlet weak var field_1: OTPCodeTextField!
@@ -17,6 +18,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var floatingFieldNoFormatting: FloatingLabelTextField!
     
     @IBOutlet weak var lettersField: FormattingTextField!
+    var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +46,7 @@ class ViewController: UIViewController {
         
         floatingFieldNoFormatting.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.15)
         floatingFieldNoFormatting.bottomText = "Test"
-        floatingFieldNoFormatting.textPadding = UIEdgeInsets(top: 20, left: 12, bottom: 20, right: 8)
+//        floatingFieldNoFormatting.textPadding = UIEdgeInsets(top: 20, left: 12, bottom: 20, right: 8)
         floatingFieldNoFormatting.showUnderlineView = true
         floatingFieldNoFormatting.highlightsWhenActive = true
         floatingFieldNoFormatting.clearButtonMode = .never
@@ -75,12 +77,30 @@ class ViewController: UIViewController {
         floatTextField.borderWidth = 1
         floatTextField.placeholderColor = .systemGreen
         
-        fixedWidthPhoneField.font = UIFont(name: "Avenir", size: 30)?.monospaced
-        fixedWidthPhoneField.exampleMask = "+7 900 432 89 67"
-        fixedWidthPhoneField.formattingMask =  "+7 ### ### ## ##"
+        fixedWidthPhoneField.font = UIFont(name: "Menlo", size: 30)
+        
+//        fixedWidthPhoneField.exampleMask = "+7 900 432 89 67"
+//        fixedWidthPhoneField.formattingMask =  "+7 ### ### ## ##"
+        
+        fixedWidthPhoneField.formattingMask = "+7 (###) ###-##-##"
+        fixedWidthPhoneField.exampleMask = "+7 (___) ___-__-__"
         
 //        fixedWidthPhoneField.exampleMask = "+31 (0) 20 76 06697"
 //        fixedWidthPhoneField.phoneMask =  "+31 (#) ## ## #####"
+        
+        fixedWidthPhoneField
+            .publisher(for: \.text)
+            .sink { text in
+                print("Value from publisher", text)
+            }.store(in: &cancellables)
+        
+        fixedWidthPhoneField.formattingDelegate = self
+        
+//        fixedWidthPhoneField
+//            .textPublisher()
+//            .sink { text in
+//                print("Value from publisher", text)
+//            }.store(in: &cancellables)
         
         field_1.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
         field_2.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
@@ -106,6 +126,9 @@ class ViewController: UIViewController {
             testField.topAnchor.constraint(equalTo: lettersField.bottomAnchor, constant: 8),
             testField.centerXAnchor.constraint(equalTo: lettersField.centerXAnchor)
         ])
+        
+        title = "AGInputControls Examples"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: .init(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(moreActions))
     }
     
     @objc private func didChangeEditing(textField: UITextField) {
@@ -118,6 +141,28 @@ class ViewController: UIViewController {
     @objc func didTapClear() {
         floatingFieldNoFormatting.text = nil
     }
+    
+    @objc func moreActions() {
+        let ac = UIAlertController(title: "Actions", message: nil, preferredStyle: .actionSheet)
+        
+        ac.addAction(.init(title: "Paste phone", style: .default, handler: { [unowned self] _ in
+            fixedWidthPhoneField.text = "+79999999999"
+        }))
+        
+        ac.addAction(.init(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(ac, animated: true)
+    }
+}
+
+extension ViewController: FormattingTextFieldDelegate {
+    func textField(textField: AGInputControls.FormattingTextField, didProduce text: String?, isValid: Bool) {
+//        print("DELEGATE", text)
+    }
+    
+    func textField(textField: AGInputControls.FormattingTextField, didOccurUnacceptedCharacter char: Character) {
+        
+    }
 }
 
 
@@ -126,3 +171,12 @@ class MyTextField: FormattingTextField {
         return text?.uppercased()
     }
 }
+
+extension UITextField {
+    func textPublisher() -> AnyPublisher<String, Never> {
+        NotificationCenter.default
+            .publisher(for: UITextField.textDidChangeNotification, object: self)
+            .map { ($0.object as? UITextField)?.text  ?? "" }
+            .eraseToAnyPublisher()
+    }
+  }

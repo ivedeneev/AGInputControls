@@ -36,4 +36,14 @@ open class PhoneTextField: FormattingTextField {
         }
         keyboardType = .phonePad
     }
+    
+    override func assertForExampleMasksAndPrefix() {
+        guard let mask = exampleMask, !mask.isEmpty, let formattingMask = formattingMask, formatter != nil else { return }
+        
+        // It is common for phone fields to have _ 
+        let fixedMask = mask.replacingOccurrences(of: "_", with: "0")
+        
+        assert(fixedMask == formattedText(text: fixedMask) && fixedMask.count == formattingMask.count, "Formatting mask and example mask should be in same format. This is your responsibility as a developer\nExampleMask: \(mask)\nFormatting mask: \(formattingMask)")
+        assert(prefix.first(where: { $0.isLetter || $0.isNumber }) == nil || hasConstantPrefix, "You cannot have 'semi constant' prefixes at this point ")
+    }
 }
