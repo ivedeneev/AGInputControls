@@ -37,9 +37,10 @@ open class FormattingTextField: UITextField {
         
         set {
             let formatted = formattedText(text: newValue)
+            var pos = currentPosition()
             super.text = formatted
             notifyDelegate(text: text)
-            setCaretPositionAfterSettingText(rawText: newValue, formattedText: formatted)
+            setCaretPositionAfterSettingText(currentPosition: pos, rawText: newValue, formattedText: formatted)
         }
     }
     
@@ -295,8 +296,8 @@ open class FormattingTextField: UITextField {
         assert(prefix.first(where: { $0.isLetter || $0.isNumber }) == nil || hasConstantPrefix, "You cannot have 'semi constant' prefixes at this point ")
     }
     
-    func setCaretPositionAfterSettingText(rawText:String?, formattedText: String?) {
-        var pos = currentPosition()
+    func setCaretPositionAfterSettingText(currentPosition: Int, rawText:String?, formattedText: String?) {
+        var pos = currentPosition
         let textCount = rawText?.count ?? 0
         guard let last = formattedText?.prefix(pos).last else { return }
     
@@ -306,12 +307,12 @@ open class FormattingTextField: UITextField {
         if pos < textCount {
             setCursorPosition(offset: pos)
         } else if let count = formattedText?.count {
-//            let delta = count - textCount
-//            if abs(delta) > 2 {
-//                DispatchQueue.main.async { // async because it may interfere with setting cursor position initiated by system
-//                    self.setCursorPosition(offset: pos + delta)
-//                }
-//            }
+            let delta = count - textCount
+            if abs(delta) > 2 {
+                DispatchQueue.main.async { // async because it may interfere with setting cursor position initiated by system
+                    self.setCursorPosition(offset: pos + delta)
+                }
+            }
         }
     }
 }
