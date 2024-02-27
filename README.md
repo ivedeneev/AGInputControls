@@ -13,7 +13,7 @@ This library contains 3 UITextField subclasses:
 ## Installation
 
 ### CocoaPods
-`pod AGInputControls`
+`pod 'AGInputControls'`
 
 ### Carthage
 `github "ivedeneev/AGInputControls"`
