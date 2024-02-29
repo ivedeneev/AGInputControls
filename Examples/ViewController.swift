@@ -14,9 +14,9 @@ class ViewController: UIViewController {
     let fixedLettersPrefixField = FormattingTextField()
     @IBOutlet weak var otpFieldWithConstrainedWidth: OTPCodeTextField!
     @IBOutlet weak var otpFieldWithAutoWidth: OTPCodeTextField!
-    @IBOutlet weak var phoneField: PhoneTextField!
-    @IBOutlet weak var floatTextField: FloatingLabelTextField!
+    @IBOutlet weak var adaptiveWidthPhoneField: PhoneTextField!
     @IBOutlet weak var fixedWidthPhoneField: PhoneTextField!
+    @IBOutlet weak var floatTextField: FloatingLabelTextField!
     @IBOutlet weak var floatingFieldNoFormatting: FloatingLabelTextField!
     
     
@@ -43,22 +43,24 @@ class ViewController: UIViewController {
             fixedLettersPrefixField.centerXAnchor.constraint(equalTo: lettersField.centerXAnchor)
         ])
         
-        fixedWidthPhoneField.font = UIFont(name: "Menlo", size: 30)
-        fixedWidthPhoneField.formattingMask = "+7 (###) ###-##-##"
-        fixedWidthPhoneField.exampleMask = "+7 (___) ___-__-__"
-        fixedWidthPhoneField.formattingDelegate = self
+        adaptiveWidthPhoneField.font = UIFont(name: "Menlo", size: 30)
+        adaptiveWidthPhoneField.formattingMask = "+7 (###) ###-##-##"
+        adaptiveWidthPhoneField.exampleMask = "+7 (___) ___-__-__"
+        adaptiveWidthPhoneField.formattingDelegate = self
         
-        fixedWidthPhoneField
+        adaptiveWidthPhoneField
             .publisher(for: \.text)
             .sink { text in
                 print("Value from publisher", text)
             }
             .store(in: &cancellables)
         
-        phoneField.font = .monospacedDigitSystemFont(ofSize: 30, weight: .light)
-        phoneField.formattingMask = "+7 ### ### ## ##"
-        phoneField.exampleMask = "+7 123 456 78 90"
-        phoneField.backgroundColor = UIColor.systemPink.withAlphaComponent(0.1)
+        fixedWidthPhoneField.font = .monospacedDigitSystemFont(ofSize: 30, weight: .light)
+        fixedWidthPhoneField.formattingMask = "+7 ### ### ## ##"
+        fixedWidthPhoneField.exampleMask = "+7 123 456 78 90"
+        fixedWidthPhoneField.backgroundColor = UIColor.systemPink.withAlphaComponent(0.1)
+        fixedWidthPhoneField.textAlignment = .center
+        fixedWidthPhoneField.clearButtonMode = .whileEditing
         
         floatingFieldNoFormatting.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.15)
         floatingFieldNoFormatting.bottomText = "Test"
@@ -128,7 +130,7 @@ class ViewController: UIViewController {
         let ac = UIAlertController(title: "Actions", message: nil, preferredStyle: .actionSheet)
         
         ac.addAction(.init(title: "Paste phone", style: .default, handler: { [unowned self] _ in
-            fixedWidthPhoneField.text = "+79999999999"
+            adaptiveWidthPhoneField.text = "+79999999999"
         }))
         
         ac.addAction(.init(title: "Cancel", style: .cancel, handler: nil))

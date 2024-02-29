@@ -37,10 +37,14 @@ open class FormattingTextField: UITextField {
         
         set {
             let formatted = formattedText(text: newValue)
-            var pos = currentPosition()
+            let pos = currentPosition()
             super.text = formatted
             notifyDelegate(text: text)
-            setCaretPositionAfterSettingText(currentPosition: pos, rawText: newValue, formattedText: formatted)
+            setCaretPositionAfterSettingText(
+                currentPosition: pos,
+                rawText: newValue,
+                formattedText: formatted
+            )
         }
     }
     
@@ -206,6 +210,40 @@ open class FormattingTextField: UITextField {
         }
     }
     
+    open override func becomeFirstResponder() -> Bool {
+        if text.isEmptyOrTrue && !showsMaskIfEmpty && !_showsMask && formatter != nil {
+            _showsMask = true
+            setNeedsDisplay()
+        }
+        return super.becomeFirstResponder()
+    }
+    
+    open override func resignFirstResponder() -> Bool {
+        if text.isEmptyOrTrue && !showsMaskIfEmpty && _showsMask && formatter != nil {
+            _showsMask = false
+            setNeedsDisplay()
+        }
+        return super.resignFirstResponder()
+    }
+    
+    open override func textRect(forBounds bounds: CGRect) -> CGRect {
+        guard let exampleMask else {
+            return super.editingRect(forBounds: bounds)
+        }
+        let w = sizeOfText(exampleMask).width
+        let originX = (bounds.width - w) / 2
+        return CGRect(x: originX, y: 0, width: w, height: bounds.height)
+    }
+    
+    open override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        guard let exampleMask else {
+            return super.editingRect(forBounds: bounds)
+        }
+        let w = sizeOfText(exampleMask).width
+        let originX = (bounds.width - w) / 2
+        return CGRect(x: originX, y: 0, width: w, height: bounds.height)
+    }
+    
     //MARK: Public methods
     @available(*, deprecated, renamed: "text", message: "Use regular text setter to set formatted text programmatically ")
     open func setFormattedText(_ text: String?) {
@@ -240,7 +278,10 @@ open class FormattingTextField: UITextField {
                 range: .init(location: 0, length: prefix.count)
             )
         }
-        let originX = placeholderRect(forBounds: bounds).origin.x
+        
+        let w = sizeOfText(exampleMask!).width
+        let originX = (bounds.width - w) / 2
+        
         textToDraw.draw(at: CGPoint(x: originX, y: ((bounds.height - font.lineHeight) / 2)))
     }
     
@@ -271,22 +312,6 @@ open class FormattingTextField: UITextField {
                 formattingDelegate?.textField(textField: self, didOccurUnacceptedCharacter: letter)
             }
         }
-    }
-    
-    open override func becomeFirstResponder() -> Bool {
-        if text.isEmptyOrTrue && !showsMaskIfEmpty && !_showsMask && formatter != nil {
-            _showsMask = true
-            setNeedsDisplay()
-        }
-        return super.becomeFirstResponder()
-    }
-    
-    open override func resignFirstResponder() -> Bool {
-        if text.isEmptyOrTrue && !showsMaskIfEmpty && _showsMask && formatter != nil {
-            _showsMask = false
-            setNeedsDisplay()
-        }
-        return super.resignFirstResponder()
     }
     
     //MARK: Private & internal

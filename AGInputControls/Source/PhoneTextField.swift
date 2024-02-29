@@ -19,6 +19,22 @@ open class PhoneTextField: FormattingTextField {
             formatter = PhoneNumberFormatter(mask: formattingMask)
         }
     }
+    
+    open override var textAlignment: NSTextAlignment {
+        get {
+            super.textAlignment
+        }
+        
+        set {
+            /// `.center` just doesnt make sense from UX perspective if mask is enabled. We would expect to gradually replace placeholder with text which doesnt work with center alignment
+            guard formattingMask != nil && newValue == .center else {
+                super.textAlignment = newValue
+                return
+            }
+            
+            super.textAlignment = .left //TODO: check RTL languages
+        }
+    }
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
