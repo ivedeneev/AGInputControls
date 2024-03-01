@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var adaptiveWidthPhoneField: PhoneTextField!
     @IBOutlet weak var fixedWidthPhoneField: PhoneTextField!
     @IBOutlet weak var floatTextField: FloatingLabelTextField!
+    @IBOutlet weak var expirationDateField: FormattingTextField!
     @IBOutlet weak var floatingFieldNoFormatting: FloatingLabelTextField!
     
     
@@ -43,21 +44,25 @@ class ViewController: UIViewController {
             fixedLettersPrefixField.centerXAnchor.constraint(equalTo: lettersField.centerXAnchor)
         ])
         
-        adaptiveWidthPhoneField.font = UIFont(name: "Menlo", size: 30)
+        adaptiveWidthPhoneField.font = .systemFont(ofSize: 30)
+        adaptiveWidthPhoneField.font = UIFont(name: "Courier", size: 24)
         adaptiveWidthPhoneField.formattingMask = "+7 (###) ###-##-##"
         adaptiveWidthPhoneField.exampleMask = "+7 (___) ___-__-__"
+//        adaptiveWidthPhoneField.exampleMask = "+7 (000) 000-00-00"
         adaptiveWidthPhoneField.formattingDelegate = self
         
-        adaptiveWidthPhoneField
-            .publisher(for: \.text)
-            .sink { text in
-                print("Value from publisher", text)
-            }
-            .store(in: &cancellables)
+//        adaptiveWidthPhoneField
+//            .publisher(for: \.text)
+//            .sink { text in
+//                print("Value from publisher", text)
+//            }
+//            .store(in: &cancellables)
         
         fixedWidthPhoneField.font = .monospacedDigitSystemFont(ofSize: 30, weight: .light)
-        fixedWidthPhoneField.formattingMask = "+7 ### ### ## ##"
-        fixedWidthPhoneField.exampleMask = "+7 123 456 78 90"
+        fixedWidthPhoneField.font = .systemFont(ofSize: 30)
+        fixedWidthPhoneField.formattingMask = "+7 (###) ###-##-##"
+        fixedWidthPhoneField.exampleMask = "+7 (___) ___-__-__"
+//        fixedWidthPhoneField.exampleMask = "+7 123 456 78 90"
         fixedWidthPhoneField.backgroundColor = UIColor.systemPink.withAlphaComponent(0.1)
         fixedWidthPhoneField.textAlignment = .center
         fixedWidthPhoneField.clearButtonMode = .whileEditing
@@ -94,6 +99,11 @@ class ViewController: UIViewController {
         floatTextField.borderWidth = 1
         floatTextField.placeholderColor = .systemGreen
         floatTextField.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
+        
+        expirationDateField.formattingMask = "##/##"
+        expirationDateField.exampleMask = "03/24"
+        expirationDateField.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.15)
+        expirationDateField.font = .systemFont(ofSize: 24, weight: .light)
         
         otpFieldWithAutoWidth.borderStyle = .none
         otpFieldWithAutoWidth.backgroundColor = .secondarySystemBackground
@@ -141,11 +151,11 @@ class ViewController: UIViewController {
 
 extension ViewController: FormattingTextFieldDelegate {
     func textField(textField: FormattingTextField, didProduce text: String?, isValid: Bool) {
-        print(type(of: textField), text)
+//        print(type(of: textField), text)
     }
     
     func textField(textField: FormattingTextField, didOccurUnacceptedCharacter char: Character) {
-        print(type(of: textField), "did occur unaccepted char [\(char)]. Formatting mask:", textField.formattingMask)
+//        print(type(of: textField), "did occur unaccepted char [\(char)]. Formatting mask:", textField.formattingMask)
     }
 }
 

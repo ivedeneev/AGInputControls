@@ -75,9 +75,10 @@ open class FormattingTextField: UITextField {
     
     //MARK: Overriden properties
     open override var intrinsicContentSize: CGSize {
-        guard let exampleMask = formattingMask ??
-              formattingMask?.replacingOccurrences(of: "#", with: "0"),
-              !exampleMask.isEmpty // in case of monospaced digit fonts calculatiing width againts only digit text produces more accurate results
+        guard let exampleMask = formattingMask?
+            .replacingOccurrences(of: "#", with: "0")
+            .replacingOccurrences(of: "_", with: "0"),
+            !exampleMask.isEmpty // in case of monospaced digit fonts calculatiing width againts only digit text produces more accurate results
         else {
             return super.intrinsicContentSize
         }
@@ -87,8 +88,9 @@ open class FormattingTextField: UITextField {
         let width = sizeOfText(exampleMask).width
         
         let caretWidth: CGFloat = caretRect(for: endOfDocument).width
+        let padding: CGFloat = 0
         
-        return CGSize(width: width + caretWidth, height: height)
+        return CGSize(width: width + caretWidth + padding * 2, height: height)
     }
     
     open override var font: UIFont? {
@@ -227,21 +229,24 @@ open class FormattingTextField: UITextField {
     }
     
     open override func textRect(forBounds bounds: CGRect) -> CGRect {
-        guard let exampleMask else {
+        guard let exampleMask = exampleMask?.replacingOccurrences(of: "_", with: "0") else {
             return super.editingRect(forBounds: bounds)
         }
+        
         let w = sizeOfText(exampleMask).width
         let originX = (bounds.width - w) / 2
-        return CGRect(x: originX, y: 0, width: w, height: bounds.height)
+        return CGRect(x: originX, y: 0, width: w + 14, height: bounds.height)
     }
     
     open override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        guard let exampleMask else {
+        guard let exampleMask = exampleMask?.replacingOccurrences(of: "_", with: "0") else {
             return super.editingRect(forBounds: bounds)
         }
+        
+        let caretWidth: CGFloat = caretRect(for: endOfDocument).width
         let w = sizeOfText(exampleMask).width
         let originX = (bounds.width - w) / 2
-        return CGRect(x: originX, y: 0, width: w, height: bounds.height)
+        return CGRect(x: originX, y: 0, width: w + caretWidth, height: bounds.height)
     }
     
     //MARK: Public methods
@@ -279,7 +284,7 @@ open class FormattingTextField: UITextField {
             )
         }
         
-        let w = sizeOfText(exampleMask!).width
+        let w = sizeOfText(mask.replacingOccurrences(of: "_", with: "0")).width
         let originX = (bounds.width - w) / 2
         
         textToDraw.draw(at: CGPoint(x: originX, y: ((bounds.height - font.lineHeight) / 2)))
