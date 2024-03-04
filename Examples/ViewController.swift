@@ -7,44 +7,68 @@
 
 import UIKit
 import AGInputControls
+import Combine
 
 class ViewController: UIViewController {
-    @IBOutlet weak var field_1: OTPCodeTextField!
-    @IBOutlet weak var field_2: OTPCodeTextField!
-    @IBOutlet weak var phoneField: PhoneTextField!
-    @IBOutlet weak var floatTextField: FloatingLabelTextField!
+    @IBOutlet weak var lettersField: FormattingTextField!
+    let fixedLettersPrefixField = FormattingTextField()
+    @IBOutlet weak var otpFieldWithConstrainedWidth: OTPCodeTextField!
+    @IBOutlet weak var otpFieldWithAutoWidth: OTPCodeTextField!
+    @IBOutlet weak var adaptiveWidthPhoneField: PhoneTextField!
     @IBOutlet weak var fixedWidthPhoneField: PhoneTextField!
+    @IBOutlet weak var floatTextField: FloatingLabelTextField!
+    @IBOutlet weak var expirationDateField: FormattingTextField!
     @IBOutlet weak var floatingFieldNoFormatting: FloatingLabelTextField!
     
-    @IBOutlet weak var lettersField: FormattingTextField!
+    
+    var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        field_1.font = .monospacedDigitSystemFont(ofSize: 30, weight: .light)
-        field_1.decoration = .dash
-        field_1.showsCaret = true
-        field_1.decorationColor = .systemRed
+        lettersField.showsMaskIfEmpty = false
+        lettersField.formattingMask = "* ### ** ###"
+        lettersField.exampleMask = "A 123 BB 456"
+        lettersField.backgroundColor = UIColor.systemYellow.withAlphaComponent(0.25)
+        lettersField.font = UIFont(name: "Courier", size: 30)
+        lettersField.formattingDelegate = self
         
-        field_2.borderStyle = .none
-        field_2.backgroundColor = .white
-        field_2.font = .monospacedDigitSystemFont(ofSize: 30, weight: .light)
-        field_2.decorationColor = UIColor.systemBlue.withAlphaComponent(0.1)
-        field_2.decoration = .rect
-        field_2.letterSpacing = 24
-        field_2.length = 4
-        field_2.font = UIFont(name: "Avenir", size: 30)?.monospaced
-        field_1.showsCaret = false
+        fixedLettersPrefixField.formatter = DefaultFormatter(mask: "XYZ AB##")
+        fixedLettersPrefixField.exampleMask = "XYZ AB34"
+        fixedLettersPrefixField.font = .monospacedSystemFont(ofSize: 40, weight: .medium)
+        fixedLettersPrefixField.translatesAutoresizingMaskIntoConstraints = false
+        fixedLettersPrefixField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
+        lettersField.superview?.addSubview(fixedLettersPrefixField)
+        NSLayoutConstraint.activate([
+            fixedLettersPrefixField.topAnchor.constraint(equalTo: lettersField.bottomAnchor, constant: 8),
+            fixedLettersPrefixField.centerXAnchor.constraint(equalTo: lettersField.centerXAnchor)
+        ])
         
-        phoneField.backgroundColor = .systemBackground
-        phoneField.font = .monospacedDigitSystemFont(ofSize: 30, weight: .light)
-        phoneField.formattingMask = "+# (###) ###-##-##"
-        phoneField.exampleMask = "+7 (888) 777-66-55"
-        phoneField.backgroundColor = UIColor.systemPink.withAlphaComponent(0.1)
+//        adaptiveWidthPhoneField.font = .systemFont(ofSize: 30)
+        adaptiveWidthPhoneField.font = UIFont(name: "Courier", size: 24)
+        adaptiveWidthPhoneField.formattingMask = "+7 (###) ###-##-##"
+        adaptiveWidthPhoneField.exampleMask = "+7 (___) ___-__-__"
+//        adaptiveWidthPhoneField.exampleMask = "+7 (000) 000-00-00"
+        adaptiveWidthPhoneField.formattingDelegate = self
+        
+        adaptiveWidthPhoneField
+            .publisher(for: \.text)
+            .sink { text in
+                print("Value from publisher", text)
+            }
+            .store(in: &cancellables)
+        
+//        fixedWidthPhoneField.font = .monospacedDigitSystemFont(ofSize: 30, weight: .ultraLight)
+        fixedWidthPhoneField.font = .systemFont(ofSize: 30, weight: .ultraLight)
+        fixedWidthPhoneField.formattingMask = "+7 (###) ###-##-##"
+//        fixedWidthPhoneField.exampleMask = "+7 (___) ___-__-__"
+        fixedWidthPhoneField.exampleMask = "+7 (123) 456-78-90"
+        fixedWidthPhoneField.backgroundColor = UIColor.systemPink.withAlphaComponent(0.1)
+        fixedWidthPhoneField.textAlignment = .center
+        fixedWidthPhoneField.clearButtonMode = .whileEditing
         
         floatingFieldNoFormatting.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.15)
         floatingFieldNoFormatting.bottomText = "Test"
-        floatingFieldNoFormatting.textPadding = UIEdgeInsets(top: 20, left: 12, bottom: 20, right: 8)
         floatingFieldNoFormatting.showUnderlineView = true
         floatingFieldNoFormatting.highlightsWhenActive = true
         floatingFieldNoFormatting.clearButtonMode = .never
@@ -74,38 +98,31 @@ class ViewController: UIViewController {
         floatTextField.showUnderlineView = false
         floatTextField.borderWidth = 1
         floatTextField.placeholderColor = .systemGreen
-        
-        fixedWidthPhoneField.font = UIFont(name: "Avenir", size: 30)?.monospaced
-        fixedWidthPhoneField.exampleMask = "+7 900 432 89 67"
-        fixedWidthPhoneField.formattingMask =  "+7 ### ### ## ##"
-        
-//        fixedWidthPhoneField.exampleMask = "+31 (0) 20 76 06697"
-//        fixedWidthPhoneField.phoneMask =  "+31 (#) ## ## #####"
-        
-        field_1.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
-        field_2.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
-        phoneField.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
-
         floatTextField.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
-        fixedWidthPhoneField.addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
         
-        lettersField.showsMaskIfEmpty = false
-        lettersField.formattingMask = "* ### ** ###"
-        lettersField.exampleMask = "A 123 BB 456"
-        lettersField.backgroundColor = UIColor.systemYellow.withAlphaComponent(0.25)
-        lettersField.font = UIFont(name: "Courier", size: 30)
+        expirationDateField.formattingMask = "##/##"
+        expirationDateField.exampleMask = "03/24"
+        expirationDateField.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.15)
+        expirationDateField.font = .systemFont(ofSize: 24, weight: .light)
         
-        let testField = FormattingTextField()
-        testField.formatter = DefaultFormatter(mask: "XYZ AB##")
-        testField.exampleMask = "XYZ AB34"
-        testField.font = .monospacedSystemFont(ofSize: 40, weight: .medium)
-        testField.translatesAutoresizingMaskIntoConstraints = false
-        testField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
-        lettersField.superview?.addSubview(testField)
-        NSLayoutConstraint.activate([
-            testField.topAnchor.constraint(equalTo: lettersField.bottomAnchor, constant: 8),
-            testField.centerXAnchor.constraint(equalTo: lettersField.centerXAnchor)
-        ])
+        otpFieldWithAutoWidth.borderStyle = .none
+        otpFieldWithAutoWidth.backgroundColor = .secondarySystemBackground
+        otpFieldWithAutoWidth.font = .monospacedDigitSystemFont(ofSize: 30, weight: .light)
+        otpFieldWithAutoWidth.decorationColor = UIColor.systemBlue.withAlphaComponent(0.1)
+        otpFieldWithAutoWidth.decoration = .rect
+        otpFieldWithAutoWidth.letterSpacing = 24
+        otpFieldWithAutoWidth.length = 4
+        otpFieldWithAutoWidth.font = UIFont(name: "Avenir", size: 30)?.monospaced
+//        otpFieldWithAutoWidth.showsCaret = false
+        
+        otpFieldWithConstrainedWidth.font = .monospacedDigitSystemFont(ofSize: 30, weight: .light)
+        otpFieldWithConstrainedWidth.decoration = .dash
+        otpFieldWithConstrainedWidth.showsCaret = true
+        otpFieldWithConstrainedWidth.decorationColor = .systemRed
+        otpFieldWithConstrainedWidth.backgroundColor = .secondarySystemBackground
+        
+        title = "AGInputControls Examples"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: .init(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(moreActions))
     }
     
     @objc private func didChangeEditing(textField: UITextField) {
@@ -118,6 +135,28 @@ class ViewController: UIViewController {
     @objc func didTapClear() {
         floatingFieldNoFormatting.text = nil
     }
+    
+    @objc func moreActions() {
+        let ac = UIAlertController(title: "Actions", message: nil, preferredStyle: .actionSheet)
+        
+        ac.addAction(.init(title: "Paste phone", style: .default, handler: { [unowned self] _ in
+            adaptiveWidthPhoneField.text = "+79999999999"
+        }))
+        
+        ac.addAction(.init(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(ac, animated: true)
+    }
+}
+
+extension ViewController: FormattingTextFieldDelegate {
+    func textField(textField: FormattingTextField, didProduce text: String?, isValid: Bool) {
+        print(type(of: textField), text)
+    }
+    
+    func textField(textField: FormattingTextField, didOccurUnacceptedCharacter char: Character) {
+        print(type(of: textField), "did occur unaccepted char [\(char)]. Formatting mask:", textField.formattingMask)
+    }
 }
 
 
@@ -126,3 +165,12 @@ class MyTextField: FormattingTextField {
         return text?.uppercased()
     }
 }
+
+extension UITextField {
+    func textPublisher() -> AnyPublisher<String, Never> {
+        NotificationCenter.default
+            .publisher(for: UITextField.textDidChangeNotification, object: self)
+            .map { ($0.object as? UITextField)?.text  ?? "" }
+            .eraseToAnyPublisher()
+    }
+  }

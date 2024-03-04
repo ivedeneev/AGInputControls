@@ -19,6 +19,22 @@ open class PhoneTextField: FormattingTextField {
             formatter = PhoneNumberFormatter(mask: formattingMask)
         }
     }
+    
+    open override var textAlignment: NSTextAlignment {
+        get {
+            super.textAlignment
+        }
+        
+        set {
+            /// `.center` just doesnt make sense from UX perspective if mask is enabled. We would expect to gradually replace placeholder with text which doesnt work with center alignment
+            guard formattingMask != nil && newValue == .center else {
+                super.textAlignment = newValue
+                return
+            }
+            
+            super.textAlignment = .left //TODO: check RTL languages
+        }
+    }
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,5 +51,15 @@ open class PhoneTextField: FormattingTextField {
             textContentType = .telephoneNumber
         }
         keyboardType = .phonePad
+    }
+    
+    override func assertForExampleMasksAndPrefix() {
+        guard let mask = exampleMask, !mask.isEmpty, let formattingMask = formattingMask, formatter != nil else { return }
+        
+        // It is common for phone fields to have _ 
+        let fixedMask = mask.replacingOccurrences(of: "_", with: "0")
+        
+        assert(fixedMask == formattedText(text: fixedMask) && fixedMask.count == formattingMask.count, "Formatting mask and example mask should be in same format. This is your responsibility as a developer\nExampleMask: \(mask)\nFormatting mask: \(formattingMask)")
+        assert(prefix.first(where: { $0.isLetter || $0.isNumber }) == nil || hasConstantPrefix, "You cannot have 'semi constant' prefixes at this point ")
     }
 }
