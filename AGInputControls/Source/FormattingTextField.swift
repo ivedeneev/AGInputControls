@@ -77,7 +77,7 @@ open class FormattingTextField: UITextField {
     open override var intrinsicContentSize: CGSize {
         guard let exampleMask = formattingMask?
             .replacingOccurrences(of: "#", with: "0")
-            .replacingOccurrences(of: "_", with: "0"),
+            .replacingUnderscoresWithZeros(),
             !exampleMask.isEmpty // in case of monospaced digit fonts calculatiing width againts only digit text produces more accurate results
         else {
             return super.intrinsicContentSize
@@ -229,17 +229,17 @@ open class FormattingTextField: UITextField {
     }
     
     open override func textRect(forBounds bounds: CGRect) -> CGRect {
-        guard let exampleMask = exampleMask?.replacingOccurrences(of: "_", with: "0") else {
+        guard let exampleMask = exampleMask?.replacingUnderscoresWithZeros() else {
             return super.editingRect(forBounds: bounds)
         }
         
         let w = sizeOfText(exampleMask).width
         let originX = (bounds.width - w) / 2
-        return CGRect(x: originX, y: 0, width: w + 14, height: bounds.height)
+        return CGRect(x: originX, y: 0, width: w, height: bounds.height)
     }
     
     open override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        guard let exampleMask = exampleMask?.replacingOccurrences(of: "_", with: "0") else {
+        guard let exampleMask = exampleMask?.replacingUnderscoresWithZeros() else {
             return super.editingRect(forBounds: bounds)
         }
         
@@ -262,12 +262,12 @@ open class FormattingTextField: UITextField {
     
     open func drawExampleMask(rect: CGRect) {
         assertForExampleMasksAndPrefix()
-        let text = self.text ?? ""
+        let text = text ?? ""
         
         guard let mask = exampleMask,
               !mask.isEmpty,
-              let font = self.font,
-              let textColor = self.textColor,
+              let font,
+              let textColor,
               !text.isEmpty || _showsMask
         else { return }
 
@@ -277,14 +277,19 @@ open class FormattingTextField: UITextField {
             .foregroundColor : placeholderColor
         ])
         
-        if hasConstantPrefix {
+        if !text.isEmpty {
+            textToDraw.addAttributes(
+                [.foregroundColor : UIColor.clear],
+                range: .init(location: 0, length: text.count)
+            )
+        } else if hasConstantPrefix {
             textToDraw.addAttributes(
                 [.foregroundColor : textColor],
                 range: .init(location: 0, length: prefix.count)
             )
         }
         
-        let w = sizeOfText(mask.replacingOccurrences(of: "_", with: "0")).width
+        let w = sizeOfText(mask.replacingUnderscoresWithZeros()).width
         let originX = (bounds.width - w) / 2
         
         textToDraw.draw(at: CGPoint(x: originX, y: ((bounds.height - font.lineHeight) / 2)))
@@ -296,9 +301,7 @@ open class FormattingTextField: UITextField {
                 setNeedsDisplay()
             }
         }
-        guard let formatter = formatter else {
-            return text
-        }
+        guard let formatter else { return text }
         
         let result = formatter.formattedText(text: text)
         return result

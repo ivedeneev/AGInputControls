@@ -44,25 +44,25 @@ class ViewController: UIViewController {
             fixedLettersPrefixField.centerXAnchor.constraint(equalTo: lettersField.centerXAnchor)
         ])
         
-        adaptiveWidthPhoneField.font = .systemFont(ofSize: 30)
+//        adaptiveWidthPhoneField.font = .systemFont(ofSize: 30)
         adaptiveWidthPhoneField.font = UIFont(name: "Courier", size: 24)
         adaptiveWidthPhoneField.formattingMask = "+7 (###) ###-##-##"
         adaptiveWidthPhoneField.exampleMask = "+7 (___) ___-__-__"
 //        adaptiveWidthPhoneField.exampleMask = "+7 (000) 000-00-00"
         adaptiveWidthPhoneField.formattingDelegate = self
         
-//        adaptiveWidthPhoneField
-//            .publisher(for: \.text)
-//            .sink { text in
-//                print("Value from publisher", text)
-//            }
-//            .store(in: &cancellables)
+        adaptiveWidthPhoneField
+            .publisher(for: \.text)
+            .sink { text in
+                print("Value from publisher", text)
+            }
+            .store(in: &cancellables)
         
-        fixedWidthPhoneField.font = .monospacedDigitSystemFont(ofSize: 30, weight: .light)
-        fixedWidthPhoneField.font = .systemFont(ofSize: 30)
+//        fixedWidthPhoneField.font = .monospacedDigitSystemFont(ofSize: 30, weight: .ultraLight)
+        fixedWidthPhoneField.font = .systemFont(ofSize: 30, weight: .ultraLight)
         fixedWidthPhoneField.formattingMask = "+7 (###) ###-##-##"
-        fixedWidthPhoneField.exampleMask = "+7 (___) ___-__-__"
-//        fixedWidthPhoneField.exampleMask = "+7 123 456 78 90"
+//        fixedWidthPhoneField.exampleMask = "+7 (___) ___-__-__"
+        fixedWidthPhoneField.exampleMask = "+7 (123) 456-78-90"
         fixedWidthPhoneField.backgroundColor = UIColor.systemPink.withAlphaComponent(0.1)
         fixedWidthPhoneField.textAlignment = .center
         fixedWidthPhoneField.clearButtonMode = .whileEditing
@@ -151,11 +151,11 @@ class ViewController: UIViewController {
 
 extension ViewController: FormattingTextFieldDelegate {
     func textField(textField: FormattingTextField, didProduce text: String?, isValid: Bool) {
-//        print(type(of: textField), text)
+        print(type(of: textField), text)
     }
     
     func textField(textField: FormattingTextField, didOccurUnacceptedCharacter char: Character) {
-//        print(type(of: textField), "did occur unaccepted char [\(char)]. Formatting mask:", textField.formattingMask)
+        print(type(of: textField), "did occur unaccepted char [\(char)]. Formatting mask:", textField.formattingMask)
     }
 }
 

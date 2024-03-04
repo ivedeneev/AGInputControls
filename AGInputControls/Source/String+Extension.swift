@@ -35,6 +35,10 @@ extension String {
     func alphanumeric() -> String {
         components(separatedBy: CharacterSet.letters.inverted).joined()
     }
+    
+    func replacingUnderscoresWithZeros() -> String {
+        replacingOccurrences(of: "_", with: "0")
+    }
 }
 
 internal extension Optional where Wrapped == String {
