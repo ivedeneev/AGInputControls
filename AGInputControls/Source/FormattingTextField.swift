@@ -76,6 +76,18 @@ open class FormattingTextField: UITextField {
         return CGSize(width: width + caretWidth + padding * 2, height: height)
     }
     
+    open override var textAlignment: NSTextAlignment {
+        get {
+            super.textAlignment
+        }
+        
+        set {
+            /// `.center` just doesnt make sense from UX perspective if mask is enabled. We would expect to gradually replace placeholder with text which doesnt work with center alignment
+            super.textAlignment = formattingMask != nil && newValue == .center ? .left : newValue //TODO: check RTL languages
+            _alignment = newValue
+        }
+    }
+    
     open override var font: UIFont? {
         didSet {
             minimumFontSize = font?.pointSize ?? UIFont.systemFontSize
@@ -99,12 +111,6 @@ open class FormattingTextField: UITextField {
                 rawText: newValue,
                 formattedText: formatted
             )
-        }
-    }
-    
-    open override var textAlignment: NSTextAlignment {
-        willSet {
-            _alignment = newValue
         }
     }
     
@@ -234,6 +240,14 @@ open class FormattingTextField: UITextField {
             setNeedsDisplay()
         }
         return super.resignFirstResponder()
+    }
+    
+    open override func textRect(forBounds bounds: CGRect) -> CGRect {
+        _textEditingRect(bounds: bounds)
+    }
+    
+    open override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        _textEditingRect(bounds: bounds)
     }
     
     //MARK: Public methods

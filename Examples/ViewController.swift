@@ -32,6 +32,7 @@ class ViewController: UIViewController {
         lettersField.backgroundColor = UIColor.systemYellow.withAlphaComponent(0.25)
         lettersField.font = UIFont(name: "Courier", size: 30)
         lettersField.formattingDelegate = self
+        lettersField.textAlignment = .center
         
         fixedLettersPrefixField.formatter = DefaultFormatter(mask: "XYZ AB##")
         fixedLettersPrefixField.exampleMask = "XYZ AB34"
