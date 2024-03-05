@@ -39,6 +39,10 @@ extension String {
     func replacingUnderscoresWithZeros() -> String {
         replacingOccurrences(of: "_", with: "0")
     }
+    
+    func replacingSharpWithZeros() -> String {
+        replacingOccurrences(of: "#", with: "0")
+    }
 }
 
 internal extension Optional where Wrapped == String {

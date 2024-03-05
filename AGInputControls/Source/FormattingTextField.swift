@@ -30,6 +30,60 @@ open class FormattingTextField: UITextField {
         }
     }
     
+    /// Formatter object in case you need your own formatting logic
+    open var formatter: AGFormatter? { didSet { invalidateIntrinsicContentSize() } }
+    
+    ///  Mask to be draw as example. Default is nil and no example mask is drawn. Placeholder is ignored if exaplmeMask is non nil
+    open var exampleMask: String? { didSet { invalidateIntrinsicContentSize() } }
+    
+    /// Color of placeholder. Default is `UIColor.lightGray`
+    open var placeholderColor: UIColor = .lightGray
+    
+    open weak var formattingDelegate: FormattingTextFieldDelegate?
+    
+    //MARK: Internal properties
+    internal var showsMask: Bool { exampleMask != nil }
+    private lazy var _showsMask = showsMaskIfEmpty
+    
+    open var showsMaskIfEmpty: Bool = true
+    
+    internal var prefix: String {
+        formatter?.prefix ?? ""
+    }
+    
+    internal var hasConstantPrefix: Bool {
+        formatter?.maskHasConstantPrefix ?? false
+    }
+    
+    var _alignment: NSTextAlignment = .left
+    var caretWidth: CGFloat = 0
+    
+    //MARK: Overriden properties
+    open override var intrinsicContentSize: CGSize {
+        guard let exampleMask = formattingMask?.replacingSharpWithZeros(),
+            !exampleMask.isEmpty // in case of monospaced digit fonts calculatiing width against only digit text produces more accurate results
+        else {
+            return super.intrinsicContentSize
+        }
+        
+        let font_ = font ?? UIFont.preferredFont(forTextStyle: .body)
+        let height = font_.lineHeight
+        let width = sizeOfText(exampleMask).width
+        
+        let caretWidth: CGFloat = super.caretRect(for: endOfDocument).width
+        let padding: CGFloat = 0
+        
+        return CGSize(width: width + caretWidth + padding * 2, height: height)
+    }
+    
+    open override var font: UIFont? {
+        didSet {
+            minimumFontSize = font?.pointSize ?? UIFont.systemFontSize
+            caretWidth = caretRect(for: beginningOfDocument).width
+            invalidateIntrinsicContentSize()
+        }
+    }
+    
     open override var text: String? {
         get {
             super.text
@@ -48,55 +102,9 @@ open class FormattingTextField: UITextField {
         }
     }
     
-    /// Formatter object in case you need your own formatting logic
-    open var formatter: AGFormatter? { didSet { invalidateIntrinsicContentSize() } }
-    
-    ///  Mask to be draw as example. Default is nil and no example mask is drawn. Placeholder is ignored if exaplmeMask is non nil
-    open var exampleMask: String? { didSet { invalidateIntrinsicContentSize() } }
-    
-    /// Color of placeholder. Default is `UIColor.lightGray`
-    open var placeholderColor: UIColor = .lightGray
-    
-    //MARK: Internal properties
-    internal var showsMask: Bool { exampleMask != nil }
-    private lazy var _showsMask = showsMaskIfEmpty
-    
-    open var showsMaskIfEmpty: Bool = true
-    
-    internal var prefix: String {
-        formatter?.prefix ?? ""
-    }
-    
-    internal var hasConstantPrefix: Bool {
-        formatter?.maskHasConstantPrefix ?? false
-    }
-    
-    open weak var formattingDelegate: FormattingTextFieldDelegate?
-    
-    //MARK: Overriden properties
-    open override var intrinsicContentSize: CGSize {
-        guard let exampleMask = formattingMask?
-            .replacingOccurrences(of: "#", with: "0")
-            .replacingUnderscoresWithZeros(),
-            !exampleMask.isEmpty // in case of monospaced digit fonts calculatiing width againts only digit text produces more accurate results
-        else {
-            return super.intrinsicContentSize
-        }
-        
-        let font_ = font ?? UIFont.preferredFont(forTextStyle: .body)
-        let height = font_.lineHeight
-        let width = sizeOfText(exampleMask).width
-        
-        let caretWidth: CGFloat = caretRect(for: endOfDocument).width
-        let padding: CGFloat = 0
-        
-        return CGSize(width: width + caretWidth + padding * 2, height: height)
-    }
-    
-    open override var font: UIFont? {
-        didSet {
-            minimumFontSize = font?.pointSize ?? UIFont.systemFontSize
-            invalidateIntrinsicContentSize()
+    open override var textAlignment: NSTextAlignment {
+        willSet {
+            _alignment = newValue
         }
     }
     
@@ -228,27 +236,6 @@ open class FormattingTextField: UITextField {
         return super.resignFirstResponder()
     }
     
-    open override func textRect(forBounds bounds: CGRect) -> CGRect {
-        guard let exampleMask = exampleMask?.replacingUnderscoresWithZeros() else {
-            return super.editingRect(forBounds: bounds)
-        }
-        
-        let w = sizeOfText(exampleMask).width
-        let originX = (bounds.width - w) / 2
-        return CGRect(x: originX, y: 0, width: w, height: bounds.height)
-    }
-    
-    open override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        guard let exampleMask = exampleMask?.replacingUnderscoresWithZeros() else {
-            return super.editingRect(forBounds: bounds)
-        }
-        
-        let caretWidth: CGFloat = caretRect(for: endOfDocument).width
-        let w = sizeOfText(exampleMask).width
-        let originX = (bounds.width - w) / 2
-        return CGRect(x: originX, y: 0, width: w + caretWidth, height: bounds.height)
-    }
-    
     //MARK: Public methods
     @available(*, deprecated, renamed: "text", message: "Use regular text setter to set formatted text programmatically ")
     open func setFormattedText(_ text: String?) {
@@ -289,9 +276,7 @@ open class FormattingTextField: UITextField {
             )
         }
         
-        let w = sizeOfText(mask.replacingUnderscoresWithZeros()).width
-        let originX = (bounds.width - w) / 2
-        
+        let originX = _textEditingRect(bounds: rect).minX
         textToDraw.draw(at: CGPoint(x: originX, y: ((bounds.height - font.lineHeight) / 2)))
     }
     
@@ -347,5 +332,32 @@ open class FormattingTextField: UITextField {
                 }
             }
         }
+    }
+    
+    func _textEditingRect(bounds: CGRect) -> CGRect {
+        guard let exampleMask = formattingMask?.replacingSharpWithZeros() else {
+            return super.editingRect(forBounds: bounds)
+        }
+        
+        let caretWidth = caretWidth
+        let w = sizeOfText(exampleMask).width + caretWidth
+        let originX: CGFloat
+        
+        switch _alignment {
+        case .left:
+            originX = 0
+        case .center:
+            originX = (bounds.width - w) / 2
+        case .right:
+            originX = bounds.width - w
+        case .justified:
+            originX = 0
+        case .natural:
+            originX = 0
+        @unknown default:
+            originX = 0
+        }
+        
+        return CGRect(x: originX, y: 0, width: w, height: bounds.height)
     }
 }

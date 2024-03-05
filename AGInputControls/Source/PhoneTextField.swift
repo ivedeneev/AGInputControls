@@ -27,12 +27,8 @@ open class PhoneTextField: FormattingTextField {
         
         set {
             /// `.center` just doesnt make sense from UX perspective if mask is enabled. We would expect to gradually replace placeholder with text which doesnt work with center alignment
-            guard formattingMask != nil && newValue == .center else {
-                super.textAlignment = newValue
-                return
-            }
-            
-            super.textAlignment = .left //TODO: check RTL languages
+            super.textAlignment = formattingMask != nil && newValue == .center ? .left : newValue //TODO: check RTL languages
+            _alignment = newValue
         }
     }
 
@@ -61,5 +57,13 @@ open class PhoneTextField: FormattingTextField {
         
         assert(fixedMask == formattedText(text: fixedMask) && fixedMask.count == formattingMask.count, "Formatting mask and example mask should be in same format. This is your responsibility as a developer\nExampleMask: \(mask)\nFormatting mask: \(formattingMask)")
         assert(prefix.first(where: { $0.isLetter || $0.isNumber }) == nil || hasConstantPrefix, "You cannot have 'semi constant' prefixes at this point ")
+    }
+    
+    open override func textRect(forBounds bounds: CGRect) -> CGRect {
+        _textEditingRect(bounds: bounds)
+    }
+    
+    open override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        _textEditingRect(bounds: bounds)
     }
 }

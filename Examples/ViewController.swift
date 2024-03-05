@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         
         fixedLettersPrefixField.formatter = DefaultFormatter(mask: "XYZ AB##")
         fixedLettersPrefixField.exampleMask = "XYZ AB34"
-        fixedLettersPrefixField.font = .monospacedSystemFont(ofSize: 40, weight: .medium)
+        fixedLettersPrefixField.font = .monospacedSystemFont(ofSize: 32, weight: .medium)
         fixedLettersPrefixField.translatesAutoresizingMaskIntoConstraints = false
         fixedLettersPrefixField.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.2)
         lettersField.superview?.addSubview(fixedLettersPrefixField)
@@ -58,11 +58,11 @@ class ViewController: UIViewController {
             }
             .store(in: &cancellables)
         
-//        fixedWidthPhoneField.font = .monospacedDigitSystemFont(ofSize: 30, weight: .ultraLight)
-        fixedWidthPhoneField.font = .systemFont(ofSize: 30, weight: .ultraLight)
+        fixedWidthPhoneField.font = .monospacedDigitSystemFont(ofSize: 24, weight: .ultraLight)
+//        fixedWidthPhoneField.font = .systemFont(ofSize: 24, weight: .ultraLight)
         fixedWidthPhoneField.formattingMask = "+7 (###) ###-##-##"
-//        fixedWidthPhoneField.exampleMask = "+7 (___) ___-__-__"
-        fixedWidthPhoneField.exampleMask = "+7 (123) 456-78-90"
+        fixedWidthPhoneField.exampleMask = "+7 (___) ___-__-__"
+//        fixedWidthPhoneField.exampleMask = "+7 (123) 456-78-90"
         fixedWidthPhoneField.backgroundColor = UIColor.systemPink.withAlphaComponent(0.1)
         fixedWidthPhoneField.textAlignment = .center
         fixedWidthPhoneField.clearButtonMode = .whileEditing
