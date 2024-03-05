@@ -12,7 +12,7 @@ public protocol FormattingTextFieldDelegate: AnyObject {
     func textField(textField: FormattingTextField, didOccurUnacceptedCharacter char: Character)
 }
 
-open class FormattingTextField: UITextField {
+open class FormattingTextField: PaddingTextField {
     //MARK: Public properties
     /// Formatting mask.
     /// `*` - letter
@@ -71,9 +71,11 @@ open class FormattingTextField: UITextField {
         let width = sizeOfText(exampleMask).width
         
         let caretWidth: CGFloat = super.caretRect(for: endOfDocument).width
-        let padding: CGFloat = 0
         
-        return CGSize(width: width + caretWidth + padding * 2, height: height)
+        return CGSize(
+            width: width + caretWidth + textPadding.left + textPadding.right,
+            height: height + textPadding.top + textPadding.bottom
+        )
     }
     
     open override var textAlignment: NSTextAlignment {
@@ -349,21 +351,22 @@ open class FormattingTextField: UITextField {
     }
     
     func _textEditingRect(bounds: CGRect) -> CGRect {
-        guard let exampleMask = formattingMask?.replacingSharpWithZeros() else {
+        guard let mask = formattingMask?.replacingSharpWithZeros(), exampleMask != nil else {
             return super.editingRect(forBounds: bounds)
         }
         
         let caretWidth = caretWidth
-        let w = sizeOfText(exampleMask).width + caretWidth
+        let w = sizeOfText(mask).width + caretWidth
         let originX: CGFloat
+        let availableWidth: CGFloat = bounds.width - textPadding.left - textPadding.right
         
         switch _alignment {
         case .left:
-            originX = 0
+            originX = textPadding.left
         case .center:
-            originX = (bounds.width - w) / 2
+            originX = (availableWidth - w) / 2
         case .right:
-            originX = bounds.width - w
+            originX = availableWidth - w - textPadding.right
         case .justified:
             originX = 0
         case .natural:

@@ -33,6 +33,7 @@
 		D6C9B7D22684DE9A00F08CAA /* AGInputControls.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A6F5B92684BC9700157970 /* AGInputControls.framework */; };
 		D6C9B7D32684DE9A00F08CAA /* AGInputControls.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D6A6F5B92684BC9700157970 /* AGInputControls.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D6C9B7DC2685F65600F08CAA /* PhoneTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C9B7DB2685F65600F08CAA /* PhoneTextField.swift */; };
+		D6EC7C102B97A58400190184 /* PaddingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EC7C0F2B97A58400190184 /* PaddingTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,7 @@
 		D6ABBDF5272AE1C60064473E /* DefaultFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFormatterTests.swift; sourceTree = "<group>"; };
 		D6ABBDFB272D7F860064473E /* AGFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AGFormatter+Extension.swift"; sourceTree = "<group>"; };
 		D6C9B7DB2685F65600F08CAA /* PhoneTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneTextField.swift; sourceTree = "<group>"; };
+		D6EC7C0F2B97A58400190184 /* PaddingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 				D6ABBDF1272AE0020064473E /* AGFormatter.swift */,
 				D6ABBDF3272AE0220064473E /* DefaultFormatter.swift */,
 				D6ABBDFB272D7F860064473E /* AGFormatter+Extension.swift */,
+				D6EC7C0F2B97A58400190184 /* PaddingTextField.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D6ABBDF4272AE0220064473E /* DefaultFormatter.swift in Sources */,
+				D6EC7C102B97A58400190184 /* PaddingTextField.swift in Sources */,
 				D6ABBDFC272D7F860064473E /* AGFormatter+Extension.swift in Sources */,
 				D6ABBDAF2726B5920064473E /* String+Extension.swift in Sources */,
 				D60413B226CA4BB4002031AC /* FormattingTextField.swift in Sources */,

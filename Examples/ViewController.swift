@@ -45,11 +45,12 @@ class ViewController: UIViewController {
             fixedLettersPrefixField.centerXAnchor.constraint(equalTo: lettersField.centerXAnchor)
         ])
         
-//        adaptiveWidthPhoneField.font = .systemFont(ofSize: 30)
-        adaptiveWidthPhoneField.font = UIFont(name: "Courier", size: 24)
+        adaptiveWidthPhoneField.font = .systemFont(ofSize: 30)
+        adaptiveWidthPhoneField.font = .monospacedDigitSystemFont(ofSize: 30, weight: .regular)
+//        adaptiveWidthPhoneField.font = UIFont(name: "Courier", size: 24)
         adaptiveWidthPhoneField.formattingMask = "+7 (###) ###-##-##"
-        adaptiveWidthPhoneField.exampleMask = "+7 (___) ___-__-__"
-//        adaptiveWidthPhoneField.exampleMask = "+7 (000) 000-00-00"
+//        adaptiveWidthPhoneField.exampleMask = "+7 (___) ___-__-__"
+        adaptiveWidthPhoneField.exampleMask = "+7 (000) 000-00-00"
         adaptiveWidthPhoneField.formattingDelegate = self
         
         adaptiveWidthPhoneField

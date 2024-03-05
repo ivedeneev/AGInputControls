@@ -20,9 +20,6 @@ open class FloatingLabelTextField : FormattingTextField {
     /// Spacing between text and right and left views
     open var rightLeftViewsTextSpacing: CGFloat = 8
     
-    /// Paddings for text area and floating placeholder. Default is (8, 8, 8, 8)
-    open var textPadding: UIEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-    
     /// Bottom label. Typically used for errors
     public let bottomLabel = UILabel()
     
