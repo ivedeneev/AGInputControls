@@ -292,8 +292,10 @@ open class FormattingTextField: PaddingTextField {
             )
         }
         
-        let originX = _textEditingRect(bounds: rect).minX
-        textToDraw.draw(at: CGPoint(x: originX, y: ((bounds.height - font.lineHeight) / 2)))
+        let editingRect = _textEditingRect(bounds: rect)
+        let originX = editingRect.minX
+        let originY = editingRect.minY//(bounds.height - font.lineHeight) / 2)
+        textToDraw.draw(at: CGPoint(x: originX, y: originY))
     }
     
     open func formattedText(text: String?) -> String? {

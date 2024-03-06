@@ -166,6 +166,7 @@ open class FloatingLabelTextField : FormattingTextField {
         bottomLabel.textColor = placeholderColor
         
         setPlaceholderBottomAttributes()
+        setContentHuggingPriority(.defaultHigh, for: .vertical)
     }
     
     //MARK: - Private
@@ -305,7 +306,17 @@ open class FloatingLabelTextField : FormattingTextField {
     }
     
     open override func drawExampleMask(rect: CGRect) {
-        // currently its unsupported. Not sure if its really needed. 
+        guard formatter is PhoneNumberFormatter else { return }
+        if isFirstResponder && text.isEmptyOrTrue {
+            guard hasConstantPrefix else { return }
+            let attrStr = NSAttributedString(
+                string: self.prefix,
+                attributes: [.foregroundColor : textColor, .font: font]
+            )
+            attrStr.draw(at: textRect(forBounds: rect).origin)
+        } else {
+            
+        }
     }
 
     open override func editingRect(forBounds bounds: CGRect) -> CGRect {
