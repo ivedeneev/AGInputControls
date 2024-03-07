@@ -25,6 +25,9 @@ class StackViewController: UIViewController {
         stackView.axis = .vertical
         stackView.spacing = 1
         
+        let endEditingTap = UITapGestureRecognizer(target: self, action: #selector(tapView))
+        view.addGestureRecognizer(endEditingTap)
+        
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
@@ -40,6 +43,10 @@ class StackViewController: UIViewController {
 //        stackView.distribution = .equalSpacing
 //        stackView.alignment = .leading
 //    }
+    
+    @objc private func tapView() {
+        view.endEditing(true)
+    }
     
     final class Entry: UIView {
         
@@ -96,6 +103,7 @@ final class FloatingLabelViewController: StackViewController {
     
     let floatTextField = FloatingLabelTextField()
     let floatingFieldNoFormatting = FloatingLabelTextField()
+    let floatingFieldNoFormattingWithRequired = FloatingLabelTextField()
     let floatingPhoneTextField = FloatingLabelTextField()
     
     override func viewDidLoad() {
@@ -120,6 +128,15 @@ final class FloatingLabelViewController: StackViewController {
         floatingFieldNoFormatting.leftView?.tintColor = .lightGray
         floatingFieldNoFormatting.leftViewMode = .always
         
+        floatingFieldNoFormattingWithRequired.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.15)
+        floatingFieldNoFormattingWithRequired.bottomText = "Bottom text"
+        floatingFieldNoFormattingWithRequired.placeholder = "Floating placeholder"
+        floatingFieldNoFormattingWithRequired.isRequired = true
+        floatingFieldNoFormattingWithRequired.showUnderlineView = true
+        floatingFieldNoFormattingWithRequired.highlightsWhenActive = true
+        floatingFieldNoFormattingWithRequired.clearButtonMode = .whileEditing
+        floatingFieldNoFormattingWithRequired.addTarget(self, action: #selector(didChangeNoFormattingWithRequired), for: .editingChanged)
+        
         floatTextField.placeholder = "Card number"
         floatTextField.tintColor = .systemPurple
         floatTextField.backgroundColor = .white
@@ -141,6 +158,8 @@ final class FloatingLabelViewController: StackViewController {
         
         stackView.addArrangedSubview(Entry(title: "No formatting", targetView: floatingFieldNoFormatting))
         
+        stackView.addArrangedSubview(Entry(title: "No formatting with required", targetView: floatingFieldNoFormattingWithRequired))
+        
         stackView.addArrangedSubview(Entry(title: "Regular formatting", targetView: floatTextField))
         
         stackView.addArrangedSubview(Entry(title: "Phone floating textfield", targetView: floatingPhoneTextField))
@@ -152,6 +171,11 @@ final class FloatingLabelViewController: StackViewController {
         let isError = tf.text!.count % 2 == 0
         tf.bottomText = isError ? "Incorrect card format" : nil
         tf.isError = isError
+    }
+    
+    @objc private func didChangeNoFormattingWithRequired(textField: UITextField) {
+        guard let tf = textField as? FloatingLabelTextField else { return }
+        tf.isError = tf.text!.count > 5
     }
     
     @objc func didTapClear() {

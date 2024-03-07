@@ -82,6 +82,24 @@ open class FloatingLabelTextField : FormattingTextField {
         }
     }
     
+    open var isRequired: Bool = false {
+        didSet {
+            configureColors()
+        }
+    }
+    
+    open var requiredText: String? = " *" {
+        didSet {
+            configureColors()
+        }
+    }
+    
+    open var requiredTextColor: UIColor = .red {
+        didSet {
+            configureColors()
+        }
+    }
+    
     /// Colors placeholder label, bottom label and underline view in `tintColor` when textfield is focused. Default is `true`
     open var highlightsWhenActive = true
     
@@ -211,8 +229,20 @@ open class FloatingLabelTextField : FormattingTextField {
     }
     
     private func configurePlaceholder() {
-        guard placeholder != nil else { return }
-        placeholderLabel.text = placeholder
+        guard let placeholder else { return }
+        if isRequired, let requiredText {
+            placeholderLabel.text = nil
+            let placeholderWithRequiredText = placeholder + requiredText
+            let mutableAttributedString = NSMutableAttributedString(
+                string: placeholderWithRequiredText,
+                attributes: [.foregroundColor: placeholderLabel.textColor])
+            let range = (placeholderWithRequiredText as NSString).range(of: requiredText)
+            mutableAttributedString.addAttribute(.foregroundColor, value: requiredTextColor, range: range)
+            placeholderLabel.attributedText = mutableAttributedString
+        } else {
+            placeholderLabel.attributedText = nil
+            placeholderLabel.text = placeholder
+        }
         placeholderLabel.sizeToFit()
     }
     
@@ -232,6 +262,7 @@ open class FloatingLabelTextField : FormattingTextField {
         }
         
         placeholderLabel.textColor = color
+        configurePlaceholder()
         underlineView.backgroundColor = color
         bottomLabel.textColor = color
     }
