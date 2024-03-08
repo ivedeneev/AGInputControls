@@ -243,7 +243,13 @@ open class FloatingLabelTextField : FormattingTextField {
     private func textEditingRect(for bounds: CGRect) -> CGRect {
         var p = textPadding
         p.top = textYOrigin
-        p.right = bounds.width - super.editingRect(forBounds: bounds).width
+        
+        if rightViewMode != .never {
+            p.right += rightViewRect(forBounds: bounds).width + rightLeftViewsTextSpacing
+        } else if clearButtonMode != .never {
+            p.right += clearButtonRect(forBounds: bounds).width + rightLeftViewsTextSpacing
+        }
+        
         let hasBottomText = !(bottomText ?? "").isEmpty
         p.bottom += hasBottomText ? bottomLabelHeight + bottomTextTopPadding : 0
         

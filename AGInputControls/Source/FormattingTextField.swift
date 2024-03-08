@@ -253,7 +253,7 @@ open class FormattingTextField: PaddingTextField {
     }
     
     //MARK: Public methods
-    @available(*, deprecated, renamed: "text", message: "Use regular text setter to set formatted text programmatically ")
+    @available(*, deprecated, renamed: "text", message: "Use regular text setter to set formatted text programmatically")
     open func setFormattedText(_ text: String?) {
         self.text = formattedText(text: text)
         notifyDelegate(text: self.text)
