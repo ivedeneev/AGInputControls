@@ -32,15 +32,6 @@ class StackViewController: UIViewController {
         ])
     }
     
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        stackView.frame = view.bounds
-//            .inset(by: view.safeAreaInsets)
-//            .inset(by: UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16))
-//        stackView.distribution = .equalSpacing
-//        stackView.alignment = .leading
-//    }
-    
     final class Entry: UIView {
         
         let title: String

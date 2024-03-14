@@ -134,6 +134,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D6306F232BA24AD500A8B54C /* App */ = {
+			isa = PBXGroup;
+			children = (
+				D6A6F5E32684BD9900157970 /* SceneDelegate.swift */,
+				D6A6F5E12684BD9900157970 /* AppDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
 		D656DDBF26CFDE5600BAAA29 /* Source */ = {
 			isa = PBXGroup;
 			children = (
@@ -200,8 +209,7 @@
 		D6A6F5E02684BD9900157970 /* Examples */ = {
 			isa = PBXGroup;
 			children = (
-				D6A6F5E12684BD9900157970 /* AppDelegate.swift */,
-				D6A6F5E32684BD9900157970 /* SceneDelegate.swift */,
+				D6306F232BA24AD500A8B54C /* App */,
 				D6A6F5E52684BD9A00157970 /* ViewController.swift */,
 				D6A6F5E72684BD9A00157970 /* Main.storyboard */,
 				D6A6F5EA2684BD9B00157970 /* Assets.xcassets */,

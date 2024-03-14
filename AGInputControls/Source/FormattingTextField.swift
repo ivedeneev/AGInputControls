@@ -130,6 +130,7 @@ open class FormattingTextField: PaddingTextField {
     private func setup() {
         borderStyle = .none // This is important. bordered style adds its own layer so we cant draw example mask at this point. This behaviour may change in future
         addTarget(self, action: #selector(didChangeEditing), for: .editingChanged)
+        backgroundColor = .systemGreen.withAlphaComponent(0.15)
     }
     
     @objc internal func didChangeEditing() {
@@ -294,7 +295,8 @@ open class FormattingTextField: PaddingTextField {
         
         let editingRect = _textEditingRect(bounds: rect)
         let originX = editingRect.minX
-        let originY = editingRect.minY//(bounds.height - font.lineHeight) / 2)
+//        let originY = editingRect.minY//(bounds.height - font.lineHeight) / 2)
+        let originY = (bounds.height - font.lineHeight) / 2
         textToDraw.draw(at: CGPoint(x: originX, y: originY))
     }
     
@@ -370,11 +372,11 @@ open class FormattingTextField: PaddingTextField {
         case .right:
             originX = availableWidth - w - textPadding.right
         case .justified:
-            originX = 0
+            originX = textPadding.left
         case .natural:
-            originX = 0
+            originX = textPadding.left
         @unknown default:
-            originX = 0
+            originX = textPadding.left
         }
         
         return CGRect(x: originX, y: 0, width: w, height: bounds.height)
