@@ -246,11 +246,11 @@ open class FormattingTextField: PaddingTextField {
     }
     
     open override func textRect(forBounds bounds: CGRect) -> CGRect {
-        _textEditingRect(bounds: bounds)
+        _textEditingRect(bounds: super.textRect(forBounds: bounds))
     }
     
     open override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        _textEditingRect(bounds: bounds)
+        _textEditingRect(bounds: super.editingRect(forBounds: bounds))
     }
     
     //MARK: Public methods
@@ -295,8 +295,9 @@ open class FormattingTextField: PaddingTextField {
         
         let editingRect = _textEditingRect(bounds: rect)
         let originX = editingRect.minX
-//        let originY = editingRect.minY//(bounds.height - font.lineHeight) / 2)
-        let originY = (bounds.height - font.lineHeight) / 2
+//        let originY = (bounds.height - font.lineHeight - textPadding.top - textPadding.bottom) / 2
+//        let originY = (bounds.height - font.lineHeight) / 2
+        let originY = textPadding.top.rounded(.up)
         textToDraw.draw(at: CGPoint(x: originX, y: originY))
     }
     
@@ -379,6 +380,6 @@ open class FormattingTextField: PaddingTextField {
             originX = textPadding.left
         }
         
-        return CGRect(x: originX, y: 0, width: w, height: bounds.height)
+        return CGRect(x: originX, y: bounds.minY.rounded(.up), width: w, height: bounds.height)
     }
 }

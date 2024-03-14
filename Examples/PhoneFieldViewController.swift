@@ -19,7 +19,7 @@ final class PhoneFieldViewController: StackViewController {
         stackView.addArrangedSubview(Entry(title: "Free width", targetView: adaptiveWidthPhoneField))
         adaptiveWidthPhoneField.font = .systemFont(ofSize: 30)
 //        adaptiveWidthPhoneField.font = .monospacedDigitSystemFont(ofSize: 30, weight: .regular)
-//        adaptiveWidthPhoneField.font = UIFont(name: "Courier", size: 24)
+        adaptiveWidthPhoneField.font = UIFont(name: "Courier", size: 30)
         adaptiveWidthPhoneField.formattingMask = "+7 (###) ###-##-##"
 //        adaptiveWidthPhoneField.exampleMask = "+7 (___) ___-__-__"
         adaptiveWidthPhoneField.exampleMask = "+7 (000) 000-00-00"
