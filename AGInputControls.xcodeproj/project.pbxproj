@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		D60413B026CA4BA0002031AC /* FloatingLabelTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60413AF26CA4BA0002031AC /* FloatingLabelTextField.swift */; };
 		D60413B226CA4BB4002031AC /* FormattingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60413B126CA4BB4002031AC /* FormattingTextField.swift */; };
+		D6306F262BA319C100A8B54C /* StackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6306F252BA319C100A8B54C /* StackViewController.swift */; };
+		D6306F282BA319E400A8B54C /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6306F272BA319E400A8B54C /* Entry.swift */; };
 		D64462B02732B71E002104AC /* AcceptedLettersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64462AF2732B71E002104AC /* AcceptedLettersTests.swift */; };
 		D6493E482B9875580076841F /* PhoneFieldViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6493E472B9875580076841F /* PhoneFieldViewController.swift */; };
 		D656DDBE26CD6E6A00BAAA29 /* UIFont+Monospaced.swift in Sources */ = {isa = PBXBuildFile; fileRef = D656DDBD26CD6E6A00BAAA29 /* UIFont+Monospaced.swift */; };
@@ -73,6 +75,8 @@
 /* Begin PBXFileReference section */
 		D60413AF26CA4BA0002031AC /* FloatingLabelTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingLabelTextField.swift; sourceTree = "<group>"; };
 		D60413B126CA4BB4002031AC /* FormattingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattingTextField.swift; sourceTree = "<group>"; };
+		D6306F252BA319C100A8B54C /* StackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackViewController.swift; sourceTree = "<group>"; };
+		D6306F272BA319E400A8B54C /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		D64462AF2732B71E002104AC /* AcceptedLettersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptedLettersTests.swift; sourceTree = "<group>"; };
 		D6493E472B9875580076841F /* PhoneFieldViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneFieldViewController.swift; sourceTree = "<group>"; };
 		D656DDBD26CD6E6A00BAAA29 /* UIFont+Monospaced.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Monospaced.swift"; sourceTree = "<group>"; };
@@ -143,6 +147,15 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		D6306F242BA319B300A8B54C /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				D6306F252BA319C100A8B54C /* StackViewController.swift */,
+				D6306F272BA319E400A8B54C /* Entry.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
 		D656DDBF26CFDE5600BAAA29 /* Source */ = {
 			isa = PBXGroup;
 			children = (
@@ -209,6 +222,7 @@
 		D6A6F5E02684BD9900157970 /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				D6306F242BA319B300A8B54C /* Base */,
 				D6306F232BA24AD500A8B54C /* App */,
 				D6A6F5E52684BD9A00157970 /* ViewController.swift */,
 				D6A6F5E72684BD9A00157970 /* Main.storyboard */,
@@ -403,9 +417,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6306F282BA319E400A8B54C /* Entry.swift in Sources */,
 				D6493E482B9875580076841F /* PhoneFieldViewController.swift in Sources */,
 				D6A6F5E62684BD9A00157970 /* ViewController.swift in Sources */,
 				D6EC7C142B97CC4400190184 /* FloatingLabelViewController.swift in Sources */,
+				D6306F262BA319C100A8B54C /* StackViewController.swift in Sources */,
 				D6A6F5E22684BD9900157970 /* AppDelegate.swift in Sources */,
 				D6A6F5E42684BD9900157970 /* SceneDelegate.swift in Sources */,
 				D6EC7C122B97C96200190184 /* MenuViewController.swift in Sources */,

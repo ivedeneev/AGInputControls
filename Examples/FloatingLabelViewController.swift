@@ -8,71 +8,6 @@
 import UIKit
 import AGInputControls
 
-class StackViewController: UIViewController {
-    
-    var row: MenuViewController.Row!
-    let stackView = UIStackView()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.addSubview(stackView)
-        view.backgroundColor = .systemBackground
-        stackView.backgroundColor = .systemGroupedBackground
-        title = row.label
-        
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.spacing = 1
-        
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-        ])
-    }
-    
-    final class Entry: UIView {
-        
-        let title: String
-        let view: UIView
-        
-        init(title: String, targetView: UIView) {
-            self.title = title
-            self.view = targetView
-            super.init(frame: .zero)
-            addSubview(view)
-            view.translatesAutoresizingMaskIntoConstraints = false
-            backgroundColor = .systemBackground
-            
-            let titleLabel = UILabel()
-            addSubview(titleLabel)
-            titleLabel.translatesAutoresizingMaskIntoConstraints = false
-//            titleLabel.font = .preferredFont(forTextStyle: .title3)
-            titleLabel.text = title
-            
-            NSLayoutConstraint.activate([
-//                leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//                trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                view.leadingAnchor.constraint(equalTo: leadingAnchor),
-                view.trailingAnchor.constraint(equalTo: trailingAnchor),
-                topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -16),
-                bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 16),
-                
-                titleLabel.bottomAnchor.constraint(equalTo: view.topAnchor, constant: -16),
-                titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-            ])
-            
-            setContentHuggingPriority(.defaultLow, for: .horizontal)
-        }
-        
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-    }
-}
-
 extension StackViewController: FormattingTextFieldDelegate {
     func textField(textField: FormattingTextField, didProduce text: String?, isValid: Bool) {
         print(type(of: textField), text)
@@ -129,11 +64,11 @@ final class FloatingLabelViewController: StackViewController {
         floatingPhoneTextField.placeholder = "Phone"
         floatingPhoneTextField.formatter = PhoneNumberFormatter(mask: "+7 (###) ### ##-##")
         floatingPhoneTextField.exampleMask = "+7 (123) 456 78-90"
+//        floatingPhoneTextField.exampleMask = "+7 (___) ___ __-__"
+        floatingPhoneTextField.font = .systemFont(ofSize: 24)
         
         stackView.addArrangedSubview(Entry(title: "No formatting", targetView: floatingFieldNoFormatting))
-        
         stackView.addArrangedSubview(Entry(title: "Regular formatting", targetView: floatTextField))
-        
         stackView.addArrangedSubview(Entry(title: "Phone floating textfield", targetView: floatingPhoneTextField))
     }
     

@@ -116,7 +116,7 @@ open class FloatingLabelTextField : FormattingTextField {
         let topLabelHeight = lineHeight * floatingLabelScaleFactor
         height = lineHeight + paddings + 1 + topLabelHeight + floatingLabelBottomPadding
         let bottomHeight: CGFloat = hasBottomText ? bottomLabelHeight + bottomTextTopPadding : 0
-        return CGSize(width: UIScreen.main.bounds.width * 0.6, height: height + bottomHeight)
+        return CGSize(width: UIScreen.main.bounds.width * 0.75, height: height + bottomHeight)
     }
     
     //MARK: - Private variables
@@ -314,12 +314,7 @@ open class FloatingLabelTextField : FormattingTextField {
     open override func drawExampleMask(rect: CGRect) {
         guard formatter is PhoneNumberFormatter else { return }
         if isFirstResponder && text.isEmptyOrTrue {
-            guard hasConstantPrefix else { return }
-            let attrStr = NSAttributedString(
-                string: self.prefix,
-                attributes: [.foregroundColor : textColor, .font: font]
-            )
-            attrStr.draw(at: textRect(forBounds: rect).origin)
+            super.drawExampleMask(rect: rect)
         } else {
             
         }

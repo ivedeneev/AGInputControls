@@ -68,9 +68,17 @@ open class FormattingTextField: PaddingTextField {
         
         let font_ = font ?? UIFont.preferredFont(forTextStyle: .body)
         let height = font_.lineHeight
-        let width = sizeOfText(exampleMask).width
+        var width = sizeOfText(exampleMask).width
         
         let caretWidth: CGFloat = super.caretRect(for: endOfDocument).width
+        
+        if clearButtonMode != .never {
+            width += clearButtonRect(forBounds: bounds).width
+        }
+        
+        if rightViewMode != .never {
+            width += rightViewRect(forBounds: bounds).width
+        }
         
         return CGSize(
             width: width + caretWidth + textPadding.left + textPadding.right,
@@ -293,11 +301,9 @@ open class FormattingTextField: PaddingTextField {
             )
         }
         
-        let editingRect = _textEditingRect(bounds: rect)
+        let editingRect = editingRect(forBounds: rect)
         let originX = editingRect.minX
-//        let originY = (bounds.height - font.lineHeight - textPadding.top - textPadding.bottom) / 2
-//        let originY = (bounds.height - font.lineHeight) / 2
-        let originY = textPadding.top.rounded(.up)
+        let originY = editingRect.minY.rounded(.up)
         textToDraw.draw(at: CGPoint(x: originX, y: originY))
     }
     
@@ -341,7 +347,7 @@ open class FormattingTextField: PaddingTextField {
         guard let last = formattedText?.prefix(pos).last else { return }
     
         if !last.isNumber {
-            pos = pos + 1 // не 1, а количество элементов до первой цифры с конца
+            pos = pos + 1 // in general not 1, but number of characters from the end till till the first digit
         }
         if pos < textCount {
             setCursorPosition(offset: pos)
@@ -379,7 +385,7 @@ open class FormattingTextField: PaddingTextField {
         @unknown default:
             originX = textPadding.left
         }
-        
-        return CGRect(x: originX, y: bounds.minY.rounded(.up), width: w, height: bounds.height)
+
+        return CGRect(x: originX, y: bounds.minY, width: w, height: bounds.height)
     }
 }
