@@ -12,5 +12,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Run tests
-      run: release.sh
+      run: sh release.sh
       # run: xcodebuild -scheme AGInputControlsTests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone SE (2nd generation),OS=16.2' test 
