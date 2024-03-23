@@ -65,9 +65,10 @@ final class FloatingLabelViewController: StackViewController {
         floatingPhoneTextField.formatter = PhoneNumberFormatter(mask: "+7 (###) ### ##-##")
         floatingPhoneTextField.exampleMask = "+7 (123) 456 78-90"
 //        floatingPhoneTextField.exampleMask = "+7 (___) ___ __-__"
+        floatingPhoneTextField.exampleMask = "+7 ("
         floatingPhoneTextField.font = .systemFont(ofSize: 24)
         
-        stackView.addArrangedSubview(Entry(title: "No formatting", targetView: floatingFieldNoFormatting))
+        stackView.addArrangedSubview(Entry(title: "No formatting", targetView: floatingFieldNoFormatting, needsTrailingConstraint: true))
         stackView.addArrangedSubview(Entry(title: "Regular formatting", targetView: floatTextField))
         stackView.addArrangedSubview(Entry(title: "Phone floating textfield", targetView: floatingPhoneTextField))
     }
@@ -77,7 +78,7 @@ final class FloatingLabelViewController: StackViewController {
         guard let tf = textField as? FloatingLabelTextField else { return }
         let isError = tf.text!.count % 2 == 0
         tf.bottomText = isError ? "Incorrect card format" : nil
-        tf.isError = isError
+        tf.hasError = isError
     }
     
     @objc func didTapClear() {

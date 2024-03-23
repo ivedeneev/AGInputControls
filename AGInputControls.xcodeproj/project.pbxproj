@@ -33,6 +33,7 @@
 		D6ABBDF4272AE0220064473E /* DefaultFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ABBDF3272AE0220064473E /* DefaultFormatter.swift */; };
 		D6ABBDF6272AE1C60064473E /* DefaultFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ABBDF5272AE1C60064473E /* DefaultFormatterTests.swift */; };
 		D6ABBDFC272D7F860064473E /* AGFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ABBDFB272D7F860064473E /* AGFormatter+Extension.swift */; };
+		D6B1E49B2BAE3F2F00DD8301 /* OTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6B1E49A2BAE3F2F00DD8301 /* OTPViewController.swift */; };
 		D6C9B7D22684DE9A00F08CAA /* AGInputControls.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A6F5B92684BC9700157970 /* AGInputControls.framework */; };
 		D6C9B7D32684DE9A00F08CAA /* AGInputControls.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D6A6F5B92684BC9700157970 /* AGInputControls.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D6C9B7DC2685F65600F08CAA /* PhoneTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C9B7DB2685F65600F08CAA /* PhoneTextField.swift */; };
@@ -105,6 +106,7 @@
 		D6ABBDF3272AE0220064473E /* DefaultFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFormatter.swift; sourceTree = "<group>"; };
 		D6ABBDF5272AE1C60064473E /* DefaultFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFormatterTests.swift; sourceTree = "<group>"; };
 		D6ABBDFB272D7F860064473E /* AGFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AGFormatter+Extension.swift"; sourceTree = "<group>"; };
+		D6B1E49A2BAE3F2F00DD8301 /* OTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPViewController.swift; sourceTree = "<group>"; };
 		D6C9B7DB2685F65600F08CAA /* PhoneTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneTextField.swift; sourceTree = "<group>"; };
 		D6EC7C0F2B97A58400190184 /* PaddingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingTextField.swift; sourceTree = "<group>"; };
 		D6EC7C112B97C96200190184 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -222,18 +224,27 @@
 		D6A6F5E02684BD9900157970 /* Examples */ = {
 			isa = PBXGroup;
 			children = (
-				D6306F242BA319B300A8B54C /* Base */,
+				D6B1E4992BAE3E1600DD8301 /* ViewControllers */,
 				D6306F232BA24AD500A8B54C /* App */,
 				D6A6F5E52684BD9A00157970 /* ViewController.swift */,
 				D6A6F5E72684BD9A00157970 /* Main.storyboard */,
 				D6A6F5EA2684BD9B00157970 /* Assets.xcassets */,
 				D6A6F5EC2684BD9B00157970 /* LaunchScreen.storyboard */,
 				D6A6F5EF2684BD9B00157970 /* Info.plist */,
-				D6EC7C112B97C96200190184 /* MenuViewController.swift */,
-				D6EC7C132B97CC4400190184 /* FloatingLabelViewController.swift */,
-				D6493E472B9875580076841F /* PhoneFieldViewController.swift */,
 			);
 			path = Examples;
+			sourceTree = "<group>";
+		};
+		D6B1E4992BAE3E1600DD8301 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				D6EC7C112B97C96200190184 /* MenuViewController.swift */,
+				D6B1E49A2BAE3F2F00DD8301 /* OTPViewController.swift */,
+				D6EC7C132B97CC4400190184 /* FloatingLabelViewController.swift */,
+				D6493E472B9875580076841F /* PhoneFieldViewController.swift */,
+				D6306F242BA319B300A8B54C /* Base */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		D6C9B7D12684DE9A00F08CAA /* Frameworks */ = {
@@ -420,6 +431,7 @@
 				D6306F282BA319E400A8B54C /* Entry.swift in Sources */,
 				D6493E482B9875580076841F /* PhoneFieldViewController.swift in Sources */,
 				D6A6F5E62684BD9A00157970 /* ViewController.swift in Sources */,
+				D6B1E49B2BAE3F2F00DD8301 /* OTPViewController.swift in Sources */,
 				D6EC7C142B97CC4400190184 /* FloatingLabelViewController.swift in Sources */,
 				D6306F262BA319C100A8B54C /* StackViewController.swift in Sources */,
 				D6A6F5E22684BD9900157970 /* AppDelegate.swift in Sources */,

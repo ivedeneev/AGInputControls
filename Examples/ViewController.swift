@@ -131,7 +131,7 @@ class ViewController: UIViewController {
         guard let tf = textField as? FloatingLabelTextField else { return }
         let isError = tf.text!.count % 2 == 0
         tf.bottomText = isError ? "Incorrect card format" : nil
-        tf.isError = isError
+        tf.hasError = isError
     }
     
     @objc func didTapClear() {

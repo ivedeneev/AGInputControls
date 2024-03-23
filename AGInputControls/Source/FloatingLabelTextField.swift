@@ -38,9 +38,9 @@ open class FloatingLabelTextField : FormattingTextField {
     open var errorTintColor: UIColor = .red
     
     /// Indicates, is textfield is in error state or not.
-    open var isError: Bool = false {
+    open var hasError: Bool = false {
         didSet {
-            if isError {
+            if hasError {
                 if nonErrorTintColor == nil {
                     nonErrorTintColor = tintColor
                 }
@@ -114,7 +114,7 @@ open class FloatingLabelTextField : FormattingTextField {
         let lineHeight = font!.lineHeight
         let paddings: CGFloat = textPadding.top + textPadding.bottom
         let topLabelHeight = lineHeight * floatingLabelScaleFactor
-        height = lineHeight + paddings + 1 + topLabelHeight + floatingLabelBottomPadding
+        height = lineHeight + paddings + underlineHeight + topLabelHeight + floatingLabelBottomPadding
         let bottomHeight: CGFloat = hasBottomText ? bottomLabelHeight + bottomTextTopPadding : 0
         return CGSize(width: UIScreen.main.bounds.width * 0.75, height: height + bottomHeight)
     }
@@ -223,7 +223,7 @@ open class FloatingLabelTextField : FormattingTextField {
         
         var color: UIColor?
         
-        if isError {
+        if hasError {
             color = errorTintColor
         } else if isFirstResponder && highlightsWhenActive {
             color = tintColor
@@ -287,7 +287,7 @@ open class FloatingLabelTextField : FormattingTextField {
             let path = UIBezierPath(roundedRect: borderRect, cornerRadius: cornerRadius)
             
             var color: UIColor?
-            if isError {
+            if hasError {
                 color = errorTintColor
             } else {
                 color = isFirstResponder && highlightsWhenActive ? tintColor : placeholderColor
@@ -315,8 +315,6 @@ open class FloatingLabelTextField : FormattingTextField {
         guard formatter is PhoneNumberFormatter else { return }
         if isFirstResponder && text.isEmptyOrTrue {
             super.drawExampleMask(rect: rect)
-        } else {
-            
         }
     }
 
@@ -384,7 +382,6 @@ open class FloatingLabelTextField : FormattingTextField {
     }
 
     open override func resignFirstResponder() -> Bool {
-        
         let value = super.resignFirstResponder()
         
         if value {

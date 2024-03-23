@@ -13,6 +13,7 @@ final class MenuViewController: UITableViewController {
         super.viewDidLoad()
         title = "AGInputControls"
         tableView.backgroundColor = .systemGroupedBackground
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
     

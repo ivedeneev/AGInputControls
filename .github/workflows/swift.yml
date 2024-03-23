@@ -2,18 +2,15 @@ name: Swift
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, paddings_for_formatting_tf ]
   pull_request:
     branches: [ main ]
 
 jobs:
   build:
-
     runs-on: macos-latest
-
     steps:
     - uses: actions/checkout@v2
-    # - name: Build
-    #   run: xcodebuild build -scheme AGInputControls -verbose
     - name: Run tests
-      run: xcodebuild -scheme AGInputControlsTests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone SE (2nd generation),OS=16.2' test 
+      run: release.sh
+      # run: xcodebuild -scheme AGInputControlsTests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone SE (2nd generation),OS=16.2' test 

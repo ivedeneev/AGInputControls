@@ -273,7 +273,7 @@ open class FormattingTextField: PaddingTextField {
     }
     
     open func drawExampleMask(rect: CGRect) {
-        assertForExampleMasksAndPrefix()
+//        assertForExampleMasksAndPrefix()
         let text = text ?? ""
         
         guard let mask = exampleMask,
